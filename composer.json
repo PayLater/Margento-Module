@@ -1,0 +1,14 @@
+{
+    "name": "wonga/paylater",
+    "description": "Wonga.com Ltd PayLater Magento Module",
+    "minimum-stability": "stable",
+    "authors": [
+        {
+            "name": "GPMD Ltd",
+            "email": "dev@gpmd.co.uk"
+        }
+    ],
+    "require": {
+
+    }
+}

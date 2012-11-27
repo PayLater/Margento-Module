@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+/**
+ * Wonga.com Ltd extension for Magento
+ *
+ * NOTICE OF LICENSE
+ *
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade
+ * the Wonga PayLater module to newer versions in the future.
+ * If you wish to customize the Wonga PayLater module for your needs
+ * please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   Wonga
+ * @package    Wonga_PayLater
+ * @copyright  Copyright (C) 2012 Wonga.com Ltd (http://www.wonga.com/)
+ * @license    
+ */
+-->
+<config>
+	<tabs>
+		<Wonga translate="label">
+			<label>Wonga.com Ltd</label>
+			<sort_order>100200</sort_order>
+		</Wonga>
+	</tabs>
+	<sections>
+		<paylater translate="label">
+			<label>PayLater</label>
+			<tab>Wonga</tab>
+			<frontend_type>text</frontend_type>
+			<sort_order>1000</sort_order>
+			<show_in_default>1</show_in_default>
+			<show_in_website>1</show_in_website>
+			<show_in_store>1</show_in_store>
+			<groups>
+				<info>
+                    <frontend_model>paylater/adminhtml_system_config_fieldset_info</frontend_model>
+                    <sort_order>0</sort_order>
+                    <show_in_default>1</show_in_default>
+                    <show_in_website>1</show_in_website>
+                    <show_in_store>1</show_in_store>
+                </info>
+			</groups>
+		</paylater>
+	</sections>
+</config>

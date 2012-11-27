@@ -24,4 +24,70 @@
  */
 -->
 <config>
+	<modules>
+		<Wonga_PayLater>
+			<version>1.0.0</version>
+		</Wonga_PayLater>
+	</modules>
+	<license>
+		<url>https://wonga.com/paylater/magento/license.html</url>
+	</license>
+	<support>
+		<email>dev@gpmd.co.uk</email>
+	</support>
+	<report>
+		<bugs>dev@gpmd.co.uk</bugs>
+	</report>
+	<dev>
+		<email>dev@gpmd.co.uk</email>
+	</dev>
+	<global>
+		<helpers>
+			<paylater>
+				<class>Wonga_PayLater_Helper</class>
+			</paylater>
+		</helpers>
+		<models>
+			<paylater>
+				<class>Wonga_PayLater_Model</class>
+			</paylater>
+		</models>
+		<blocks>
+			<paylater>
+				<class>Wonga_PayLater_Block</class>
+			</paylater>
+		</blocks>
+	</global>
+	<adminhtml>
+		<acl>
+			<resources>
+				<all>
+					<title>Allow Everything</title>
+				</all>
+				<admin>
+					<children>
+						<system>
+							<children>
+								<config>
+									<children>
+										<paylater>
+											<title>Wonga.com PayLater</title>
+											<sort_order>100</sort_order>
+										</paylater>
+									</children>
+								</config>
+							</children>
+						</system>
+					</children>
+				</admin>
+			</resources>
+		</acl>
+		<layout>
+			<updates>
+				<paylater>
+					<file>wonga/paylater.xml</file>
+				</paylater>
+			</updates>
+		</layout>
+	</adminhtml>
 </config>

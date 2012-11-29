@@ -49,22 +49,22 @@ class PayLater_PayLater_Block_Adminhtml_System_Config_Fieldset_Info extends Mage
 	
 	public function getLicenseUrl()
 	{
-		return Mage::getConfig()->getNode('license/url');
+		return Mage::getConfig()->getNode('paylater/license/url');
 	}
 	
 	public function getSupportEmail()
 	{
-		return Mage::getConfig()->getNode('support/email');
+		return Mage::getConfig()->getNode('paylater/support/email');
 	}
 	
 	
 	public function getReportEmail()
 	{
-		return Mage::getConfig()->getNode('report/bugs');
+		return Mage::getConfig()->getNode('paylater/report/bugs');
 	}
 	
 	public function getDevEmail()
 	{
-		return Mage::getConfig()->getNode('dev/email');
+		return Mage::getConfig()->getNode('paylater/dev/email');
 	}
 }

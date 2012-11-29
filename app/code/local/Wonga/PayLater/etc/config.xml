@@ -41,6 +41,9 @@
 	<dev>
 		<email>dev@gpmd.co.uk</email>
 	</dev>
+	<static>
+		<cdn>https://paylater.s3.amazonaws.com/</cdn>
+	</static>
 	<global>
 		<helpers>
 			<paylater>

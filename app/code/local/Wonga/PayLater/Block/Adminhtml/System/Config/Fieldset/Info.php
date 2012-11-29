@@ -28,10 +28,8 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class Wonga_PayLater_Block_Adminhtml_System_Config_Fieldset_Info extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface
+class Wonga_PayLater_Block_Adminhtml_System_Config_Fieldset_Info extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface, Wonga_PayLater_Model_Interface_PayLater
 {
-	protected $_template = 'checkoutsuite/onepage/system/config/fieldset/info.phtml';
-	
 	/**
      * Render fieldset html
      *
@@ -40,7 +38,8 @@ class Wonga_PayLater_Block_Adminhtml_System_Config_Fieldset_Info extends Mage_Ad
      */
     public function render(Varien_Data_Form_Element_Abstract $element)
     {
-        return $this->toHtml();
+		$this->setTemplate(self::SYSTEM_CONFIG_INFO_TEMPLATE);
+		return $this->toHtml();
     }
 	
 	public function getVersion()
@@ -68,5 +67,4 @@ class Wonga_PayLater_Block_Adminhtml_System_Config_Fieldset_Info extends Mage_Ad
 	{
 		return Mage::getConfig()->getNode('dev/email');
 	}
-
 }

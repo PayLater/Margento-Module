@@ -20,18 +20,12 @@
  */
 -->
 <config>
-	<tabs>
-		<Wonga translate="label">
-			<label>Wonga.com Ltd</label>
-			<sort_order>100200</sort_order>
-		</Wonga>
-	</tabs>
 	<sections>
 		<paylater translate="label">
 			<label>PayLater</label>
-			<tab>Wonga</tab>
+			<tab>sales</tab>
 			<frontend_type>text</frontend_type>
-			<sort_order>1000</sort_order>
+			<sort_order>10000</sort_order>
 			<show_in_default>1</show_in_default>
 			<show_in_website>1</show_in_website>
 			<show_in_store>1</show_in_store>
@@ -43,6 +37,60 @@
                     <show_in_website>1</show_in_website>
                     <show_in_store>1</show_in_store>
                 </info>
+				<globals translate="label">
+					<label>Global Settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>100</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<run_status translate="label comment">
+							<label>Enabled</label>
+							<comment>
+								<![CDATA[<span class="notice"></span>]]>
+							</comment>
+							<sort_order>10</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+						</run_status>
+					</fields>
+				</globals>
+				<merchant>
+					<label>Merchant Info</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>200</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<reference translate="label comment">
+							<label>Merchant Reference</label>
+							<comment>
+								<![CDATA[<span class="notice">This is supplied to you by Wonga.com</span>]]>
+							</comment>
+							<sort_order>10</sort_order>
+							<frontend_type>text</frontend_type>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+						</reference>
+						<guid translate="label comment">
+							<label>Merchant Reference</label>
+							<comment>
+								<![CDATA[<span class="notice">This is supplied to you by Wonga.com</span>]]>
+							</comment>
+							<sort_order>20</sort_order>
+							<frontend_type>text</frontend_type>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+						</guid>
+					</fields>
+				</merchant>
 			</groups>
 		</paylater>
 	</sections>

@@ -1,1 +1,13 @@
-<h1>Info</h1>
+<fieldset class="config">
+	<div id="wonga-logo" class="float-left">
+		
+	</div>
+	<div id="paylater-module-info" class="float-left">
+		<p class="checkoutsuite-info-name"><?php echo $this->__('PayLater') . ' v' . $this->getVersion(); ?></p>
+		<p><span class="info-label"><em><?php echo $this->__('License:') ?></em></span> <a href="<?php echo $this->getLicenseUrl() ?>" target="_blank"><?php echo $this->getLicenseUrl() ?></a></p>
+		<p><span class="info-label"><em><?php echo $this->__('Need Help?') ?></em></span> <a href="mailto:<?php echo $this->getSupportEmail() ?>" target="_blank"><?php echo $this->__('Contact us') ?></a></p>
+		<p><span class="info-label"><em><?php echo $this->__('Development:') ?></em></span> <a href="mailto:<?php echo $this->getDevEmail() ?>" target="_blank"><?php echo $this->__('Get in touch with our dev team') ?></a></p>
+		<p><span class="info-label"><em><?php echo $this->__('Bugs:') ?></em></span> <a href="mailto:<?php echo $this->getReportEmail() ?>" target="_blank"><?php echo $this->__('Click here to report a bug') ?></a></p>
+	</div>
+	<div style="clear:both">&nbsp;</div>
+</fieldset>

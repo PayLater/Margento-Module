@@ -31,4 +31,5 @@ interface Wonga_PayLater_Model_Interface_PayLater
 {
 	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
 	const SYSTEM_CONFIG_INFO_TEMPLATE = 'wonga/paylater/system/config/fieldset/info.phtml';
+	const XML_NODE_CDN = 'static/cdn';
 }

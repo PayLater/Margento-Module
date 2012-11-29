@@ -103,5 +103,17 @@ class Wonga_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Wonga_
 		}
 		return $this->_inflector;
 	}
+	
+	/**
+	 * Returns value for config node passed as argument,
+	 * or false otherwise.
+	 * 
+	 * @param string $node
+	 * @return mixed 
+	 */
+	public function getConfigNode ($node)
+	{
+		return Mage::getConfig()->getNode($node);
+	}
 
 }

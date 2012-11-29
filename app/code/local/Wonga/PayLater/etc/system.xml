@@ -24,6 +24,7 @@
 		<paylater translate="label">
 			<label>PayLater</label>
 			<tab>sales</tab>
+			<class>paylater-label</class>
 			<frontend_type>text</frontend_type>
 			<sort_order>10000</sort_order>
 			<show_in_default>1</show_in_default>

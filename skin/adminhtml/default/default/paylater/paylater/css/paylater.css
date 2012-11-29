@@ -1,0 +1,15 @@
+ul.tabs a.paylater-label span, ul.tabs a.paylater-label:hover span {
+	background:url("../images/paylater-label-small.png") no-repeat scroll 0 0 transparent;
+	background-position: 0 50%; 
+	overflow:hidden;
+	text-indent: -999999px;
+	margin-left: 18px;
+}
+
+#paylater-logo {
+	margin-right: 20px;
+}
+
+.float-left {
+	float:left;
+}

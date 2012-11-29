@@ -5,7 +5,7 @@
  * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
- *
+ * 
  *
  * DISCLAIMER
  *
@@ -21,17 +21,28 @@
  */
 
 /**
+ * Short description of the class
+ *
+ * Long description of the class (if any...)
  *
  * @category   Wonga
  * @package    Wonga_PayLater
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface Wonga_PayLater_Model_Interface_PayLater
+class Wonga_PayLater_Model_Source_Environment extends Mage_Core_Model_Abstract implements Wonga_PayLater_Model_Interface_PayLater
 {
-	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
-	const SYSTEM_CONFIG_INFO_TEMPLATE = 'wonga/paylater/system/config/fieldset/info.phtml';
-	const XML_NODE_CDN = 'static/cdn';
-	const ENVIRONMENT_TEST = 'test';
-	const ENVIRONMENT_LIVE = 'live';
+	public function toOptionArray()
+    {
+        return array(
+            array(
+                'value' => self::ENVIRONMENT_TEST,
+                'label' => Mage::helper('paylater')->__('Test')
+            ),
+            array(
+                'value' => self::ENVIRONMENT_LIVE,
+                'label' => Mage::helper('paylater')->__('Live')
+            )
+        );
+    }
 }

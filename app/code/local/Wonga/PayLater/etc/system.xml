@@ -57,6 +57,15 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 						</run_status>
+						<env translate="label comment">
+							<label>Environment</label>
+							<sort_order>20</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>paylater/source_environment</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+						</env>
 					</fields>
 				</globals>
 				<merchant>
@@ -91,6 +100,58 @@
 						</guid>
 					</fields>
 				</merchant>
+				<payment translate="label">
+					<label>Orders</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>300</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<order_status translate="label">
+                            <label>New order status</label>
+                            <frontend_type>select</frontend_type>
+                            <source_model>adminhtml/system_config_source_order_status</source_model>
+                            <sort_order>30</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>0</show_in_store>
+                        </order_status>
+					</fields>
+				</payment>
+				<dev translate="label">
+					<label>Developer Settings</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>10000</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<log_enabled translate="label comment">
+							<label>Logging Enabled</label>
+							<comment>
+								<![CDATA[<span class="notice">Enable / Disable module logging</span><br /><strong>Note:</strong> For this to work, general Magento logging must be also enabled. See 'Configuration -> Developer' tab.]]>
+							</comment>
+							<frontend_type>select</frontend_type>
+							<source_model>adminhtml/system_config_source_yesno</source_model>
+							<sort_order>1</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</log_enabled>
+						<log_file translate="label comment">
+							<label>Log File</label>
+							<comment>
+								<![CDATA[Specifies log file]]>
+							</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</log_file>
+					</fields>
+				</dev>
 			</groups>
 		</paylater>
 	</sections>

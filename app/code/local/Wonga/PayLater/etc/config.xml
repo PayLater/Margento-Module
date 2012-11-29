@@ -93,4 +93,18 @@
 			</updates>
 		</layout>
 	</adminhtml>
+	<default>
+		<paylater>
+			<globals>
+				<run_status>0</run_status>
+				<env>test</env>
+			</globals>
+			<dev>
+				<log_file>wonga_paylater.log</log_file>
+			</dev>
+			<payment>
+				<order_status>pending</order_status>
+			</payment>
+		</paylater>
+	</default>
 </config>

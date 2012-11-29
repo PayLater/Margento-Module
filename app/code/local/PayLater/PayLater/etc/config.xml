@@ -41,9 +41,6 @@
 		<dev>
 			<email>dev@gpmd.co.uk</email>
 		</dev>
-		<static>
-			<cdn>https://s3-eu-west-1.amazonaws.com/paylater/merchants/%s/config.json</cdn>
-		</static>
 	</paylater>
 	<global>
 		<helpers>
@@ -62,6 +59,17 @@
 			</paylater>
 		</blocks>
 	</global>
+	<frontend>
+		<routers>
+			<paylater>
+				<use>standard</use>
+				<args>
+					<module>PayLater_PayLater</module>
+					<frontName>paylater</frontName>
+				</args>
+			</paylater>
+		</routers>
+	</frontend>
 	<adminhtml>
 		<acl>
 			<resources>

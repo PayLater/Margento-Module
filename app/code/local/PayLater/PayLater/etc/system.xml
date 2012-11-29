@@ -82,7 +82,7 @@
 						<reference translate="label comment">
 							<label>Merchant Reference</label>
 							<comment>
-								<![CDATA[<span class="notice">This is supplied to you by Wonga.com</span>]]>
+								<![CDATA[<span class="notice">This is supplied to you by PayLater</span>]]>
 							</comment>
 							<sort_order>10</sort_order>
 							<frontend_type>text</frontend_type>
@@ -91,9 +91,9 @@
 							<show_in_store>1</show_in_store>
 						</reference>
 						<guid translate="label comment">
-							<label>Merchant Reference</label>
+							<label>Merchant GUID</label>
 							<comment>
-								<![CDATA[<span class="notice">This is supplied to you by Wonga.com</span>]]>
+								<![CDATA[<span class="notice">This is supplied to you by PayLater</span>]]>
 							</comment>
 							<sort_order>20</sort_order>
 							<frontend_type>text</frontend_type>

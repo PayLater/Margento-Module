@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -30,12 +31,13 @@
  */
 class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements PayLater_PayLater_Model_Interface_PayLater
 {
+
 	/**
 	 *
 	 * @var GPMD_Data_Inflector 
 	 */
 	protected $_inflector;
-	
+
 	/**
 	 *  Gets store config value for node and key passed as argument.
 	 * 
@@ -48,8 +50,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getStoreConfig($this->getModuleName() . '/' . $node . '/' . $key, $this->getStoreId());
 	}
-	
-	
+
 	/**
 	 * Returns system log status
 	 * 
@@ -59,8 +60,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
 	}
-	
-	
+
 	/**
 	 * Magic method __call handles methods starting with:
 	 * 
@@ -78,8 +78,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			return $this->_getModuleConfig($arguments[0], $inflectedName);
 		}
 	}
-	
-	
+
 	/**
 	 * Returns helper's module name in format modulename
 	 * 
@@ -91,7 +90,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		list($company, $module) = explode('_', $name);
 		return strtolower(implode('_', array($module)));
 	}
-	
+
 	/**
 	 *
 	 * @return Wonga_PayLater_Helper_Inflector 
@@ -103,7 +102,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		}
 		return $this->_inflector;
 	}
-	
+
 	/**
 	 * Returns value for config node passed as argument,
 	 * or false otherwise.
@@ -111,9 +110,56 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @param string $node
 	 * @return mixed 
 	 */
-	public function getConfigNode ($node)
+	public function getConfigNode($node)
 	{
 		return Mage::getConfig()->getNode($node);
+	}
+
+	/**
+	 * Checks whether PayLater service is available.
+	 * 
+	 * Tries connecting to service host at specified port, and returns resource (stream) if successful,
+	 * or false otherwise.
+	 * 
+	 * @return resource/bool 
+	 */
+	public function isServiceAvailable()
+	{
+		return fsockopen(self::SERVICE_HOSTNAME, self::SERVICE_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
+	}
+
+	/**
+	 * Returns TRUE if PayLater cache has expired or cannot be loaded,
+	 * FALSE otherwise.
+	 * 
+	 * @param PayLater_PayLater_Model_Interface_Cache $cacheFactory
+	 * @return bool 
+	 */
+	public function hasCacheExpired(PayLater_PayLater_Model_Interface_Cache $cacheFactory)
+	{
+		return $cacheFactory->getInstance()->load($cacheFactory->getId()) ? FALSE : TRUE;
+	}
+
+	/**
+	 *
+	 * Saves PayLater data if service is available, it is possible to retrieve config
+	 * for merchant and cache is expired
+	 * 
+	 * @param PayLater_PayLater_Model_Interface_Cache $cacheFactory 
+	 * @return PayLater_PayLater_Helper_Data
+	 * @throws PayLater_PayLater_Exception_ServiceUnavailable
+	 */
+	public function saveCacheData(PayLater_PayLater_Model_Interface_Cache $cacheFactory)
+	{
+		if ($this->isServiceAvailable()) {
+			$data = array('dummy' => 'dummy');
+			$isExpired = $this->hasCacheExpired($cacheFactory);
+			if ($isExpired) {
+				$cacheFactory->getInstance()->save($data);
+			}
+			return $this;
+		}
+		throw new PayLater_PayLater_Exception_ServiceUnavailable($this->__('Service unavailable'));
 	}
 
 }

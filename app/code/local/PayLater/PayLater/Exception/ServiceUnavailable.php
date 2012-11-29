@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * PayLater extension for Magento
  *
@@ -28,15 +28,4 @@
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Helper_Inflector
-{
-	/**
-	 * Convert string in format 'StringString' to 'string_string'
-	 *
-	 * @param  string $string  string to underscore
-	 * @return string $string  underscored string
-	 */
-	public function underscore($string) {
-		return str_replace(' ', '_', strtolower ( preg_replace ( '~(?<=\\w)([A-Z])~', '_$1', $string ) ));
-	}
-}
+class PayLater_PayLater_Exception_ServiceUnavailable extends Mage_Core_Exception {}

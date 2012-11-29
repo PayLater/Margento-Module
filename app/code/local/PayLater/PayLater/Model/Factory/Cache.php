@@ -40,11 +40,6 @@ class PayLater_PayLater_Model_Factory_Cache implements PayLater_PayLater_Model_I
 
 	private $_instance = NULL;
 
-	public function __construct()
-	{
-		$this->_setInstance();
-	}
-
 	protected function _getStoreId()
 	{
 		return Mage::helper('paylater')->getStoreId();
@@ -53,6 +48,11 @@ class PayLater_PayLater_Model_Factory_Cache implements PayLater_PayLater_Model_I
 	protected function _setInstance()
 	{
 		$this->_instance = Zend_Cache::factory('Core', 'File', $this->getFrontendOptions(), $this->getBackendOptions());
+	}
+	
+	public function __construct()
+	{
+		$this->_setInstance();
 	}
 
 	/**
@@ -98,5 +98,4 @@ class PayLater_PayLater_Model_Factory_Cache implements PayLater_PayLater_Model_I
 	{
 		return sprintf(self::CID_FORMAT, $this->_getStoreId());
 	}
-
 }

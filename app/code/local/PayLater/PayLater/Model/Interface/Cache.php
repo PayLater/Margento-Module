@@ -38,7 +38,7 @@
 interface PayLater_PayLater_Model_Interface_Cache
 {
 
-	const FRONTEND_TTL = 3600;
+	const FRONTEND_TTL = 20;
 	const FRONTEND_AUTO_SERIALIZE = true;
 	const BACKEND_CACHE_DIR = '/tmp';
 	const BACKEND_FILE_PREFIX = 'paylater';

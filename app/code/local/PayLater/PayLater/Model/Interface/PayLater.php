@@ -35,4 +35,8 @@ interface PayLater_PayLater_Model_Interface_PayLater
 	const XML_NODE_CDN = 'paylater/static/cdn';
 	const ENVIRONMENT_TEST = 'test';
 	const ENVIRONMENT_LIVE = 'live';
+	const SERVICE_HOSTNAME = 's3-eu-west-1.amazonaws.com/';
+	const MERCHANTS_CDN = 'https://s3-eu-west-1.amazonaws.com/paylater/merchants/%s/config.json';
+	const SERVICE_PORT = 443;
+	const SERVICE_TIMEOUT = 30;
 }

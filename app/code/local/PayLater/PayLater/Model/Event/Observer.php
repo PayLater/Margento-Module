@@ -38,11 +38,21 @@ class PayLater_PayLater_Model_Event_Observer
 {
 	public function catalogProductViewBefore(Varien_Event_Observer $observer) 
 	{
-		$isEnabled = Mage::helper('paylater')->getPayLaterConfigRunStatus('globals');
+		$payLater = Mage::helper('paylater');
+		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
 		
 		if ($isEnabled) {
-			
+			$cache = Mage::getModel('paylater/cache_factory');
+			$payLaterData = $payLater->loadCacheData($cache);
+			if (is_array($payLaterData)) {
+				$currentProduct = Mage::getModel('paylater/catalog_product');
+				if ($currentProduct->isWithinPayLaterRange($payLaterData)){
+					echo 'within';exit;
+				}
+			}
+			/**
+			 *@todo when expensions are catched 
+			 */
 		}
 	}
-	
 }

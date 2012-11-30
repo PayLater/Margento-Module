@@ -35,7 +35,7 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Cache_Interface
+class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Cache_Interface
 {
 
 	private $_instance = NULL;
@@ -48,6 +48,11 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Cache_I
 	protected function _setInstance()
 	{
 		$this->_instance = Zend_Cache::factory('Core', 'File', $this->getFrontendOptions(), $this->getBackendOptions());
+	}
+	
+	protected function _validate ($data)
+	{
+		return is_array($data) && array_key_exists(self::FEE_PERCENT_KEY, $data) && array_key_exists(self::ORDER_LOWER_BOUND, $data) && array_key_exists(self::ORDER_UPPER_BOUND, $data);
 	}
 	
 	public function __construct()
@@ -97,5 +102,43 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Cache_I
 	public function getId()
 	{
 		return sprintf(self::CID_FORMAT, $this->_getStoreId());
+	}
+	/**
+	 * Returns TRUE if PayLater cache has expired or cannot be loaded,
+	 * FALSE otherwise.
+	 * 
+	 * @return bool 
+	 */
+	public function hasExpired()
+	{
+		return $this->getInstance()->load($this->getId()) ? FALSE : TRUE;
+	}
+	/**
+	 *
+	 * Saves PayLater data if service is available, it is possible to retrieve config
+	 * for merchant and cache is expired.
+	 * 
+	 * Returns data written or loaded from cache.
+	 * 
+	 * @param PayLater_PayLater_Cache_Interface $cacheFactory 
+	 * @return array
+	 * @throws PayLater_PayLater_Exception_InvalidMerchantData
+	 * @throws PayLater_PayLater_Exception_ServiceUnavailable
+	 */
+	public function save ()
+	{
+		if (Mage::helper('paylater')->isServiceAvailable()) {
+			if ($this->hasExpired()) {
+				$merchantCdn = Mage::helper('paylater')->getMerchantServiceCdn();
+				$client = new Zend_Http_Client($merchantCdn);
+				$data = json_decode($client->request()->getBody(), true);
+				if (!($this->_validate($data))) {
+					throw new PayLater_PayLater_Exception_InvalidMerchantData(Mage::helper('paylater')->__('Invalid Merchant Data'));
+				}
+				$this->getInstance()->save($data);
+			}
+			return $this->getInstance()->load($this->getId());
+		}
+		throw new PayLater_PayLater_Exception_ServiceUnavailable(Mage::helper('paylater')->__('Service unavailable'));
 	}
 }

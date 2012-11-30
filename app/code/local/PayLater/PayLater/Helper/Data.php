@@ -60,7 +60,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
 	}
-
+	
 	/**
 	 * Magic method __call handles methods starting with:
 	 * 
@@ -137,29 +137,44 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 */
 	public function hasCacheExpired(PayLater_PayLater_Cache_Interface $cacheFactory)
 	{
-		return $cacheFactory->getInstance()->load($cacheFactory->getId()) ? FALSE : TRUE;
+		return $cacheFactory->hasExpired();
 	}
 
 	/**
 	 *
-	 * Saves PayLater data if service is available, it is possible to retrieve config
-	 * for merchant and cache is expired
+	 * Saves cache data for given cache factory
 	 * 
 	 * @param PayLater_PayLater_Cache_Interface $cacheFactory 
-	 * @return PayLater_PayLater_Helper_Data
-	 * @throws PayLater_PayLater_Exception_ServiceUnavailable
+	 * @return array
 	 */
-	public function saveCacheData(PayLater_PayLater_Cache_Interface $cacheFactory)
+	public function loadCacheData(PayLater_PayLater_Cache_Interface $cacheFactory)
 	{
-		if ($this->isServiceAvailable()) {
-			$data = array('dummy' => 'dummy');
-			$isExpired = $this->hasCacheExpired($cacheFactory);
-			if ($isExpired) {
-				$cacheFactory->getInstance()->save($data);
-			}
-			return $this;
+		try {
+			$data = $cacheFactory->save();
+		} catch (PayLater_PayLater_Exception_InvalidMerchantData $e) {
+			
+		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
+			
 		}
-		throw new PayLater_PayLater_Exception_ServiceUnavailable($this->__('Service unavailable'));
+		return $data;
 	}
-
+	
+	/**
+	 * Gets merchant CDN
+	 * @return type 
+	 */
+	public function getMerchantServiceCdn()
+	{
+		return sprintf(self::MERCHANTS_CDN, $this->_getModuleConfig('merchant', 'guid'));
+	}
+	
+	
+	/**
+	 *
+	 * @return Mage_Core_Model_Layout 
+	 */
+	public function getCoreLayout ()
+	{
+		return Mage::getSingleton('core/layout');
+	}
 }

@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * PayLater extension for Magento
  *
@@ -28,18 +28,4 @@
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface PayLater_PayLater_Core_Interface
-{
-	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
-	const SYSTEM_CONFIG_INFO_TEMPLATE = 'paylater/paylater/system/config/fieldset/info.phtml';
-	const XML_NODE_CDN = 'paylater/static/cdn';
-	const ENVIRONMENT_TEST = 'test';
-	const ENVIRONMENT_LIVE = 'live';
-	const SERVICE_HOSTNAME = 's3-eu-west-1.amazonaws.com';
-	const MERCHANTS_CDN = 'https://s3-eu-west-1.amazonaws.com/paylater/merchants/%s/config.json';
-	const SERVICE_PORT = 443;
-	const SERVICE_TIMEOUT = 30;
-	const FEE_PERCENT_KEY = 'FeePercent';
-	const ORDER_LOWER_BOUND = 'OrderLowerBound';
-	const ORDER_UPPER_BOUND = 'OrderUpperBound';
-}
+class PayLater_PayLater_Exception_InvalidMerchantData extends Mage_Core_Exception {}

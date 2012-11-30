@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PayLater extension for Magento
  *
@@ -35,26 +34,23 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface PayLater_PayLater_Cache_Interface
+class PayLater_PayLater_Model_Catalog_Product implements PayLater_PayLater_Core_Interface
 {
-
-	const FRONTEND_TTL = 20;
-	const FRONTEND_AUTO_SERIALIZE = true;
-	const BACKEND_CACHE_DIR = '/tmp';
-	const BACKEND_FILE_PREFIX = 'paylater';
-	const CID_FORMAT = 'paylater_%s';
-
-	/**
-	 *
-	 * @return Zend_Cache_Core 
-	 */
-	public function getInstance();
-
-	public function getFrontendOptions();
-
-	public function getBackendOptions();
-
-	public function getId();
+	protected function _getInRegistry ()
+	{
+		return Mage::registry('current_product');
+	}
 	
-	public function hasExpired();
+	protected function _getPrice ()
+	{
+		return $this->_getInRegistry()->getPrice();
+	}
+	
+	public function isWithinPayLaterRange($paylaterData)
+	{
+		$price = $this->_getPrice();
+		$orderLowerBound = $paylaterData[self::ORDER_LOWER_BOUND];
+		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
+		return $price >= $orderLowerBound && $price <= $orderUpperBound;
+	}
 }

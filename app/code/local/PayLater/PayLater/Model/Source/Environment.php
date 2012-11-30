@@ -28,7 +28,7 @@
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Source_Environment extends Mage_Core_Model_Abstract implements PayLater_PayLater_Interface_Core
+class PayLater_PayLater_Model_Source_Environment extends Mage_Core_Model_Abstract implements PayLater_PayLater_Core_Interface
 {
 	public function toOptionArray()
     {

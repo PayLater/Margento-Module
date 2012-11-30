@@ -35,7 +35,7 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Factory_Cache implements PayLater_PayLater_Interface_Cache
+class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Cache_Interface
 {
 
 	private $_instance = NULL;

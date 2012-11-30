@@ -29,7 +29,7 @@
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements PayLater_PayLater_Interface_Core
+class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements PayLater_PayLater_Core_Interface
 {
 
 	/**
@@ -132,10 +132,10 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * Returns TRUE if PayLater cache has expired or cannot be loaded,
 	 * FALSE otherwise.
 	 * 
-	 * @param PayLater_PayLater_Model_Interface_Cache $cacheFactory
+	 * @param PayLater_PayLater_Cache_Interface $cacheFactory
 	 * @return bool 
 	 */
-	public function hasCacheExpired(PayLater_PayLater_Model_Interface_Cache $cacheFactory)
+	public function hasCacheExpired(PayLater_PayLater_Cache_Interface $cacheFactory)
 	{
 		return $cacheFactory->getInstance()->load($cacheFactory->getId()) ? FALSE : TRUE;
 	}
@@ -145,11 +145,11 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * Saves PayLater data if service is available, it is possible to retrieve config
 	 * for merchant and cache is expired
 	 * 
-	 * @param PayLater_PayLater_Model_Interface_Cache $cacheFactory 
+	 * @param PayLater_PayLater_Cache_Interface $cacheFactory 
 	 * @return PayLater_PayLater_Helper_Data
 	 * @throws PayLater_PayLater_Exception_ServiceUnavailable
 	 */
-	public function saveCacheData(PayLater_PayLater_Model_Interface_Cache $cacheFactory)
+	public function saveCacheData(PayLater_PayLater_Cache_Interface $cacheFactory)
 	{
 		if ($this->isServiceAvailable()) {
 			$data = array('dummy' => 'dummy');

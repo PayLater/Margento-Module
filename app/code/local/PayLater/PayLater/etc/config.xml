@@ -69,6 +69,16 @@
 				</args>
 			</paylater>
 		</routers>
+		<events>
+			<controller_action_layout_render_before_catalog_product_view>
+				<observers>
+					<paylater_observer>
+						<class>paylater/event_observer</class>
+						<method>catalogProductViewBefore</method>
+					</paylater_observer>
+				</observers>
+			</controller_action_layout_render_before_catalog_product_view>
+		</events>
 	</frontend>
 	<adminhtml>
 		<acl>

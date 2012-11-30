@@ -28,7 +28,7 @@
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Adminhtml_System_Config_Fieldset_Info extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface, PayLater_PayLater_Model_Interface_PayLater
+class PayLater_PayLater_Block_Adminhtml_System_Config_Fieldset_Info extends Mage_Adminhtml_Block_Abstract implements Varien_Data_Form_Element_Renderer_Interface, PayLater_PayLater_Interface_Core
 {
 	/**
      * Render fieldset html

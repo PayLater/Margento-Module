@@ -29,7 +29,7 @@
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements PayLater_PayLater_Model_Interface_PayLater
+class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements PayLater_PayLater_Interface_Core
 {
 
 	/**
@@ -93,7 +93,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 
 	/**
 	 *
-	 * @return Wonga_PayLater_Helper_Inflector 
+	 * @return PayLater_PayLater_Helper_Inflector 
 	 */
 	public function getInflector()
 	{

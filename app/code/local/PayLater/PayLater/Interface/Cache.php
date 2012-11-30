@@ -35,7 +35,7 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface PayLater_PayLater_Model_Interface_Cache
+interface PayLater_PayLater_Interface_Cache
 {
 
 	const FRONTEND_TTL = 20;

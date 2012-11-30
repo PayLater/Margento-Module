@@ -53,4 +53,9 @@ class PayLater_PayLater_Model_Catalog_Product implements PayLater_PayLater_Core_
 		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
 		return $price >= $orderLowerBound && $price <= $orderUpperBound;
 	}
+	
+	public function getPrice()
+	{
+		return $this->_getPrice();
+	}
 }

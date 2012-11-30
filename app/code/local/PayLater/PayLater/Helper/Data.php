@@ -152,9 +152,11 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		try {
 			$data = $cacheFactory->save();
 		} catch (PayLater_PayLater_Exception_InvalidMerchantData $e) {
-			
+			$data = false;
 		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
-			
+			$data = false;
+		}catch (Exception $e) {
+			$data = false;
 		}
 		return $data;
 	}
@@ -166,15 +168,5 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	public function getMerchantServiceCdn()
 	{
 		return sprintf(self::MERCHANTS_CDN, $this->_getModuleConfig('merchant', 'guid'));
-	}
-	
-	
-	/**
-	 *
-	 * @return Mage_Core_Model_Layout 
-	 */
-	public function getCoreLayout ()
-	{
-		return Mage::getSingleton('core/layout');
 	}
 }

@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PayLater extension for Magento
  *
@@ -32,29 +31,38 @@
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @subpackage Model
+ * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface PayLater_PayLater_Cache_Interface
+class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface
 {
-
-	const FRONTEND_TTL = 3600;
-	const FRONTEND_AUTO_SERIALIZE = true;
-	const BACKEND_CACHE_DIR = '/tmp';
-	const BACKEND_FILE_PREFIX = 'paylater';
-	const CID_FORMAT = 'paylater_%s';
-
-	/**
-	 *
-	 * @return Zend_Cache_Core 
-	 */
-	public function getInstance();
-
-	public function getFrontendOptions();
-
-	public function getBackendOptions();
-
-	public function getId();
+	public function canShow()
+	{
+		$payLater = Mage::helper('paylater');
+		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
 	
-	public function hasExpired();
+		if ($isEnabled) {
+			$cache = Mage::getModel('paylater/cache_factory');
+			$payLaterData = $payLater->loadCacheData($cache);
+			if (is_array($payLaterData)) {
+				$currentProduct = Mage::getModel('paylater/catalog_product');
+				if ($currentProduct->isWithinPayLaterRange($payLaterData)){
+					return true;
+				}
+			} 
+		}
+		
+		return false;
+	}
+	
+	public function getProductPrice()
+	{
+		$currentProduct = Mage::getModel('paylater/catalog_product');
+		return $currentProduct->getPrice();
+	}
+	
+	public function getPayLaterType ()
+	{
+		return self::PAYLATER_TYPE_PRODUCT;
+	}
 }

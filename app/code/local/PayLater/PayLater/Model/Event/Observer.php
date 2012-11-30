@@ -47,11 +47,12 @@ class PayLater_PayLater_Model_Event_Observer
 			if (is_array($payLaterData)) {
 				$currentProduct = Mage::getModel('paylater/catalog_product');
 				if ($currentProduct->isWithinPayLaterRange($payLaterData)){
-					echo 'within';exit;
+					$layout = Mage::helper('paylater/layout');
+					$layout->setPriceJs();
 				}
 			}
 			/**
-			 *@todo when expensions are catched 
+			 *@todo when exceptions are catched 
 			 */
 		}
 	}

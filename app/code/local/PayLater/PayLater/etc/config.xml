@@ -79,6 +79,13 @@
 				</observers>
 			</controller_action_layout_render_before_catalog_product_view>
 		</events>
+		<layout>
+			<updates>
+				<paylater>
+					<file>paylater/paylater.xml</file>
+				</paylater>
+			</updates>
+		</layout>
 	</frontend>
 	<adminhtml>
 		<acl>

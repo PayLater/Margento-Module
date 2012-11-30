@@ -32,29 +32,28 @@
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @subpackage Model
+ * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface PayLater_PayLater_Cache_Interface
+class PayLater_PayLater_Helper_Layout extends Mage_Core_Helper_Data implements PayLater_PayLater_Core_Interface
 {
-
-	const FRONTEND_TTL = 3600;
-	const FRONTEND_AUTO_SERIALIZE = true;
-	const BACKEND_CACHE_DIR = '/tmp';
-	const BACKEND_FILE_PREFIX = 'paylater';
-	const CID_FORMAT = 'paylater_%s';
 
 	/**
 	 *
-	 * @return Zend_Cache_Core 
+	 * @return Mage_Core_Model_Layout 
 	 */
-	public function getInstance();
+	protected function _getCoreLayout()
+	{
+		return Mage::getSingleton('core/layout');
+	}
 
-	public function getFrontendOptions();
-
-	public function getBackendOptions();
-
-	public function getId();
-	
-	public function hasExpired();
+	public function setPriceJs()
+	{
+		$layout = $this->_getCoreLayout();
+		$priceJs = $layout->createBlock(
+			'Mage_Core_Block_Template', 'paylater.pricejs', array('template' => 'paylater/paylater/pricejs.phtml')
+		);
+		$headBlock = $layout->getBlock('head');
+		$headBlock->append($priceJs);
+	}
 }

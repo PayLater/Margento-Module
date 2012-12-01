@@ -55,6 +55,13 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 		return is_array($data) && array_key_exists(self::FEE_PERCENT_KEY, $data) && array_key_exists(self::ORDER_LOWER_BOUND, $data) && array_key_exists(self::ORDER_UPPER_BOUND, $data);
 	}
 	
+	protected function _savePayLaterRange($orderLowerBound, $orderUpperBound)
+	{
+		$config = Mage::helper('paylater')->getCoreConfig();
+		$config->saveConfig('payment/paylater/min_order_total', $orderLowerBound, 'default', 0);
+		$config->saveConfig('payment/paylater/max_order_total', $orderUpperBound, 'default', 0);
+	}
+	
 	public function __construct()
 	{
 		$this->_setInstance();
@@ -135,7 +142,10 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 				if (!($this->_validate($data))) {
 					throw new PayLater_PayLater_Exception_InvalidMerchantData(Mage::helper('paylater')->__('Invalid Merchant Data'));
 				}
+				$lowerBound = $data[self::ORDER_LOWER_BOUND];
+				$upperBound = $data[self::ORDER_UPPER_BOUND];
 				$this->getInstance()->save($data);
+				$this->_savePayLaterRange($lowerBound, $upperBound);
 			}
 			return $this->getInstance()->load($this->getId());
 		}

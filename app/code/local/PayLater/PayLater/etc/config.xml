@@ -120,6 +120,13 @@
 		</layout>
 	</adminhtml>
 	<default>
+		<payment>
+			<paylater>
+				<active>1</active>
+            	<title>PayLater</title>
+            	<model>paylater/payment_gateway</model>
+			</paylater>
+		</payment>
 		<paylater>
 			<globals>
 				<run_status>0</run_status>

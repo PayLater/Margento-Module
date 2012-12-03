@@ -27,6 +27,9 @@
         <PayLater_PayLater>
             <active>true</active>
             <codePool>local</codePool>
+			<depends>
+				<Mage_Payment />
+			</depends>
         </PayLater_PayLater>
     </modules>
 </config>

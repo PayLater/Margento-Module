@@ -58,6 +58,16 @@
 				<class>PayLater_PayLater_Block</class>
 			</paylater>
 		</blocks>
+		<sales>
+			<totals>
+				<grand_total>
+                       <renderer>paylater/checkout_grandtotal</renderer>
+					   <!--
+                       <admin_renderer>adminhtml/sales_order_create_totals_grandtotal</admin_renderer>
+					   -->
+                </grand_total>
+			</totals>
+		</sales>
 	</global>
 	<frontend>
 		<routers>
@@ -86,6 +96,7 @@
 					</paylater_observer>
 				</observers>
 			</controller_action_layout_render_before_checkout_onepage_index>
+			<!--
 			<core_block_abstract_to_html_before>
 				<observers>
 					<paylater_observer>
@@ -94,6 +105,15 @@
 					</paylater_observer>
 				</observers>
 			</core_block_abstract_to_html_before>
+			<core_block_abstract_to_html_after>
+				<observers>
+					<paylater_observer>
+						<class>paylater/event_observer</class>
+						<method>coreBlockToHtmlAfter</method>
+					</paylater_observer>
+				</observers>
+			</core_block_abstract_to_html_after>
+			-->
 		</events>
 		<layout>
 			<updates>

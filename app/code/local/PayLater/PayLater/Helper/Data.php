@@ -170,6 +170,11 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		return sprintf(self::MERCHANTS_CDN, $this->_getModuleConfig('merchant', 'guid'));
 	}
 	
+	/**
+	 * Returns Magento core config model
+	 * 
+	 * @return Mage_Core_Config_Data 
+	 */
 	public function getCoreConfig()
 	{
 		return Mage::getConfig();

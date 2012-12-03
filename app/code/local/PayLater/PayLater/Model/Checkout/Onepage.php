@@ -34,28 +34,20 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Catalog_Product implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_RangeableInterface
+class PayLater_PayLater_Model_Checkout_Onepage
 {
-	protected function _getInRegistry ()
+	protected function _getSingleton()
 	{
-		return Mage::registry('current_product');
+		return Mage::getSingleton('checkout/type_onepage');
 	}
 	
-	protected function _getPrice ()
+	protected function _getPaymentMethod ()
 	{
-		return $this->_getInRegistry()->getPrice();
+		return $this->_getSingleton()->getQuote()->getPayment()->getMethod();
 	}
 	
-	public function isWithinPayLaterRange($paylaterData)
+	public function getPaymentMethod ()
 	{
-		$price = $this->_getPrice();
-		$orderLowerBound = $paylaterData[self::ORDER_LOWER_BOUND];
-		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
-		return $price >= $orderLowerBound && $price <= $orderUpperBound;
-	}
-	
-	public function getPrice()
-	{
-		return $this->_getPrice();
+		return $this->_getPaymentMethod();
 	}
 }

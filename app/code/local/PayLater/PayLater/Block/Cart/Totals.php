@@ -31,31 +31,10 @@
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @subpackage Model
+ * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Catalog_Product implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_RangeableInterface
+class PayLater_PayLater_Block_Cart_Totals extends Mage_Checkout_Block_Cart_Totals
 {
-	protected function _getInRegistry ()
-	{
-		return Mage::registry('current_product');
-	}
-	
-	protected function _getPrice ()
-	{
-		return $this->_getInRegistry()->getPrice();
-	}
-	
-	public function isWithinPayLaterRange($paylaterData)
-	{
-		$price = $this->_getPrice();
-		$orderLowerBound = $paylaterData[self::ORDER_LOWER_BOUND];
-		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
-		return $price >= $orderLowerBound && $price <= $orderUpperBound;
-	}
-	
-	public function getPrice()
-	{
-		return $this->_getPrice();
-	}
+	protected $_defaultRenderer = 'paylater/checkout_total_default';
 }

@@ -57,4 +57,6 @@ interface PayLater_PayLater_Cache_Interface
 	public function getId();
 	
 	public function hasExpired();
+	
+	public function save ();
 }

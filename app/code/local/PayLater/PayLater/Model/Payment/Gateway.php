@@ -43,8 +43,8 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
      */
     protected $_code = 'paylater';
 	protected $_isGateway = true;
-	protected $_title = 'sdf';
 	protected $_canCapture = true;
     protected $_canCapturePartial = true;
-	//protected $_infoBlockType = 'paylater/payment_info';
+	protected $_formBlockType = 'paylater/payment_form';
+	protected $_infoBlockType = 'paylater/payment_info';
 }

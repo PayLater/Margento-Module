@@ -34,28 +34,29 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Catalog_Product implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_RangeableInterface
+class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_RangeableInterface
 {
-	protected function _getInRegistry ()
+	protected function _getInSession ()
 	{
-		return Mage::registry('current_product');
+		return Mage::getSingleton('checkout/session')->getQuote();
 	}
 	
-	protected function _getPrice ()
+	protected function _getGrandTotal ()
 	{
-		return $this->_getInRegistry()->getPrice();
+		return $this->_getInSession()->getGrandTotal();
 	}
 	
 	public function isWithinPayLaterRange($paylaterData)
 	{
-		$price = $this->_getPrice();
+		$grandTotal = $this->_getGrandTotal();
 		$orderLowerBound = $paylaterData[self::ORDER_LOWER_BOUND];
 		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
-		return $price >= $orderLowerBound && $price <= $orderUpperBound;
+		return $grandTotal >= $orderLowerBound && $grandTotal <= $orderUpperBound;
 	}
 	
-	public function getPrice()
+	public function getGrandTotal()
 	{
-		return $this->_getPrice();
+		return $this->_getGrandTotal();
 	}
+	
 }

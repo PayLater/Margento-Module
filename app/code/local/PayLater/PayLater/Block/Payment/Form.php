@@ -31,31 +31,44 @@
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @subpackage Model
+ * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Catalog_Product implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_RangeableInterface
+class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface
 {
-	protected function _getInRegistry ()
+	protected function _construct()
+    {
+        parent::_construct();
+        $this->setTemplate('paylater/paylater/method/form.phtml');
+    }
+	
+	public function getGrandTotal() 
 	{
-		return Mage::registry('current_product');
+		$quote = Mage::getModel('paylater/checkout_quote');
+		return $quote->getGrandTotal();
 	}
 	
-	protected function _getPrice ()
+	public function getPayLaterType ()
 	{
-		return $this->_getInRegistry()->getPrice();
+		return self::PAYLATER_TYPE_CHECKOUT;
 	}
 	
-	public function isWithinPayLaterRange($paylaterData)
+	public function canShow()
 	{
-		$price = $this->_getPrice();
-		$orderLowerBound = $paylaterData[self::ORDER_LOWER_BOUND];
-		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
-		return $price >= $orderLowerBound && $price <= $orderUpperBound;
-	}
+		$payLater = Mage::helper('paylater');
+		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
 	
-	public function getPrice()
-	{
-		return $this->_getPrice();
+		if ($isEnabled) {
+			$cache = Mage::getModel('paylater/cache_factory');
+			$payLaterData = $payLater->loadCacheData($cache);
+			if (is_array($payLaterData)) {
+				$quote = Mage::getModel('paylater/checkout_quote');
+				if ($quote->isWithinPayLaterRange($payLaterData)){
+					return true;
+				}
+			} 
+		}
+		
+		return false;
 	}
 }

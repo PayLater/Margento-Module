@@ -1,6 +1,5 @@
-<?php if($this->canShow()): ?>
+
 <script type="text/javascript">
 	PayLater.GetStyles();
 	document.write(PayLater.GetPaymentsWidget(<?php echo $this->getProductPrice() ?>, '<?php echo $this->getPayLaterType() ?>'));
 </script>
-<?php endif; ?>

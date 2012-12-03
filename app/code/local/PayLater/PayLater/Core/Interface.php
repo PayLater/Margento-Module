@@ -44,4 +44,6 @@ interface PayLater_PayLater_Core_Interface
 	const ORDER_LOWER_BOUND = 'OrderLowerBound';
 	const ORDER_UPPER_BOUND = 'OrderUpperBound';
 	const PAYLATER_TYPE_PRODUCT = 'product';
+	const PAYLATER_TYPE_CHECKOUT = 'checkout';
+	const PAYLATER_PAYMENT_METHOD = 'paylater';
 }

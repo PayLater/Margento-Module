@@ -62,6 +62,18 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 		$config->saveConfig('payment/paylater/max_order_total', $orderUpperBound, 'default', 0);
 	}
 	
+	protected function _savePayLaterAction()
+	{
+		$config = Mage::helper('paylater')->getCoreConfig();
+		$config->saveConfig('payment/paylater/payment_action', 'paylaterRedirect', 'default', 0);
+	}
+	
+	protected function _savePayLaterOrderStatus()
+	{
+		$config = Mage::helper('paylater')->getCoreConfig();
+		$config->saveConfig('payment/paylater/order_status', Mage::helper('paylater')->getPayLaterConfigOrderStatus('payment'), 'default', 0);
+	}
+	
 	public function __construct()
 	{
 		$this->_setInstance();
@@ -142,10 +154,12 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 				if (!($this->_validate($data))) {
 					throw new PayLater_PayLater_Exception_InvalidMerchantData(Mage::helper('paylater')->__('Invalid Merchant Data'));
 				}
-				$lowerBound = $data[self::ORDER_LOWER_BOUND];
-				$upperBound = $data[self::ORDER_UPPER_BOUND];
+				// save the cache
 				$this->getInstance()->save($data);
-				$this->_savePayLaterRange($lowerBound, $upperBound);
+				// save payment/paylater config data
+				$this->_savePayLaterOrderStatus();
+				$this->_savePayLaterAction();
+				$this->_savePayLaterRange($data[self::ORDER_LOWER_BOUND], $data[self::ORDER_UPPER_BOUND]);
 			}
 			return $this->getInstance()->load($this->getId());
 		}

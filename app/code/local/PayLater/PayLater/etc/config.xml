@@ -78,6 +78,22 @@
 					</paylater_observer>
 				</observers>
 			</controller_action_layout_render_before_catalog_product_view>
+			<controller_action_layout_render_before_checkout_onepage_index>
+				<observers>
+					<paylater_observer>
+						<class>paylater/event_observer</class>
+						<method>checkoutOnepageIndexBefore</method>
+					</paylater_observer>
+				</observers>
+			</controller_action_layout_render_before_checkout_onepage_index>
+			<core_block_abstract_to_html_before>
+				<observers>
+					<paylater_observer>
+						<class>paylater/event_observer</class>
+						<method>coreBlockToHtmlBefore</method>
+					</paylater_observer>
+				</observers>
+			</core_block_abstract_to_html_before>
 		</events>
 		<layout>
 			<updates>
@@ -123,7 +139,7 @@
 		<payment>
 			<paylater>
 				<active>1</active>
-            	<title>PayLater</title>
+            	
             	<model>paylater/payment_gateway</model>
 			</paylater>
 		</payment>

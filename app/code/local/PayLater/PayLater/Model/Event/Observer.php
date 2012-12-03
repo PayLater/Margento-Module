@@ -34,7 +34,7 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Event_Observer
+class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_Interface
 {
 	public function catalogProductViewBefore(Varien_Event_Observer $observer) 
 	{
@@ -51,9 +51,42 @@ class PayLater_PayLater_Model_Event_Observer
 					$layout->setPriceJs();
 				}
 			}
-			/**
-			 *@todo when exceptions are catched 
-			 */
+		}
+	}
+	
+	public function checkoutOnepageIndexBefore(Varien_Event_Observer $observer)
+	{
+		$payLater = Mage::helper('paylater');
+		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
+		
+		if ($isEnabled) {
+			$cache = Mage::getModel('paylater/cache_factory');
+			$payLaterData = $payLater->loadCacheData($cache);
+			if (is_array($payLaterData)) {
+				$quote = Mage::getModel('paylater/checkout_quote');
+				if ($quote->isWithinPayLaterRange($payLaterData)){
+					$layout = Mage::helper('paylater/layout');
+					$layout->setPriceJs();
+				}
+			}
+		}
+	}
+	
+	public function coreBlockToHtmlBefore(Varien_Event_Observer $observer)
+	{
+		if($observer->getBlock()->getType() == "checkout/onepage_review_info") {
+			$onepage = Mage::getModel('paylater/checkout_onepage');
+			$chosenMethod = $onepage->getPaymentMethod();
+			if ($chosenMethod == self::PAYLATER_PAYMENT_METHOD) {
+				$info = $observer->getBlock();
+				//$info->setType('paylater/onepage_review_info');
+				$info->setTemplate ('paylater/paylater/checkout/review/info.phtml');
+				$totals = $info->getChild('totals');
+				//$totals->setType('paylater/cart_totals');
+				$totals->setTemplate('paylater/paylater/checkout/review/totals.phtml');
+				$button = $info->getChild('button');
+				$button->setTemplate('');
+			}
 		}
 	}
 }

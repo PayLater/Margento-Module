@@ -34,16 +34,11 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info
+class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_Block_Template
 {
-	protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate('paylater/paylater/method/info.phtml');
-    }
-	
-	public function getPayLaterLogoSrc()
+	public function getQuoteGrandTotal ()
 	{
-		return $this->getSkinUrl('paylater/images/paylater-label.png');
+		$quote = Mage::getModel('paylater/checkout_quote');
+		return $quote->getGrandTotal();
 	}
 }

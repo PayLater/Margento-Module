@@ -28,39 +28,47 @@
  * @see Mage_Tax_Block_Checkout_Grandtotal
  */
 ?>
-<?php if ($this->includeTax() && $this->getTotalExclTax()>=0):?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <strong><?php echo $this->helper('tax')->__('Basket Total Excl. Tax')?></strong>
-    </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotalExclTax()) ?></strong>
-    </td>
-</tr>
-<?php echo $this->renderTotals('taxes', $this->getColspan()); ?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <strong><?php echo $this->helper('tax')->__('Basket Total Incl. Tax')?></strong>
-    </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
-    </td>
-</tr>
-<?php else:?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <?php echo $this->__('Basket Total') ?>
-    </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        <?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
-    </td>
-</tr>
-<tr>
-	<td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        Paylater info
-    </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
-        ???
-    </td>
-</tr>
-<?php endif;?>
+<?php if ($this->includeTax() && $this->getTotalExclTax() >= 0): ?>
+	<tr>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <strong><?php echo $this->helper('tax')->__('Basket Total Excl. Tax') ?></strong>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotalExclTax()) ?></strong>
+	    </td>
+	</tr>
+	<?php echo $this->renderTotals('taxes', $this->getColspan()); ?>
+	<tr>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <strong><?php echo $this->helper('tax')->__('Basket Total Incl. Tax') ?></strong>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+	        <strong><?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?></strong>
+	    </td>
+	</tr>
+<?php else: ?>
+	<tr>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+			<?php echo $this->__('Basket Total') ?>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+			<?php echo $this->helper('checkout')->formatPrice($this->getTotal()->getValue()) ?>
+	    </td>
+	</tr>
+	<tr>
+		<td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+	        <script type="text/javascript">
+				var offer = PayLater.getOffer(<?php echo $this->getTotal()->getValue() ?>);
+				if (PayLater.IsAmountSuitable(<?php echo $this->getTotal()->getValue() ?>)) {
+					textInfoTitle = "<h4><span class='break'>Pay just <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today and </span><span class='break'>3 monthly payments of just <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span></h4>";
+					$('paylater-info').update(textInfoTitle);
+					$('paylater-amount').update('<h3>&pound;' + offer.transactionFeePrice + '</h3>');
+				}
+			</script>
+			<div id="paylater-info"></div>
+	    </td>
+	    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+			<div id="paylater-amount"></div>
+	    </td>
+	</tr>
+<?php endif; ?>

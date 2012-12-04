@@ -1,14 +1,27 @@
-<?php if($this->canShow()): ?>
-<script type="text/javascript">
-	PayLater.GetStyles();
-	var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
-	if ($('representative-wrap')) {
-		$('representative-wrap').update(representative);
-	}
-</script>
-<div style="position:relative">
-	<div id="representative-wrap" style="position:absolute;left:20px;top:-30px;">
+<?php if ($this->canShow()): ?>
+	<script type="text/javascript">
+		PayLater.GetStyles();
+		var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
+		if ($('representative-wrap')) {
+			$('representative-wrap').update(representative);
+			$('representative-wrap').observe('click', function(){
+				$('p_method_paylater').checked = 'checked';
+			});
+			$('representative-wrap').observe('mouseover', function(){
+				$$('div.PayLater-popup')[0].writeAttribute('style', 'display:block;margin:0;');
+			});
+				
+			$('representative-wrap').observe('mouseout', function(){
+				$$('div.PayLater-popup')[0].writeAttribute('style', 'display:none;');
+			});
+		}
+			
+			
+			
+	</script>
+	<div style="position:relative">
+		<div id="representative-wrap" style="position:absolute;left:20px;top:-30px;">
 
+		</div>
 	</div>
-</div>
 <?php endif; ?>

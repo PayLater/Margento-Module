@@ -1,5 +1,18 @@
 
 <script type="text/javascript">
-	PayLater.GetStyles();
+	//PayLater.GetStyles();
 	document.write(PayLater.GetPaymentsWidget(<?php echo $this->getProductPrice() ?>, '<?php echo $this->getPayLaterType() ?>'));
+	
+	Event.observe(window, 'load', function() {
+		$$('p.apr-link')[0].writeAttribute('id', 'display-handler');
+		$('display-handler').observe('mouseover', function(){
+			$$('div.PayLater-popup')[0].writeAttribute('style', 'display:block;');
+		});
+		
+		$('display-handler').observe('mouseout', function(){
+			$$('div.PayLater-popup')[0].writeAttribute('style', 'display:none;');
+		});
+	})
+
+
 </script>

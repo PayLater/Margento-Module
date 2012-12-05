@@ -34,6 +34,19 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout_Block_Onepage_Review_Info
+class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout_Block_Onepage_Review_Info implements PayLater_PayLater_Core_ShowableInterface
 {
+	
+	public function _construct()
+	{
+		if (!$this->canShow()) {
+			exit;
+		}
+		parent::_construct();
+	}
+	
+	public function canShow()
+	{
+		return $this->helper('paylater')->canShowAtCheckout();
+	}
 }

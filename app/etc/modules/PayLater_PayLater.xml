@@ -29,6 +29,7 @@
             <codePool>local</codePool>
 			<depends>
 				<Mage_Payment />
+				<Mage_Checkout />
 			</depends>
         </PayLater_PayLater>
     </modules>

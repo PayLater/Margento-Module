@@ -45,9 +45,31 @@ class PayLater_PayLater_Model_Checkout_Onepage
 	{
 		return $this->_getSingleton()->getQuote()->getPayment()->getMethod();
 	}
-	
+	/**
+	 * Returns onepage checkout chosen payment method
+	 * 
+	 * @return string 
+	 */
 	public function getPaymentMethod ()
 	{
 		return $this->_getPaymentMethod();
+	}
+	
+	/**
+	 *
+	 * @return Mage_Checkout_Model_Type_Onepage 
+	 */
+	public function getSingleton()
+	{
+		return $this->_getSingleton();
+	}
+	
+	/**
+	 *
+	 * @return Mage_Checkout_Model_Session 
+	 */
+	public function getCheckout()
+	{
+		return $this->_getSingleton()->getCheckout();
 	}
 }

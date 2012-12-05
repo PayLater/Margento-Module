@@ -1,6 +1,6 @@
 <?php if ($this->canShow()): ?>
 	<script type="text/javascript">
-		PayLater.GetStyles();
+		//PayLater.GetStyles();
 		var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
 		if ($('representative-wrap')) {
 			$('representative-wrap').update(representative);
@@ -19,10 +19,8 @@
 			
 			
 	</script>
-	<div style="position:relative">
-		<div id="representative-wrap" style="position:absolute;left:20px;top:-30px;">
-
-		</div>
+	<div id="representative-wrap-wrap">
+		<div id="representative-wrap"></div>
 	</div>
 	
 <?php else: ?>

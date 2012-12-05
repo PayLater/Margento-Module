@@ -158,6 +158,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			// try loading data from cache if not expired
 			if (!$this->hasCacheExpired($cacheFactory)) {
 				$data = $cacheFactory->getInstance()->load($cacheFactory->getId());
+				$data=false;
 			}
 		}catch (Exception $e) {
 			$data = false;

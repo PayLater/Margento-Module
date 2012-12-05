@@ -34,7 +34,7 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info
+class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info implements PayLater_PayLater_Core_ShowableInterface
 {
 	protected function _construct()
     {
@@ -45,5 +45,10 @@ class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info
 	public function getPayLaterLogoSrc()
 	{
 		return $this->getSkinUrl('paylater/images/paylater-label.png');
+	}
+	
+	public function canShow()
+	{
+		return $this->helper('paylater')->canShowAtCheckout();
 	}
 }

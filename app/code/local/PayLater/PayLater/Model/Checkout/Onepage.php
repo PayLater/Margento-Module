@@ -72,4 +72,16 @@ class PayLater_PayLater_Model_Checkout_Onepage
 	{
 		return $this->_getSingleton()->getCheckout();
 	}
+	
+	/**
+	 *
+	 * Loads order by id
+	 * 
+	 * @param int $id
+	 * @return Mage_Sales_Model_Order 
+	 */
+	public function getOrder($id)
+	{
+		return Mage::getModel('sales/order')->load($id, 'increment_id');
+	}
 }

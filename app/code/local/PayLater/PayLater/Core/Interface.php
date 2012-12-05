@@ -46,4 +46,8 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_TYPE_PRODUCT = 'product';
 	const PAYLATER_TYPE_CHECKOUT = 'checkout';
 	const PAYLATER_PAYMENT_METHOD = 'paylater';
+	const PAYLATER_ENDPOINT_TEST = 'http://staging.orders.paylater.wongatest.com';
+	const PAYLATER_BEFORE_ENDPOINT_ACTION = 'paylater/checkout/saveOrder';
+	const PAYLATER_ORPHANED_ORDER_STATUS = 'PayLater Orphaned';
+	const PAYLATER_ORPHANED_ORDER_STATE = 'PayLater Orphaned';
 }

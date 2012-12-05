@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -34,22 +35,65 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_Block_Template implements PayLater_PayLater_Core_ShowableInterface
+class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
 {
+
+	protected $_paramsMap = array(
+		'reference' => '', 
+		'amount' => '', 
+		'merchantorderid' => '',
+		'currency' => 'GBP',
+		'postcode' => '',
+		'items' => array()
+	);
 	
-	public function getQuoteGrandTotal ()
+	protected $_paramsItemMap = array();
+	
+	protected function _getReference()
+	{
+		return $this->helper('paylater')->getPayLaterConfigReference('merchant');
+	}
+	
+	protected function _getAmount ()
 	{
 		$quote = Mage::getModel('paylater/checkout_quote');
 		return $quote->getGrandTotal();
 	}
 	
+	protected function _getPaymentMethod ()
+	{
+		return Mage::getModel('paylater/checkout_onepage')->getPaymentMethod();
+	}
+
+	public function getQuoteGrandTotal()
+	{
+		return $this->_getAmount();
+	}
+
 	public function getCustomerNote()
 	{
 		return Mage::helper('paylater')->getPayLaterConfigCustomerNote('review');
 	}
-	
+
 	public function canShow()
 	{
 		return Mage::helper('paylater')->canShowAtCheckout();
+	}
+
+	public function getParams()
+	{
+		$this->_paramsMap['reference'] = $this->_getReference();
+		$this->_paramsMap['amount'] = $this->_getAmount();
+		return json_encode($this->_paramsMap);
+	}
+	
+	public function getPaymentMethod ()
+	{
+		return $this->_getPaymentMethod();
+	}
+	
+	public function isPayLaterPaymentMethod ()
+	{
+		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;
 	}
 }

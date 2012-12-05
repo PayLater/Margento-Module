@@ -34,7 +34,7 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_Block_Template
+class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_Block_Template implements PayLater_PayLater_Core_ShowableInterface
 {
 	
 	public function getQuoteGrandTotal ()
@@ -46,5 +46,10 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	public function getCustomerNote()
 	{
 		return Mage::helper('paylater')->getPayLaterConfigCustomerNote('review');
+	}
+	
+	public function canShow()
+	{
+		return Mage::helper('paylater')->canShowAtCheckout();
 	}
 }

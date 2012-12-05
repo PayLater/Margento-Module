@@ -34,7 +34,7 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface
+class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
 {
 	protected function _construct()
     {
@@ -55,20 +55,6 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
 	
 	public function canShow()
 	{
-		$payLater = Mage::helper('paylater');
-		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
-	
-		if ($isEnabled) {
-			$cache = Mage::getModel('paylater/cache_factory');
-			$payLaterData = $payLater->loadCacheData($cache);
-			if (is_array($payLaterData)) {
-				$quote = Mage::getModel('paylater/checkout_quote');
-				if ($quote->isWithinPayLaterRange($payLaterData)){
-					return true;
-				}
-			} 
-		}
-		
-		return false;
+		return Mage::helper('paylater')->canShowAtCheckout();
 	}
 }

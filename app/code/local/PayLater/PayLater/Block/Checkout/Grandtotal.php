@@ -34,12 +34,17 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Grandtotal extends Mage_Tax_Block_Checkout_Grandtotal
+class PayLater_PayLater_Block_Checkout_Grandtotal extends Mage_Tax_Block_Checkout_Grandtotal implements PayLater_PayLater_Core_ShowableInterface
 {
 	protected $_template = 'paylater/paylater/tax/checkout/grandtotal.phtml';
 	
 	public function getTitle ()
 	{
 		return 'Basket Total';
+	}
+	
+	public function canShow()
+	{
+		return Mage::helper('paylater')->canShowAtCheckout();
 	}
 }

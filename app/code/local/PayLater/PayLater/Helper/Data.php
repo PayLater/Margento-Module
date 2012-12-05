@@ -155,6 +155,10 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			$data = false;
 		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
 			$data = false;
+			// try loading data from cache if not expired
+			if (!$this->hasCacheExpired($cacheFactory)) {
+				$data = $cacheFactory->getInstance()->load($cacheFactory->getId());
+			}
 		}catch (Exception $e) {
 			$data = false;
 		}
@@ -179,4 +183,41 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getConfig();
 	}
+	
+	public function canShowOnProduct ()
+	{
+		$isEnabled = $this->getPayLaterConfigRunStatus('globals');
+	
+		if ($isEnabled) {
+			$cache = Mage::getModel('paylater/cache_factory');
+			$payLaterData = $this->loadCacheData($cache);
+			if (is_array($payLaterData)) {
+				$currentProduct = Mage::getModel('paylater/catalog_product');
+				if ($currentProduct->isWithinPayLaterRange($payLaterData)){
+					return true;
+				}
+			} 
+		}
+		
+		return false;
+	}
+	
+	public function canShowAtCheckout ()
+	{
+		$isEnabled = $this->getPayLaterConfigRunStatus('globals');
+	
+		if ($isEnabled) {
+			$cache = Mage::getModel('paylater/cache_factory');
+			$payLaterData = $this->loadCacheData($cache);
+			if (is_array($payLaterData)) {
+				$quote = Mage::getModel('paylater/checkout_quote');
+				if ($quote->isWithinPayLaterRange($payLaterData)){
+					return true;
+				}
+			} 
+		}
+		
+		return false;
+	}
+	
 }

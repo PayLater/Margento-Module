@@ -175,6 +175,8 @@
 			</dev>
 			<payment>
 				<order_status>pending</order_status>
+				<service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]></service_unavailable_heading>
+				<service_unavailable_body><![CDATA['We are currently unable to connect to PayLater service. Please choose another payment method, or try again later.<br />We apologise for any inconvenience caused.]]></service_unavailable_body>
 			</payment>
 			<review><customer_note><![CDATA[<strong>Please Note:</strong> You will be redirected to PayLater site to complete your order.]]></customer_note></review>
 		</paylater>

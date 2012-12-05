@@ -6,3 +6,7 @@
 	text-align: left;
 	margin-left: 190px;
 }
+
+.paylater-unavailable {
+	color: red;
+}

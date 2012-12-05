@@ -39,7 +39,7 @@ interface PayLater_PayLater_Core_Interface
 	const MERCHANTS_CDN = 'https://s3-eu-west-1.amazonaws.com/paylater/merchants/%s/config.json';
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
 	const SERVICE_PORT = 443;
-	const SERVICE_TIMEOUT = 5;
+	const SERVICE_TIMEOUT = 3;
 	const FEE_PERCENT_KEY = 'FeePercent';
 	const ORDER_LOWER_BOUND = 'OrderLowerBound';
 	const ORDER_UPPER_BOUND = 'OrderUpperBound';

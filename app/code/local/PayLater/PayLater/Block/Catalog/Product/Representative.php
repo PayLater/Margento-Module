@@ -34,25 +34,11 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface
+class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
 {
 	public function canShow()
 	{
-		$payLater = Mage::helper('paylater');
-		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
-	
-		if ($isEnabled) {
-			$cache = Mage::getModel('paylater/cache_factory');
-			$payLaterData = $payLater->loadCacheData($cache);
-			if (is_array($payLaterData)) {
-				$currentProduct = Mage::getModel('paylater/catalog_product');
-				if ($currentProduct->isWithinPayLaterRange($payLaterData)){
-					return true;
-				}
-			} 
-		}
-		
-		return false;
+		return Mage::helper('paylater')->canShowOnProduct();
 	}
 	
 	public function getProductPrice()

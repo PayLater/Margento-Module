@@ -1,0 +1,20 @@
+
+<div id="checkout-review-table-wrapper">
+    <table class="data-table" id="checkout-review-table">
+		<col width="1" />
+		<thead>
+			<tr>
+				<th rowspan="1"><strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td class="paylater-review-td">
+					<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>
+					<p class="back-link"><a href="#" onclick="checkout.back(); return false;"><small>&laquo; </small><?php echo $this->__('Back') ?></a></p>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	 
+</div>

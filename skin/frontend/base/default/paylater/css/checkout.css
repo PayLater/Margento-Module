@@ -16,3 +16,7 @@
 .paylater-unavailable {
 	color: red;
 }
+
+.payler-review-td {
+	border-left: 1px solid #D9DDE3;
+}

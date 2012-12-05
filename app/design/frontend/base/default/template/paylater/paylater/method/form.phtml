@@ -6,6 +6,7 @@
 			$('representative-wrap').update(representative);
 			$('representative-wrap').observe('click', function(){
 				$('p_method_paylater').checked = 'checked';
+				payment.switchMethod('paylater');
 			});
 			$('representative-wrap').observe('mouseover', function(){
 				$$('div.PayLater-popup')[0].writeAttribute('style', 'display:block;margin:0;');
@@ -27,6 +28,7 @@
 	<script type="text/javascript">
 		$('p_method_paylater').checked = '';
 		$('p_method_paylater').hide();
+		
 	</script>
 	<strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong>
 	<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>

@@ -39,11 +39,29 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout
 	
 	public function _construct()
 	{
-		if (!$this->canShow()) {
-			exit;
-		}
 		parent::_construct();
 	}
+	
+	/**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if ($this->canShow() === false) {
+			$checkout = Mage::getModel('paylater/checkout_onepage')->getCheckout();
+			$checkout->setStepData('review', 'allow', false);
+			$checkout->setStepData('payment', 'allow', true);
+			$this->setTemplate('paylater/paylater/service/unavailable.phtml');
+			//return '';
+		}
+		if (!$this->getTemplate()) {
+            return '';
+        }
+        $html = $this->renderView();
+        return $html;
+    }
 	
 	public function canShow()
 	{

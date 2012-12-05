@@ -36,9 +36,15 @@
  */
 class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_Block_Template
 {
+	
 	public function getQuoteGrandTotal ()
 	{
 		$quote = Mage::getModel('paylater/checkout_quote');
 		return $quote->getGrandTotal();
+	}
+	
+	public function getCustomerNote()
+	{
+		return Mage::helper('paylater')->getPayLaterConfigCustomerNote('review');
 	}
 }

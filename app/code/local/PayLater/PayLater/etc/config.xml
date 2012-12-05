@@ -97,6 +97,7 @@
 				</observers>
 			</controller_action_layout_render_before_checkout_onepage_index>
 			<!--
+			@deprecated
 			<core_block_abstract_to_html_before>
 				<observers>
 					<paylater_observer>
@@ -105,6 +106,7 @@
 					</paylater_observer>
 				</observers>
 			</core_block_abstract_to_html_before>
+			@deprecated
 			<core_block_abstract_to_html_after>
 				<observers>
 					<paylater_observer>
@@ -174,6 +176,7 @@
 			<payment>
 				<order_status>pending</order_status>
 			</payment>
+			<review><customer_note><![CDATA[<strong>Please Note:</strong> You will be redirected to PayLater site to complete your order.]]></customer_note></review>
 		</paylater>
 	</default>
 </config>

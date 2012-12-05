@@ -72,6 +72,10 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		}
 	}
 	
+	/**
+	 * @deprecated
+	 * @param Varien_Event_Observer $observer 
+	 */
 	public function coreBlockToHtmlBefore(Varien_Event_Observer $observer)
 	{
 		if($observer->getBlock()->getType() == "checkout/onepage_review_info") {
@@ -94,6 +98,10 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		}
 	}
 	
+	/**
+	 * @deprecated
+	 * @param Varien_Event_Observer $observer 
+	 */
 	public function coreBlockToHtmlAfter(Varien_Event_Observer $observer)
 	{
 		if($observer->getBlock()->getType() == "checkout/onepage_review_info") {

@@ -125,6 +125,17 @@
 			</updates>
 		</layout>
 	</frontend>
+	<admin>
+        <routers>
+            <paylater>
+                <use>admin</use>
+                <args>
+                    <module>PayLater_PayLater</module>
+                    <frontName>paylater</frontName>
+                </args>
+            </paylater>
+        </routers>
+    </admin>
 	<adminhtml>
 		<acl>
 			<resources>

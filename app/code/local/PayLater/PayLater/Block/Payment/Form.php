@@ -52,7 +52,10 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
 	{
 		return self::PAYLATER_TYPE_CHECKOUT;
 	}
-	
+	/**
+	 * @see PayLater_PayLater_Core_ShowableInterface
+	 * @return boolean 
+	 */
 	public function canShow()
 	{
 		return Mage::helper('paylater')->canShowAtCheckout();

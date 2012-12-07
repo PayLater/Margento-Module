@@ -46,7 +46,10 @@ class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info imple
 	{
 		return $this->getSkinUrl('paylater/images/paylater-label.png');
 	}
-	
+	/**
+	 * @see PayLater_PayLater_Core_ShowableInterface
+	 * @return boolean 
+	 */
 	public function canShow()
 	{
 		return $this->helper('paylater')->canShowAtCheckout();

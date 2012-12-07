@@ -39,12 +39,12 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 {
 
 	protected $_paramsMap = array(
-		'reference' => '', 
-		'amount' => '', 
-		'merchantorderid' => '',
-		'currency' => 'GBP',
-		'postcode' => '',
-		'items' => array()
+		self::PAYLATER_PARAMS_MAP_REFERENCE_KEY => '', 
+		self::PAYLATER_PARAMS_MAP_AMOUNT_KEY => '', 
+		self::PAYLATER_PARAMS_MAP_ORDERID_KEY => '',
+		self::PAYLATER_PARAMS_MAP_CURRENCY_KEY => '826',
+		self::PAYLATER_PARAMS_MAP_POSTCODE_KEY => '',
+		self::PAYLATER_PARAMS_MAP_ITEMS_KEY => array()
 	);
 	
 	protected $_paramsItemMap = array();
@@ -64,6 +64,13 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	{
 		return Mage::getModel('paylater/checkout_onepage')->getPaymentMethod();
 	}
+	
+	protected function _getPostcode ()
+	{
+		$quote = Mage::getModel('paylater/checkout_quote');
+		return $quote->getShippingPostcode();
+		
+	}
 
 	public function getQuoteGrandTotal()
 	{
@@ -74,7 +81,10 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	{
 		return Mage::helper('paylater')->getPayLaterConfigCustomerNote('review');
 	}
-
+	/**
+	 * @see PayLater_PayLater_Core_ShowableInterface
+	 * @return boolean 
+	 */
 	public function canShow()
 	{
 		return Mage::helper('paylater')->canShowAtCheckout();
@@ -82,8 +92,9 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 
 	public function getParams()
 	{
-		$this->_paramsMap['reference'] = $this->_getReference();
-		$this->_paramsMap['amount'] = $this->_getAmount();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_REFERENCE_KEY] = $this->_getReference();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_AMOUNT_KEY] = $this->_getAmount();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_POSTCODE_KEY] = $this->_getPostcode();
 		return json_encode($this->_paramsMap);
 	}
 	

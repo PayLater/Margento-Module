@@ -109,8 +109,8 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 		return array(
 			'cache_dir' => Mage::getBaseDir('cache'),
 			'file_name_prefix' => self::BACKEND_FILE_PREFIX,
-			'hashed_directory_level' => 1,
-			'hashed_directory_umask' => 0777,
+			'hashed_directory_level' => self::PAYLATER_CACHE_HASHED_DIRECTORY_LEVEL,
+			'hashed_directory_umask' => self::PAYLATER_CACHE_HASHED_DIRECTORY_UMASK,
 		);
 	}
 
@@ -120,7 +120,7 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 	 */
 	public function getId()
 	{
-		return sprintf(self::CID_FORMAT, $this->_getStoreId());
+		return sprintf(self::CID_FORMAT, Mage_Catalog_Model_Abstract::DEFAULT_STORE_ID);
 	}
 	/**
 	 * Returns TRUE if PayLater cache has expired or cannot be loaded,
@@ -155,7 +155,7 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 					throw new PayLater_PayLater_Exception_InvalidMerchantData(Mage::helper('paylater')->__('Invalid Merchant Data'));
 				}
 				// save the cache
-				$this->getInstance()->save($data);
+				$this->getInstance()->save($data, $this->getId(), array('PayLater'));
 				// save payment/paylater config data
 				$this->_savePayLaterOrderStatus();
 				$this->_savePayLaterAction();

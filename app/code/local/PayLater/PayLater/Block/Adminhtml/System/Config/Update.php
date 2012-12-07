@@ -34,21 +34,20 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Grandtotal extends Mage_Tax_Block_Checkout_Grandtotal implements PayLater_PayLater_Core_ShowableInterface
+class PayLater_PayLater_Block_Adminhtml_System_Config_Update extends Mage_Adminhtml_Block_System_Config_Form_Field
 {
-	protected $_template = 'paylater/paylater/tax/checkout/grandtotal.phtml';
-	
-	public function getTitle ()
-	{
-		return 'Basket Total';
-	}
-	
-	/**
-	 * @see PayLater_PayLater_Core_ShowableInterface
-	 * @return boolean 
-	 */
-	public function canShow()
-	{
-		return Mage::helper('paylater')->canShowAtCheckout();
-	}
+	protected function _getElementHtml(Varien_Data_Form_Element_Abstract $element)
+    {
+        $this->setElement($element);
+        $url = $this->getUrl('paylater/adminhtml_config_update/index');
+
+        $html = $this->getLayout()->createBlock('adminhtml/widget_button')
+                    ->setType('button')
+                    ->setClass('scalable')
+                    ->setLabel('Update Configuration')
+                    ->setOnClick("setLocation('$url')")
+                    ->toHtml();
+        return $html;
+    }
+
 }

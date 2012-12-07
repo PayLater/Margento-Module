@@ -46,6 +46,27 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 		return $this->_getInSession()->getGrandTotal();
 	}
 	
+	protected function _getBillingPostcode()
+	{
+		return $this->_getInSession()->getBillingAddress()->getPostcode();
+	}
+	
+	protected function _getShippingPostcode()
+	{
+		return $this->_getInSession()->getShippingAddress()->getPostcode();
+	}
+	
+	protected function _getAllItems ()
+	{
+		return $this->_getInSession()->getAllItems();
+	}
+
+
+	/**
+	 * @see PayLater_PayLater_Core_RangeableInterface
+	 * @param array $paylaterData
+	 * @return bool 
+	 */
 	public function isWithinPayLaterRange($paylaterData)
 	{
 		$grandTotal = $this->_getGrandTotal();
@@ -53,10 +74,42 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
 		return $grandTotal >= $orderLowerBound && $grandTotal <= $orderUpperBound;
 	}
-	
+	/**
+	 * Returns quote grand total
+	 * @return float 
+	 */
 	public function getGrandTotal()
 	{
 		return $this->_getGrandTotal();
 	}
+	
+	/**
+	 * Returns billing address postcode
+	 * 
+	 * @return string/bool 
+	 */
+	public function getBillingPostcode()
+	{
+		return $this->_getBillingPostcode();
+	}
+	/**
+	 * Returns shipping address postcode
+	 * 
+	 * @return string/bool 
+	 */
+	public function getShippingPostcode()
+	{
+		return $this->_getShippingPostcode();
+	}
+	
+	/**
+     * Retrieve quote items array
+     *
+     * @return array
+     */
+    public function getAllItems()
+    {
+        return $this->_getAllItems();
+    }
 	
 }

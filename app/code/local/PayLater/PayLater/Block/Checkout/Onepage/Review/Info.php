@@ -54,7 +54,6 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout
 			$checkout->setStepData('review', 'allow', false);
 			$checkout->setStepData('payment', 'allow', true);
 			$this->setTemplate('paylater/paylater/service/unavailable.phtml');
-			//return '';
 		}
 		if (!$this->getTemplate()) {
             return '';
@@ -62,7 +61,10 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout
         $html = $this->renderView();
         return $html;
     }
-	
+	/**
+	 * @see PayLater_PayLater_Core_ShowableInterface
+	 * @return boolean 
+	 */
 	public function canShow()
 	{
 		return $this->helper('paylater')->canShowAtCheckout();

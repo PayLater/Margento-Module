@@ -2,6 +2,7 @@
 <script type="text/javascript">
 	var payLaterButton = PayLater.GetPaymentButton(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
 	payLaterButton.setAttribute("action", '<?php echo $this->getBaseUrl() . PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION ?>');
+	//payLaterButton.setAttribute("action", '<?php echo PayLater_PayLater_Core_Interface::PAYLATER_ENDPOINT_TEST ?>');
 	$('paylater-button').update(payLaterButton);
 </script>
 <div id="paylater-button">

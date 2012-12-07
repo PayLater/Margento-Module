@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * PayLater extension for Magento
  *
@@ -23,14 +23,9 @@
 
 /**
  *
- * Mark a class as able to show PayLater data
- * 
  * @category   PayLater
  * @package    PayLater_PayLater
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface PayLater_PayLater_Core_ShowableInterface
-{
-	public function canShow();
-}
+class PayLater_PayLater_Exception_InvalidHttpClientResponse extends Mage_Core_Exception {}

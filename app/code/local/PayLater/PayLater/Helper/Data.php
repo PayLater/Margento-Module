@@ -125,6 +125,10 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 */
 	public function isServiceAvailable()
 	{
+		$env = $this->getPayLaterConfigEnv('globals');
+		if ($env == self::ENVIRONMENT_TEST) {
+			return fsockopen(self::SERVICE_HOSTNAME_TEST, self::SERVICE_PORT_TEST, $errno, $errstr, self::SERVICE_TIMEOUT);
+		}
 		return fsockopen(self::SERVICE_HOSTNAME, self::SERVICE_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
 	}
 
@@ -184,6 +188,14 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		return Mage::getConfig();
 	}
 	
+	/**
+	 * Returns true if PayLater can show on a particular product and verified the
+	 * price is within PayLater range.
+	 * 
+	 * Returns false otherwise.
+	 * 
+	 * @return boolean 
+	 */
 	public function canShowOnProduct ()
 	{
 		$isEnabled = $this->getPayLaterConfigRunStatus('globals');
@@ -201,7 +213,14 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		
 		return false;
 	}
-	
+	/**
+	 * Returns true if PayLater can show at checkout and verified the
+	 * price is within PayLater range.
+	 * 
+	 * Returns false otherwise.
+	 * 
+	 * @return boolean 
+	 */
 	public function canShowAtCheckout ()
 	{
 		$isEnabled = $this->getPayLaterConfigRunStatus('globals');

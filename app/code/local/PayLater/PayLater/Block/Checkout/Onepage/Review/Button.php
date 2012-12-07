@@ -71,12 +71,21 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 		return $quote->getShippingPostcode();
 		
 	}
-
+	/**
+	 * Returns quote grand total
+	 * @return float 
+	 */
 	public function getQuoteGrandTotal()
 	{
 		return $this->_getAmount();
 	}
-
+	
+	/**
+	 * Returns customer note to be displayed close to PayLater payment button
+	 * at checkout review step
+	 * 
+	 * @return string 
+	 */
 	public function getCustomerNote()
 	{
 		return Mage::helper('paylater')->getPayLaterConfigCustomerNote('review');
@@ -89,7 +98,12 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	{
 		return Mage::helper('paylater')->canShowAtCheckout();
 	}
-
+	
+	/**
+	 * Returns initial set of paramater to be posted to PayLater
+	 * 
+	 * @return json object 
+	 */
 	public function getParams()
 	{
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_REFERENCE_KEY] = $this->_getReference();
@@ -98,11 +112,21 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 		return json_encode($this->_paramsMap);
 	}
 	
+	/**
+	 * Returns chechout payment method
+	 * 
+	 * @return string 
+	 */
 	public function getPaymentMethod ()
 	{
 		return $this->_getPaymentMethod();
 	}
 	
+	/**
+	 * Returns true is chosen checkout payment method is PayLater
+	 * 
+	 * @return bool 
+	 */
 	public function isPayLaterPaymentMethod ()
 	{
 		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;

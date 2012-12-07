@@ -32,14 +32,40 @@ interface PayLater_PayLater_Core_Interface
 {
 	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
 	const SYSTEM_CONFIG_INFO_TEMPLATE = 'paylater/paylater/system/config/fieldset/info.phtml';
+	/**
+	 * XML_NODE_CDN
+	 * 
+	 * @deprecated 
+	 */
 	const XML_NODE_CDN = 'paylater/static/cdn';
+	/**
+	 * ENV Types 
+	 */
 	const ENVIRONMENT_TEST = 'test';
 	const ENVIRONMENT_LIVE = 'live';
-	const SERVICE_HOSTNAME = 's3-eu-west-1.amazonaws.com';
-	const SERVICE_HOSTNAME_TEST = 'staging.orders.paylater.wongatest.com';
+	/**
+	 * PayLater Endpoints  
+	 */
+	const PAYLATER_ENDPOINT = 'http://staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_TEST = 'http://staging.orders.paylater.wongatest.com';
+	/**
+	 *  SERVICE_HOSTNAME_: where we get config.json
+	 * 
+	 * @see PayLater_PayLater_Helper_Data->isServiceAvailable method
+	 */
+	const SERVICE_HOSTNAME_LIVE = 's3-eu-west-1.amazonaws.com';
+	const SERVICE_HOSTNAME_TEST = 's3-eu-west-1.amazonaws.com';
+	/**
+	 * MERCHANT_CDN where we get config.json for a particular merchant 
+	 * @see PayLater_PayLater_Helper_Data->getMerchantServiceCdn method
+	 */
 	const MERCHANTS_CDN = 'https://s3-eu-west-1.amazonaws.com/paylater/merchants/%s/config.json';
+	/**
+	 * PAYLATER_PRICE_JS  
+	 */
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
 	const PAYLATER_PRICE_JS_TEST = 'http://staging.paylater.wongatest.com/paylater-merchant/price.js';
+	const SERVICE_PORT_TEST = 80;
 	const SERVICE_PORT = 443;
 	const SERVICE_TIMEOUT = 3;
 	const FEE_PERCENT_KEY = 'FeePercent';
@@ -50,8 +76,6 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_TYPE_PRODUCT = 'product';
 	const PAYLATER_TYPE_CHECKOUT = 'checkout';
 	const PAYLATER_PAYMENT_METHOD = 'paylater';
-	const PAYLATER_ENDPOINT = 'http://staging.orders.paylater.wongatest.com';
-	const PAYLATER_ENDPOINT_TEST = 'http://staging.orders.paylater.wongatest.com';
 	const PAYLATER_BEFORE_ENDPOINT_ACTION = 'paylater/checkout/saveOrder';
 	const PAYLATER_ORPHANED_ORDER_STATUS = 'PayLater Orphaned';
 	const PAYLATER_ORPHANED_ORDER_STATE = 'PayLater Orphaned';
@@ -63,4 +87,8 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PARAMS_MAP_CURRENCY_KEY = 'currency';
 	const PAYLATER_PARAMS_MAP_POSTCODE_KEY = 'postcode';
 	const PAYLATER_PARAMS_MAP_ITEMS_KEY = 'items';
+	const PAYLATER_PARAMS_MAP_ITEM_ID_KEY = 'id';
+	const PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY = 'description';
+	const PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY = 'quantity';
+	const PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY = 'price';
 }

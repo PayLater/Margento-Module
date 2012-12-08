@@ -57,43 +57,25 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		}
 		return $all;
 	}
-
-	protected function _postToPayLater($data)
+	/**
+	 * @deprecated
+	 * @return string
+	 */
+	protected function _outputPayLaterFormBlock()
 	{
-		$env = Mage::helper('paylater')->getPayLaterConfigEnv('globals');
-		if ($env == self::ENVIRONMENT_TEST) {
-			$client = new Varien_Http_Client(self::PAYLATER_ENDPOINT_TEST);
-		}
-		/**
-		 *@todo LIVE ENV 
-		 */
-		$this->_collectAllItems();
-		$client->setMethod(Varien_Http_Client::POST);
-		$client->setParameterPost(self::PAYLATER_PARAMS_MAP_REFERENCE_KEY, $data[self::PAYLATER_PARAMS_MAP_REFERENCE_KEY]);
-		$client->setParameterPost(self::PAYLATER_PARAMS_MAP_AMOUNT_KEY, $data[self::PAYLATER_PARAMS_MAP_AMOUNT_KEY]);
-		$client->setParameterPost(self::PAYLATER_PARAMS_MAP_ORDERID_KEY, $data[self::PAYLATER_PARAMS_MAP_ORDERID_KEY]);
-		$client->setParameterPost(self::PAYLATER_PARAMS_MAP_CURRENCY_KEY, $data[self::PAYLATER_PARAMS_MAP_CURRENCY_KEY]);
-		$client->setParameterPost(self::PAYLATER_PARAMS_MAP_POSTCODE_KEY, $data[self::PAYLATER_PARAMS_MAP_POSTCODE_KEY]);
-		$client->setParameterPost(self::PAYLATER_PARAMS_MAP_RETURN_LINK_KEY,  Mage::getBaseUrl() . self::PAYLATER_PARAMS_MAP_RETURN_LINK);
-		$client->setParameterPost('item',  $this->_collectAllItems());
-		try {
-			$response = $client->request();
-			if ($response->isSuccessful()) {
-				echo $response->getBody();
-				//$xml = new SimpleXMLElement($response->getBody());
-				//echo $client->getLastRequest();
-				//echo $response->getHeadersAsString();
-			} else {
-				//echo $response->getBody();
-			}
-		} catch (Exception $e) {
-			throw new PayLater_PayLater_Exception_InvalidHttpClientResponse('InvalidHttpClientResponse: ' . $e->getMessage());
-		}
+		$layout = $this->getLayout();
+        $update = $layout->getUpdate();
+		$update->load('paylater_checkout_form');
+        $layout->generateXml();
+        $layout->generateBlocks();
+        $output = $layout->getOutput();
+        return $output;
 	}
+	
 	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
 	 */
-	public function saveOrderAction()
+	public function gatewayAction()
 	{
 		$onepage = $this->_getOnepage();
 		$quote = $onepage->getQuote();
@@ -108,7 +90,11 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					$order->setStatus(self::PAYLATER_ORPHANED_ORDER_STATUS);
 					$order->save();
 					$paylaterData[self::PAYLATER_PARAMS_MAP_ORDERID_KEY] = $orderId;
-					$this->_postToPayLater($paylaterData);
+					$this->loadLayout();
+					$this->_initLayoutMessages('customer/session');
+					$this->getLayout()->getBlock('head')->setTitle($this->__('PayLater Processing...'));
+					$this->renderLayout();
+					//$this->getResponse()->setBody($this->_outputPayLaterFormBlock());
 				} catch (PayLater_PayLater_Exception_InvalidHttpClientResponse $e) {
 					echo $e->getMessage();
 				} catch (Mage_Core_Exception $e) {

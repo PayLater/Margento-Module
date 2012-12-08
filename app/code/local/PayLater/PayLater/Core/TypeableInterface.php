@@ -23,14 +23,14 @@
 
 /**
  *
- * Mark a class as able to determine if a given amount is within PayLater range.
+ * Mark a class as able provide PayLater type (i.e. product or checkout)
  * 
  * @category   PayLater
  * @package    PayLater_PayLater
  * @subpackage Helper
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-interface PayLater_PayLater_Core_RangeableInterface
+interface PayLater_PayLater_Core_TypeableInterface
 {
-	public function isWithinPayLaterRange($paylaterData);
+	public function getPayLaterType ();
 }

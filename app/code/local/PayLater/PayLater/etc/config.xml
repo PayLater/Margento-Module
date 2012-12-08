@@ -96,6 +96,14 @@
 					</paylater_observer>
 				</observers>
 			</controller_action_layout_render_before_checkout_onepage_index>
+			<controller_action_layout_render_before_paylater_checkout_payment>
+				<observers>
+					<paylater_observer>
+						<class>paylater/event_observer</class>
+						<method>checkoutOnepageIndexBefore</method>
+					</paylater_observer>
+				</observers>
+			</controller_action_layout_render_before_paylater_checkout_payment>
 			<!--
 			@deprecated
 			<core_block_abstract_to_html_before>

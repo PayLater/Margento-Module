@@ -60,6 +60,16 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getInSession()->getAllItems();
 	}
+	
+	protected function _getReservedOrderId()
+	{
+		return $this->_getInSession()->getReservedOrderId();
+	}
+	
+	protected function _getBilling()
+	{
+		return $this->_getInSession()->getBillingAddress();
+	}
 
 
 	/**
@@ -111,5 +121,15 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
     {
         return $this->_getAllItems();
     }
+	
+	public function getReservedOrderId()
+	{
+		return $this->_getReservedOrderId();
+	}
+	
+	public function getBillingAddress()
+	{
+		return $this->_getBilling();
+	}
 	
 }

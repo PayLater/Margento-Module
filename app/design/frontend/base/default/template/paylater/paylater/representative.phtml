@@ -1,6 +1,6 @@
 
 <script type="text/javascript">
-	//PayLater.GetStyles();
+
 	document.write(PayLater.GetPaymentsWidget(<?php echo $this->getProductPrice() ?>, '<?php echo $this->getPayLaterType() ?>'));
 	
 	Event.observe(window, 'load', function() {

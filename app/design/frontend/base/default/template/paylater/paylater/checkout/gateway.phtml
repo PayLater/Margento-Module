@@ -1,0 +1,27 @@
+<div style="text-align:center">
+	<p><img style="vertical-align:middle" src="<?php echo $this->getSkinUrl('paylater/images/paylater-master.png') ?>" alt="PayLater" /></p>
+	<h3>
+		Please wait while we contact PayLater...
+	</h3>
+</div>
+<form action="<?php echo $this->getActionUrl() ?>" method="post" name="PayLaterForm" id="paylater-form">
+	<?php $payLater = $this->collectPayLaterData(); ?>
+	<?php foreach ($payLater as $key => $value): ?>
+		<?php if (!is_array($value)): ?>
+			<input type="hidden" name="<?php echo $key ?>" value="<?php echo $value ?>" />
+		<?php else: ?>
+			<?php foreach ($value as $index => $item): ?>
+				<?php foreach ($item as $itemKey => $itemValue): ?>
+					<input type="hidden" name="<?php echo $key ?>[<?php echo $index ?>][<?php echo $itemKey ?>]" value="<?php echo $itemValue ?>" />
+				<?php endforeach; ?>
+			<?php endforeach; ?>
+		<?php endif; ?>
+	<?php endforeach; ?>
+</form>
+<script language="JavaScript" type="text/javascript">
+	document.observe("dom:loaded", function() { 
+		var paymentform = document.getElementById('paylater-form');
+		paymentform.submit();
+	}); 
+	
+</script>

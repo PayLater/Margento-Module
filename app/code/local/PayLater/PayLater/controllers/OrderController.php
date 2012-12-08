@@ -34,29 +34,15 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml_Controller_Action
+class PayLater_PayLater_OrderController extends Mage_Core_Controller_Front_Action implements PayLater_PayLater_Core_Interface
 {
-
-	public function indexAction()
+	
+	public function processPayLaterResponseAction()
 	{
-		$session = Mage::getSingleton('adminhtml/session');
-		$cache = Mage::getModel('paylater/cache_factory');
-		$cache->getInstance()->clean(
-			Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('PayLater')
-		);
-		
-		try {
-			$cache->save();	
-			$session->addSuccess(Mage::helper('paylater')->__('PayLater Configuration has been successfully updated'));
-			$this->_redirectReferer();
-
-		} catch (PayLater_PayLater_Exception_InvalidMerchantData $e) {
-			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Invalid Merchant Data.'));
-			
-		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
-			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Service Unavailable.'));
-		}catch (Exception $e) {
-			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. ' . $e->getMessage()));
+		$session = Mage::getSingleton('customer/session');
+		if ($this->getRequest()->getParam('ErrorCodes')) {
+			$session->addError(Mage::helper('paylater')->__('There was an error at PayLater. Please contact support or checkout using another payment method.'));
+			$this->_redirect('checkout/onepage');
 		}
 	}
 }

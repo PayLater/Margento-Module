@@ -78,24 +78,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	 */
 	public function coreBlockToHtmlBefore(Varien_Event_Observer $observer)
 	{
-		if($observer->getBlock()->getType() == "checkout/onepage_review_info") {
-			$onepage = Mage::getModel('paylater/checkout_onepage');
-			$chosenMethod = $onepage->getPaymentMethod();
-			if ($chosenMethod == self::PAYLATER_PAYMENT_METHOD) {
-				$info = $observer->getBlock();
-				$info->setTemplate ('paylater/paylater/checkout/review/info.phtml');
-				$totals = $info->getTotals();
-				$grandTotalBlock = NULL;
-				foreach ($totals as $block) {
-					if ($block->getCode() == 'grand_total') {
-						$block->setTitle('Basket Total');
-						break;
-					}
-				}
-				$button = $info->getChild('button');
-				$button->setTemplate('');
-			} 
-		}
+		return $this;
 	}
 	
 	/**
@@ -104,23 +87,6 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	 */
 	public function coreBlockToHtmlAfter(Varien_Event_Observer $observer)
 	{
-		if($observer->getBlock()->getType() == "checkout/onepage_review_info") {
-			$onepage = Mage::getModel('paylater/checkout_onepage');
-			$chosenMethod = $onepage->getPaymentMethod();
-			if ($chosenMethod == self::PAYLATER_PAYMENT_METHOD) {
-				$info = $observer->getBlock();
-				$info->setTemplate ('paylater/paylater/checkout/review/info.phtml');
-				$totals = $info->getTotals();
-				$grandTotalBlock = NULL;
-				foreach ($totals as $block) {
-					if ($block->getCode() == 'grand_total') {
-						$block->setTitle('Basket Total');
-						break;
-					}
-				}
-				$button = $info->getChild('button');
-				$button->setTemplate('');
-			} 
-		}
+		return $this;
 	}
 }

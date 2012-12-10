@@ -82,6 +82,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$quote->collectTotals()->save();
 		$paylaterData = $this->getRequest()->getPost();
 		try {
+			// stops sending order email for order in saveOrder
 			if ($onepage->saveOrder()) {
 				try {
 					$orderId = $quote->getReservedOrderId();

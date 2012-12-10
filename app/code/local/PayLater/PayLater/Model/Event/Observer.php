@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -36,42 +37,69 @@
  */
 class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_Interface
 {
-	public function catalogProductViewBefore(Varien_Event_Observer $observer) 
+
+	protected function _setPriceJs($type)
 	{
 		$payLater = Mage::helper('paylater');
 		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
-		
-		if ($isEnabled) {
-			$cache = Mage::getModel('paylater/cache_factory');
-			$payLaterData = $payLater->loadCacheData($cache);
-			if (is_array($payLaterData)) {
-				$currentProduct = Mage::getModel('paylater/catalog_product');
-				if ($currentProduct->isWithinPayLaterRange($payLaterData)){
-					$layout = Mage::helper('paylater/layout');
-					$layout->setPriceJs();
+		$cache = Mage::getModel('paylater/cache_factory');
+		$payLaterData = $payLater->loadCacheData($cache);
+		if ($type == self::PAYLATER_TYPE_PRODUCT) {
+			if ($isEnabled) {
+				if (is_array($payLaterData)) {
+					$currentProduct = Mage::getModel('paylater/catalog_product');
+					if ($currentProduct->isWithinPayLaterRange($payLaterData)) {
+						$layout = Mage::helper('paylater/layout');
+						$layout->setPriceJs();
+						return true;
+					}
+				}
+			}
+		} elseif ($type == self::PAYLATER_TYPE_CHECKOUT) {
+			if ($isEnabled) {
+				if (is_array($payLaterData)) {
+					$quote = Mage::getModel('paylater/checkout_quote');
+					if ($quote->isWithinPayLaterRange($payLaterData)) {
+						$layout = Mage::helper('paylater/layout');
+						$layout->setPriceJs();
+						return true;
+					}
 				}
 			}
 		}
+		return false;
 	}
-	
+
+	public function catalogProductViewBefore(Varien_Event_Observer $observer)
+	{
+		$this->_setPriceJs(self::PAYLATER_TYPE_PRODUCT);
+	}
+
 	public function checkoutOnepageIndexBefore(Varien_Event_Observer $observer)
 	{
-		$payLater = Mage::helper('paylater');
-		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
+		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
+	}
+
+	public function checkoutOnepageReturnBefore(Varien_Event_Observer $observer)
+	{
+		$onepage = Mage::getModel('paylater/checkout_onepage');
+		$quote = Mage::getModel('paylater/checkout_quote');
+		$onepage->getCheckout()->setStepData('billing', array('label' => Mage::helper('checkout')->__('Billing Information'),
+			'is_show' => true), $quote->getBillingAddress()->getData());
+
+		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
+	}
+
+	public function saveOrderAfter(Varien_Event_Observer $observer)
+	{
+		$order = $observer->getOrder();
+		$quote = $observer->getQuote();	
 		
-		if ($isEnabled) {
-			$cache = Mage::getModel('paylater/cache_factory');
-			$payLaterData = $payLater->loadCacheData($cache);
-			if (is_array($payLaterData)) {
-				$quote = Mage::getModel('paylater/checkout_quote');
-				if ($quote->isWithinPayLaterRange($payLaterData)){
-					$layout = Mage::helper('paylater/layout');
-					$layout->setPriceJs();
-				}
-			}
+		if ($quote->getPayment()->getMethod() == self::PAYLATER_PAYMENT_METHOD) {
+			$order->setCanSendNewEmailFlag(false);
 		}
 	}
-	
+
 	/**
 	 * @deprecated
 	 * @param Varien_Event_Observer $observer 
@@ -80,7 +108,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	{
 		return $this;
 	}
-	
+
 	/**
 	 * @deprecated
 	 * @param Varien_Event_Observer $observer 
@@ -89,4 +117,5 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	{
 		return $this;
 	}
+
 }

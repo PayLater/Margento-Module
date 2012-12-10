@@ -81,6 +81,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_TYPE_CHECKOUT = 'checkout';
 	const PAYLATER_PAYMENT_METHOD = 'paylater';
 	const PAYLATER_BEFORE_ENDPOINT_ACTION = 'paylater/checkout/gateway';
+	const PAYLATER_POST_RETURN_ERROR_LINK = 'checkout/onepage';
 	const PAYLATER_ORPHANED_ORDER_STATUS = 'PayLater Orphaned';
 	const PAYLATER_ORPHANED_ORDER_STATE = 'PayLater Orphaned';
 	const PAYLATER_PARAMS_MAP_REFERENCE_KEY = 'reference';

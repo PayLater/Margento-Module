@@ -36,6 +36,10 @@
  */
 class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface, PayLater_PayLater_Core_TypeableInterface
 {
+	/**
+	 * @see PayLater_PayLater_Core_ShowableInterface
+	 * @return boolean 
+	 */
 	public function canShow()
 	{
 		return Mage::helper('paylater')->canShowOnProduct();
@@ -46,7 +50,10 @@ class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_B
 		$currentProduct = Mage::getModel('paylater/catalog_product');
 		return $currentProduct->getPrice();
 	}
-	
+	/**
+	 * @see PayLater_PayLater_Core_TypeableInterface
+	 * @return string 
+	 */
 	public function getPayLaterType ()
 	{
 		return self::PAYLATER_TYPE_PRODUCT;

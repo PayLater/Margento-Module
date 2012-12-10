@@ -37,7 +37,18 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @var GPMD_Data_Inflector 
 	 */
 	protected $_inflector;
-
+	
+	/**
+	 * Array of PayLater error codes
+	 * See: PayLater Integration Guide - Developer error codes
+	 * 
+	 * @see PayLater_PayLater_Core_Interface
+	 * 
+	 * @var array 
+	 */
+	protected $_errorCodes = array();
+	
+	
 	/**
 	 *  Gets store config value for node and key passed as argument.
 	 * 
@@ -61,6 +72,17 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
 	}
 	
+	
+	/**
+	 * Returns system log status
+	 * 
+	 * @return int 
+	 */
+	protected function _getSystemLogActiveStatus()
+	{
+		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
+	}
+	
 	/**
 	 * Magic method __call handles methods starting with:
 	 * 
@@ -78,6 +100,39 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			return $this->_getModuleConfig($arguments[0], $inflectedName);
 		}
 	}
+	
+	
+	/**
+	 * Fills errorCodes array
+	 *  
+	 */
+	public function __construct()
+	{
+		foreach (explode(self::ERROR_SEPARATOR, self::ERROR_CODES) as $errorCode) {
+			$const = 'ERROR_' . $errorCode;
+			$this->_errorCodes[$errorCode] = constant('PayLater_PayLater_Core_Interface::'. $const);;
+		}
+	}
+	
+	public function canLog()
+	{
+		return $this->_getSystemLogActiveStatus() && $this->getPayLaterConfigLogEnabled('dev');
+	}
+
+	
+	/**
+	 * Logs message to gpmd_giftwraplite.log file or to other file if
+	 * specified.
+	 * 
+	 * @param string $message
+	 */
+	public function log($message, $info, $type = ZEND_LOG::INFO)
+	{
+		if ($this->canLog()) {
+			Mage::log($info . ' ' . $message, $type, $this->getPayLaterConfigLogFile('dev'));
+		}
+	}
+
 
 	/**
 	 * Returns helper's module name in format modulename
@@ -156,14 +211,18 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		try {
 			$data = $cacheFactory->save();
 		} catch (PayLater_PayLater_Exception_InvalidMerchantData $e) {
+			$this->log($this->__('Invalid Merchant Data Exception. Cache data load returns false'), __METHOD__);
 			$data = false;
 		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
+			$this->log($this->__('Caught Service Unavailable Exception'), __METHOD__);
 			$data = false;
 			// try loading data from cache if not expired
 			if (!$this->hasCacheExpired($cacheFactory)) {
+				$this->log($this->__('Caught Service Unavailable Exception, data loaded from cache'), __METHOD__);
 				$data = $cacheFactory->getInstance()->load($cacheFactory->getId());
 			}
 		}catch (Exception $e) {
+			$this->log($this->__('Caught General Exception. Cache data load returns false'), __METHOD__);
 			$data = false;
 		}
 		return $data;
@@ -237,6 +296,18 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		}
 		
 		return false;
+	}
+	
+	/**
+	 * Takes an error code as argument and returns message for code,
+	 * or FALSE otherwise.
+	 * 
+	 * @param int $code
+	 * @return string|bool 
+	 */
+	public function getErrorMessageByCode ($code)
+	{
+		return array_key_exists($code, $this->_errorCodes) ? $this->_errorCodes[$code] : FALSE;
 	}
 	
 }

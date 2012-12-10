@@ -25,9 +25,7 @@
  */
 require_once 'Mage/Checkout/controllers/OnepageController.php';
 /**
- * Short description of the class
- *
- * Long description of the class (if any...)
+ * @deprecated
  *
  * @category   PayLater
  * @package    PayLater_PayLater
@@ -37,6 +35,10 @@ require_once 'Mage/Checkout/controllers/OnepageController.php';
 class PayLater_PayLater_OnepageController extends Mage_Checkout_OnepageController
 {
 	
+	/**
+	 * @deprecated
+	 * 
+     */
 	public function returnAction ()
 	{
 		if (!Mage::helper('checkout')->canOnepageCheckout()) {

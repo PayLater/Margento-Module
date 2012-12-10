@@ -6,7 +6,7 @@
 		<?php else: ?>
 			<?php foreach ($value as $index => $item): ?>
 				<?php foreach ($item as $itemKey => $itemValue): ?>
-					<input type="hidden" name="<?php echo $key ?>[<?php echo $index ?>][<?php echo $itemKey ?>]" value="<?php echo $itemValue ?>" />
+					<input type="hidden" name="<?php echo $key ?>[<?php echo $index ?>].<?php echo $itemKey ?>" value="<?php echo $itemValue ?>" />
 				<?php endforeach; ?>
 			<?php endforeach; ?>
 		<?php endif; ?>

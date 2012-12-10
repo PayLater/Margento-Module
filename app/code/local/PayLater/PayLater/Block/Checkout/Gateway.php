@@ -46,7 +46,13 @@ class PayLater_PayLater_Block_Checkout_Gateway extends Mage_Core_Block_Template 
 		foreach ($items as $item) {
 			$arrayItem = array();
 			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_KEY] = $item->getSku();
-			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getDescription();
+			if ($item->getDescription() && strlen($item->getDescription() < self::PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH)) {
+				$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getDescription();
+			} elseif($item->getShortDescription() && strlen($item->getShortDescription() < self::PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH)){
+				$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getShortDescription();
+			}else {
+				$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getName();
+			}
 			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY] = $item->getQty();
 			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY] = $item->getPrice();
 			$all[] = $arrayItem;

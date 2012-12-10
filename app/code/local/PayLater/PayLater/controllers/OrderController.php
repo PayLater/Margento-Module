@@ -40,8 +40,14 @@ class PayLater_PayLater_OrderController extends Mage_Core_Controller_Front_Actio
 	public function processPayLaterResponseAction()
 	{
 		$session = Mage::getSingleton('customer/session');
-		if ($this->getRequest()->getParam('ErrorCodes')) {
-			$session->addError(Mage::helper('paylater')->__(Mage::helper('paylater')->getPayLaterConfigErrorCodeBody('payment')));
+		/**
+		 * var PayLater_PayLater_Helper_Data 
+		 */
+		$helper = Mage::helper('paylater');
+		$errorCode = $this->getRequest()->getParam('ErrorCodes');
+		if ($errorCode && $errorCode > 0) {
+			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
+			$helper->log($helper->getErrorMessageByCode(), __METHOD__, ZEND_LOG::ERR);
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 		}
 	}

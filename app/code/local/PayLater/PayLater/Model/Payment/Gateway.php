@@ -50,9 +50,9 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
 	
 	
 	/**
-     * Return Order place redirect url
+     * Return Order place redirect url as boolean
      *
-     * @return string
+     * @return boolean
      */
     public function getOrderPlaceRedirectUrl()
     {

@@ -79,7 +79,12 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	{
 		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
 	}
-
+	
+	/**
+	 * @deprecated
+	 * 
+	 * @param Varien_Event_Observer $observer 
+	 */
 	public function checkoutOnepageReturnBefore(Varien_Event_Observer $observer)
 	{
 		$onepage = Mage::getModel('paylater/checkout_onepage');
@@ -94,8 +99,11 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	{
 		$order = $observer->getOrder();
 		$quote = $observer->getQuote();	
-		
-		if ($quote->getPayment()->getMethod() == self::PAYLATER_PAYMENT_METHOD) {
+		/**
+		 * @var Mage_Sales_Model_Quote_Payment 
+		 */
+		$payment = $quote->getPayment();
+		if ($payment->getMethod() == self::PAYLATER_PAYMENT_METHOD) {
 			$order->setCanSendNewEmailFlag(false);
 		}
 	}

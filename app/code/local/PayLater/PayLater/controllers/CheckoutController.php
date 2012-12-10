@@ -42,6 +42,11 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		return Mage::getModel('paylater/checkout_onepage')->getSingleton();
 	}
 	
+	/**
+	 * @deprecated
+	 * 
+	 * @return array 
+	 */
 	protected function _collectAllItems ()
 	{
 		$quote = Mage::getModel('paylater/checkout_quote');
@@ -59,6 +64,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	}
 	/**
 	 * @deprecated
+	 * 
 	 * @return string
 	 */
 	protected function _outputPayLaterFormBlock()
@@ -74,6 +80,10 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	
 	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
+	 * 
+	 * Redirects to PAYLATER_POST_RETURN_ERROR_LINK if any exception occur while 
+	 * saving the order.
+	 * 
 	 */
 	public function gatewayAction()
 	{
@@ -81,6 +91,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$quote = $onepage->getQuote();
 		$quote->collectTotals()->save();
 		$paylaterData = $this->getRequest()->getPost();
+		$helper = Mage::helper('paylater');
 		try {
 			// stops sending order email for order in saveOrder
 			if ($onepage->saveOrder()) {
@@ -90,22 +101,33 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					$order->setState(self::PAYLATER_ORPHANED_ORDER_STATE);
 					$order->setStatus(self::PAYLATER_ORPHANED_ORDER_STATUS);
 					$order->save();
+					// Order was saved without sending any customer email.
+					// @see Observer->saveOrderAfter
 					$paylaterData[self::PAYLATER_PARAMS_MAP_ORDERID_KEY] = $orderId;
 					$this->loadLayout();
 					$this->_initLayoutMessages('customer/session');
-					$this->getLayout()->getBlock('head')->setTitle($this->__('PayLater Processing...'));
+					$this->getLayout()->getBlock('head')->setTitle($this->__(self::PAYLATER_GATEWAY_TITLE));
 					$this->renderLayout();
-					//$this->getResponse()->setBody($this->_outputPayLaterFormBlock());
+					$helper->log('Saved order with id ' . $orderId, __METHOD__);
 				} catch (PayLater_PayLater_Exception_InvalidHttpClientResponse $e) {
-					echo $e->getMessage();
+					/**
+					 * @deprecated catch 
+					 * 
+					 * Nowhere is thrown a PayLater_PayLater_Exception_InvalidHttpClientResponse
+					 */
+					$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 				} catch (Mage_Core_Exception $e) {
-					echo $e->getMessage();
+					$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 				} catch (Exception $e) {
-					echo $e->getMessage();
+					$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 				}
 			}
 		} catch (Mage_Core_Exception $e) {
-			echo $e->getMessage();
+			$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 		}
 	}
 }

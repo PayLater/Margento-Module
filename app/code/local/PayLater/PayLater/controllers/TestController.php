@@ -65,4 +65,11 @@ class PayLater_PayLater_TestController extends Mage_Core_Controller_Front_Action
 		echo $cdn;
 		var_dump(json_decode($client->request()->getBody(), true));
 	}
+	
+	public function logTestAction()
+	{
+		$helper = Mage::helper('paylater')->getMerchantServiceCdn();
+		var_dump('Can Helper log ' . $helper->canLog());
+		$helper->log('Log test', __METHOD__);
+	}
 }

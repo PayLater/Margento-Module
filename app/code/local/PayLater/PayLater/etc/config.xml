@@ -78,6 +78,7 @@
 					<frontName>paylater</frontName>
 				</args>
 			</paylater>
+			<!-- @deprecated
 			<checkout>
                 <use>standard</use>
                 <args>
@@ -86,6 +87,7 @@
                     </modules>
                 </args>
             </checkout>
+			-->
 		</routers>
 		<events>
 			<controller_action_layout_render_before_catalog_product_view>

@@ -41,13 +41,19 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
         parent::_construct();
         $this->setTemplate('paylater/paylater/method/form.phtml');
     }
-	
+	/**
+	 *
+	 * @return float 
+	 */
 	public function getGrandTotal() 
 	{
 		$quote = Mage::getModel('paylater/checkout_quote');
 		return $quote->getGrandTotal();
 	}
-	
+	/**
+	 * @see PayLater_PayLater_Core_TypeableInterface
+	 * @return string 
+	 */
 	public function getPayLaterType ()
 	{
 		return self::PAYLATER_TYPE_CHECKOUT;

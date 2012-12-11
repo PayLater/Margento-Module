@@ -47,8 +47,6 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 		self::PAYLATER_PARAMS_MAP_ITEMS_KEY => array()
 	);
 	
-	protected $_paramsItemMap = array();
-	
 	protected function _getReference()
 	{
 		return $this->helper('paylater')->getPayLaterConfigReference('merchant');

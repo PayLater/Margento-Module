@@ -34,21 +34,17 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_OrderController extends Mage_Core_Controller_Front_Action implements PayLater_PayLater_Core_Interface
+class PayLater_PayLater_Block_Checkout_Onepage_Progress extends Mage_Checkout_Block_Onepage_Progress
 {
-	
-	public function processPayLaterResponseAction()
+	protected function _toHtml()
 	{
-		$session = Mage::getSingleton('customer/session');
-		/**
-		 * var PayLater_PayLater_Helper_Data 
-		 */
-		$helper = Mage::helper('paylater');
-		$errorCode = $this->getRequest()->getParam('ErrorCodes');
-		if ($errorCode && $errorCode > 0) {
-			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
-			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
-		}
+		return parent::_toHtml();
 	}
+
+
+	public function getBilling()
+    {
+        $quote = Mage::getModel('paylater/checkout_quote');
+		return $quote->getBillingAddress();
+    }
 }

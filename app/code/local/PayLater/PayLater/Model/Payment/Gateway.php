@@ -47,4 +47,16 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
     protected $_canCapturePartial = true;
 	protected $_formBlockType = 'paylater/payment_form';
 	protected $_infoBlockType = 'paylater/payment_info';
+	
+	
+	/**
+     * Return Order place redirect url as boolean
+     *
+     * @return boolean
+     */
+    public function getOrderPlaceRedirectUrl()
+    {
+          return true;
+    }
+	
 }

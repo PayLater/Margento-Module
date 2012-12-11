@@ -69,6 +69,14 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
 	const PAYLATER_PRICE_JS_TEST = 'http://staging.paylater.wongatest.com/paylater-merchant/price.js';
+	/**
+	 * Config 
+	 */
+	const PAYLATER_CONFIG_NODE_VERSION = 'modules/PayLater_PayLater/version';
+	const PAYLATER_CONFIG_NODE_LICENSE_URL = 'paylater/license/url';
+	const PAYLATER_CONFIG_NODE_SUPPORT_EMAIL = 'paylater/support/email';
+	const PAYLATER_CONFIG_NODE_REPORT_EMAIL = 'paylater/report/bugs';
+	const PAYLATER_CONFIG_NODE_DEV_EMAIL = 'paylater/dev/email';
 	const SERVICE_PORT_TEST = 80;
 	const SERVICE_PORT = 443;
 	const SERVICE_TIMEOUT = 3;
@@ -81,6 +89,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_TYPE_CHECKOUT = 'checkout';
 	const PAYLATER_PAYMENT_METHOD = 'paylater';
 	const PAYLATER_BEFORE_ENDPOINT_ACTION = 'paylater/checkout/gateway';
+	const PAYLATER_POST_RETURN_ERROR_LINK = 'checkout/onepage';
 	const PAYLATER_ORPHANED_ORDER_STATUS = 'PayLater Orphaned';
 	const PAYLATER_ORPHANED_ORDER_STATE = 'PayLater Orphaned';
 	const PAYLATER_PARAMS_MAP_REFERENCE_KEY = 'reference';
@@ -93,6 +102,39 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PARAMS_MAP_ITEMS_KEY = 'items';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_KEY = 'id';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY = 'description';
+	const PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH = '2000';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY = 'quantity';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY = 'price';
+	const PAYLATER_GATEWAY_TITLE = 'Contacting PayLater. Please wait...';
+	//error codes
+	const ERROR_SEPARATOR = ',';
+	const ERROR_CODES = '101,102,103,104,105,106,107,108,109,110,211,212,213,214,215,216,217,218,219,322,432,433,434,435,436,500,501,600';
+	const ERROR_101 = 'Empty parameters';
+	const ERROR_102 = 'Empty amount passed';
+	const ERROR_103 = 'Empty return link';
+	const ERROR_104 = 'Empty order id passed';
+	const ERROR_105 = 'Empty currency passed';
+	const ERROR_106 = 'Empty/zero item values';
+	const ERROR_107 = 'Item description is empty';
+	const ERROR_108 = 'Item quantity is empty';
+	const ERROR_109 = 'Item price is empty';
+	const ERROR_110 = 'Item id is empty';
+	const ERROR_211 = 'Reference is too long';
+	const ERROR_212 = 'Amount is too long';
+	const ERROR_213 = 'Return link is too long';
+	const ERROR_214 = 'Order id is too long';
+	const ERROR_215 = 'Postcode is too long';
+	const ERROR_216 = 'Item id is too long';
+	const ERROR_217 = 'Item quantity is too long';
+	const ERROR_218 = 'Item price is too long';
+	const ERROR_219 = 'Item description is too long';
+	const ERROR_322 = 'Value passed is negative or zero';
+	const ERROR_432 = 'Invalid amount passed';
+	const ERROR_433 = 'Invalid returnlink passed';
+	const ERROR_434 = 'Invalid currency passed';
+	const ERROR_435 = 'Invalid item price passed';
+	const ERROR_436 = 'Invalid item quantity passed';
+	const ERROR_500 = 'Merchant does not exists';
+	const ERROR_501 = 'Merchant order duplicated';
+	const ERROR_600 = 'Generic error code for failed application';
 }

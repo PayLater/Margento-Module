@@ -36,6 +36,30 @@
  */
 class PayLater_PayLater_Block_Checkout_Gateway extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface
 {
+	
+	protected function _collectAllItems ()
+	{
+		$quote = Mage::getModel('paylater/checkout_quote');
+		$items = $quote->getAllItems();
+		
+		$all = array();
+		foreach ($items as $item) {
+			$arrayItem = array();
+			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_KEY] = $item->getSku();
+			if ($item->getDescription() && strlen($item->getDescription() < self::PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH)) {
+				$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getDescription();
+			} elseif($item->getShortDescription() && strlen($item->getShortDescription() < self::PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH)){
+				$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getShortDescription();
+			}else {
+				$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getName();
+			}
+			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY] = $item->getQty();
+			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY] = $item->getPrice();
+			$all[] = $arrayItem;
+		}
+		return $all;
+	}
+	
 	public function getActionUrl()
 	{
 		return self::PAYLATER_ENDPOINT_TEST;
@@ -54,22 +78,5 @@ class PayLater_PayLater_Block_Checkout_Gateway extends Mage_Core_Block_Template 
 			self::PAYLATER_PARAMS_MAP_RETURN_LINK_KEY => Mage::getBaseUrl() . self::PAYLATER_PARAMS_MAP_RETURN_LINK,
 			'item' => $this->_collectAllItems()
 		);
-	}
-	
-	protected function _collectAllItems ()
-	{
-		$quote = Mage::getModel('paylater/checkout_quote');
-		$items = $quote->getAllItems();
-		
-		$all = array();
-		foreach ($items as $item) {
-			$arrayItem = array();
-			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_KEY] = $item->getSku();
-			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY] = $item->getDescription();
-			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY] = $item->getQty();
-			$arrayItem[self::PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY] = $item->getPrice();
-			$all[] = $arrayItem;
-		}
-		return $all;
 	}
 }

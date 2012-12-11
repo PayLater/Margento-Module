@@ -39,7 +39,7 @@
         </block>
     </checkout_onepage_review>
 	
-	<paylater_checkout_payment translate="label">
+	<checkout_onepage_return translate="label">
         <label>One Page Checkout</label>
         <!-- Mage_Checkout -->
         <remove name="left"/>
@@ -57,7 +57,7 @@
             <block type="page/html_wrapper" name="checkout.progress.wrapper" translate="label">
                 <label>Checkout Progress Wrapper</label>
                 <action method="setElementId"><value>checkout-progress-wrapper</value></action>
-                <block type="checkout/onepage_progress" name="checkout.progress" before="-" template="checkout/onepage/progress.phtml"/>
+                <block type="paylater/checkout_onepage_progress" name="checkout.progress" before="-" template="checkout/onepage/progress.phtml"/>
             </block>
         </reference>
         <reference name="content">
@@ -84,8 +84,8 @@
         </reference>
 		<reference name="before_body_end">
 			<block type="core/template" name="paylater.checkout.accordion.control" template="paylater/paylater/checkout/accordion/control.phtml" />
-			</reference>
-    </paylater_checkout_payment>
+		</reference>
+    </checkout_onepage_return>
 	
 	<paylater_checkout_gateway>
 		<reference name="root">

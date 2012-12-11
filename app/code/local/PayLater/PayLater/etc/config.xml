@@ -78,6 +78,16 @@
 					<frontName>paylater</frontName>
 				</args>
 			</paylater>
+			<!-- @deprecated
+			<checkout>
+                <use>standard</use>
+                <args>
+                    <modules>
+                        <PayLater_PayLater before="Mage_Checkout">PayLater_PayLater</PayLater_PayLater>
+                    </modules>
+                </args>
+            </checkout>
+			-->
 		</routers>
 		<events>
 			<controller_action_layout_render_before_catalog_product_view>
@@ -96,14 +106,22 @@
 					</paylater_observer>
 				</observers>
 			</controller_action_layout_render_before_checkout_onepage_index>
-			<controller_action_layout_render_before_paylater_checkout_payment>
+			<controller_action_layout_render_before_checkout_onepage_return>
 				<observers>
 					<paylater_observer>
 						<class>paylater/event_observer</class>
-						<method>checkoutOnepageIndexBefore</method>
+						<method>checkoutOnepageReturnBefore</method>
 					</paylater_observer>
 				</observers>
-			</controller_action_layout_render_before_paylater_checkout_payment>
+			</controller_action_layout_render_before_checkout_onepage_return>
+			<checkout_type_onepage_save_order_after>
+				<observers>
+					<paylater_observer>
+						<class>paylater/event_observer</class>
+						<method>saveOrderAfter</method>
+					</paylater_observer>
+				</observers>
+			</checkout_type_onepage_save_order_after>
 			<!--
 			@deprecated
 			<core_block_abstract_to_html_before>
@@ -196,6 +214,7 @@
 				<order_status>pending</order_status>
 				<service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]></service_unavailable_heading>
 				<service_unavailable_body><![CDATA[We are currently unable to connect to PayLater service. Please choose another payment method, or try again later.<br />We apologise for any inconvenience caused.]]></service_unavailable_body>
+				<error_code_body><![CDATA[There was an error at PayLater. Please contact support or checkout using another payment method. We apologise for any inconvenience caused.]]></error_code_body>
 			</payment>
 			<review><customer_note><![CDATA[<strong>Please Note:</strong> You will be redirected to PayLater site to complete your order.]]></customer_note></review>
 		</paylater>

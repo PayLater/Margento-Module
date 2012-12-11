@@ -69,6 +69,14 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
 	const PAYLATER_PRICE_JS_TEST = 'http://staging.paylater.wongatest.com/paylater-merchant/price.js';
+	/**
+	 * Config 
+	 */
+	const PAYLATER_CONFIG_NODE_VERSION = 'modules/PayLater_PayLater/version';
+	const PAYLATER_CONFIG_NODE_LICENSE_URL = 'paylater/license/url';
+	const PAYLATER_CONFIG_NODE_SUPPORT_EMAIL = 'paylater/support/email';
+	const PAYLATER_CONFIG_NODE_REPORT_EMAIL = 'paylater/report/bugs';
+	const PAYLATER_CONFIG_NODE_DEV_EMAIL = 'paylater/dev/email';
 	const SERVICE_PORT_TEST = 80;
 	const SERVICE_PORT = 443;
 	const SERVICE_TIMEOUT = 3;

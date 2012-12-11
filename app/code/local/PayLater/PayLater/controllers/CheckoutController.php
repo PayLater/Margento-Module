@@ -115,18 +115,18 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					 * 
 					 * Nowhere is thrown a PayLater_PayLater_Exception_InvalidHttpClientResponse
 					 */
-					$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 				} catch (Mage_Core_Exception $e) {
-					$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 				} catch (Exception $e) {
-					$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 				}
 			}
 		} catch (Mage_Core_Exception $e) {
-			$helper->log($e->getMessage(), __METHOD__, ZEND_LOG::ERR);
+			$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 		}
 	}

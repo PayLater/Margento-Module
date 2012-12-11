@@ -126,7 +126,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * 
 	 * @param string $message
 	 */
-	public function log($message, $info, $type = ZEND_LOG::INFO)
+	public function log($message, $info, $type = Zend_Log::INFO)
 	{
 		if ($this->canLog()) {
 			Mage::log($info . ' ' . $message, $type, $this->getPayLaterConfigLogFile('dev'));

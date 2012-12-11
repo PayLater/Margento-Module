@@ -47,7 +47,7 @@ class PayLater_PayLater_OrderController extends Mage_Core_Controller_Front_Actio
 		$errorCode = $this->getRequest()->getParam('ErrorCodes');
 		if ($errorCode && $errorCode > 0) {
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
-			$helper->log($helper->getErrorMessageByCode(), __METHOD__, ZEND_LOG::ERR);
+			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 		}
 	}

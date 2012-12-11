@@ -3,6 +3,7 @@
 	var payLaterButton = PayLater.GetPaymentButton(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
 	payLaterButton.setAttribute("action", '<?php echo $this->getBaseUrl() . PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION ?>');
 	$('paylater-button').update(payLaterButton);
+	$('PayLater-button').writeAttribute('value', '<?php echo $this->__('Pay with PayLater') ?>');
 </script>
 <div id="paylater-button">
 	

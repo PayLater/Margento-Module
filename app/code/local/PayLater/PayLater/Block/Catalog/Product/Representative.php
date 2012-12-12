@@ -58,4 +58,13 @@ class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_B
 	{
 		return self::PAYLATER_TYPE_PRODUCT;
 	}
+	
+	/**
+	 * Returns event type as defined in system config
+	 * @return string|null 
+	 */
+	public function getEventType ()
+	{
+		return Mage::helper('paylater')->getPayLaterConfigEvent('product');
+	}
 }

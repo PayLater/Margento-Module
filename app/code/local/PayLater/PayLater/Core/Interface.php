@@ -72,6 +72,8 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * Config 
 	 */
+	const PAYLATER_CLICK_EVENT = 'click';
+	const PAYLATER_HOVER_EVENT = 'mouseover';
 	const PAYLATER_CONFIG_NODE_VERSION = 'modules/PayLater_PayLater/version';
 	const PAYLATER_CONFIG_NODE_LICENSE_URL = 'paylater/license/url';
 	const PAYLATER_CONFIG_NODE_SUPPORT_EMAIL = 'paylater/support/email';

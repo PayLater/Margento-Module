@@ -98,7 +98,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_ORPHANED_ORDER_STATE = 'PayLater Orphaned';
 	const PAYLATER_PARAMS_MAP_REFERENCE_KEY = 'reference';
 	const PAYLATER_PARAMS_MAP_RETURN_LINK_KEY = 'returnlink';
-	const PAYLATER_PARAMS_MAP_RETURN_LINK = 'paylater/order/processPayLaterResponse';
+	const PAYLATER_PARAMS_MAP_RETURN_LINK = 'paylater/checkout/continue';
 	const PAYLATER_PARAMS_MAP_AMOUNT_KEY = 'amount';
 	const PAYLATER_PARAMS_MAP_ORDERID_KEY = 'merchantorderid';
 	const PAYLATER_PARAMS_MAP_CURRENCY_KEY = 'currency';

@@ -130,4 +130,20 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 		}
 	}
+	
+	public function continueAction()
+	{
+		$session = Mage::getSingleton('customer/session');
+		/**
+		 * var PayLater_PayLater_Helper_Data 
+		 */
+		$helper = Mage::helper('paylater');
+		$params =  $this->getRequest()->getParams();
+		$errorCode = $this->getRequest()->getParam('ErrorCodes');
+		if ($errorCode && $errorCode > 0 || !$params) {
+			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
+			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+		}
+	}
 }

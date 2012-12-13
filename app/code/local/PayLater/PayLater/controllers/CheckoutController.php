@@ -36,7 +36,11 @@
  */
 class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Action implements PayLater_PayLater_Core_Interface
 {
-
+	
+	/**
+	 *
+	 * @return PayLater_PayLater_Model_Checkout_Onepage 
+	 */
 	protected function _getOnepage()
 	{
 		return Mage::getModel('paylater/checkout_onepage')->getSingleton();
@@ -79,6 +83,26 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	}
 	
 	/**
+	 * Sets PayLater order state and status and return order id, or false otherwise
+	 * 
+	 * @param string $state
+	 * @param string $status
+	 * 
+	 * @return int|bool 
+	 */
+	protected function _setPayLaterOrderStateAndStatus($state, $status)
+	{
+		$quote = Mage::getModel('paylater/checkout_quote');
+		$orderId = $quote->getReservedOrderId();
+		$order = Mage::getModel('paylater/checkout_onepage')->getOrder($orderId);
+		$order->setState($status);
+		$order->setStatus($status);
+		$order->save();
+		return $orderId;
+	}
+	
+	
+	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
 	 * 
 	 * Redirects to PAYLATER_POST_RETURN_ERROR_LINK if any exception occur while 
@@ -96,13 +120,9 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			// stops sending order email for order in saveOrder
 			if ($onepage->saveOrder()) {
 				try {
-					$orderId = $quote->getReservedOrderId();
-					$order = Mage::getModel('paylater/checkout_onepage')->getOrder($orderId);
-					$order->setState(self::PAYLATER_ORPHANED_ORDER_STATE);
-					$order->setStatus(self::PAYLATER_ORPHANED_ORDER_STATUS);
-					$order->save();
 					// Order was saved without sending any customer email.
 					// @see Observer->saveOrderAfter
+					$orderId = $this->_setPayLaterOrderStateAndStatus(self::PAYLATER_ORPHANED_ORDER_STATUS, self::PAYLATER_ORPHANED_ORDER_STATUS);
 					$paylaterData[self::PAYLATER_PARAMS_MAP_ORDERID_KEY] = $orderId;
 					$this->loadLayout();
 					$this->_initLayoutMessages('customer/session');
@@ -140,10 +160,18 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$helper = Mage::helper('paylater');
 		$params =  $this->getRequest()->getParams();
 		$errorCode = $this->getRequest()->getParam('ErrorCodes');
-		if ($errorCode && $errorCode > 0 || !$params) {
+		if (!$params) {
+			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
+			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
+			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+			return;
+		}
+		if ($errorCode && $errorCode > 0) {
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+			return;
 		}
 	}
 }

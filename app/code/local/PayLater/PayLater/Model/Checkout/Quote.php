@@ -70,6 +70,11 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getInSession()->getBillingAddress();
 	}
+	
+	protected function _getShipping()
+	{
+		return $this->_getInSession()->getShippingAddress();
+	}
 
 
 	/**
@@ -122,14 +127,34 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
         return $this->_getAllItems();
     }
 	
+	/**
+	 * Returns quote reserved order id, or FALSE otherwise
+	 * 
+	 * @return int|bool 
+	 */
 	public function getReservedOrderId()
 	{
 		return $this->_getReservedOrderId();
 	}
 	
+	/**
+	 * Gets quote billing address
+	 * 
+	 * @return type 
+	 */
 	public function getBillingAddress()
 	{
 		return $this->_getBilling();
+	}
+	
+	/**
+	 * Gets quote shipping address
+	 * 
+	 * @return type 
+	 */
+	public function getShippingAddress()
+	{
+		return $this->_getShipping();
 	}
 	
 }

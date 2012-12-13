@@ -49,6 +49,7 @@ class PayLater_PayLater_Block_Checkout_Grandtotal extends Mage_Tax_Block_Checkou
 	 */
 	public function canShow()
 	{
-		return Mage::helper('paylater')->canShowAtCheckout();
+		$helper = Mage::helper('paylater');
+		return $helper->canShowAtCheckout() && $helper->isAllowedCurrency();
 	}
 }

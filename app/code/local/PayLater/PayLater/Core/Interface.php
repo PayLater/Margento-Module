@@ -69,6 +69,8 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
 	const PAYLATER_PRICE_JS_TEST = 'http://staging.paylater.wongatest.com/paylater-merchant/price.js';
+	const CURRENCY_SEPARATOR = ',';
+	const PAYLATER_CURRENCIES = 'GBP';
 	/**
 	 * Config 
 	 */

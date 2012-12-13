@@ -210,14 +210,18 @@
 			<dev>
 				<log_file>paylater_paylater.log</log_file>
 			</dev>
-			<product><event>mouseover</event></product>
+			<product>
+				<event>mouseover</event>
+			</product>
 			<payment>
 				<order_status>pending</order_status>
 				<service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]></service_unavailable_heading>
-				<service_unavailable_body><![CDATA[We are currently unable to connect to PayLater service. Please choose another payment method, or try again later.<br />We apologise for any inconvenience caused.]]></service_unavailable_body>
-				<error_code_body><![CDATA[There was an error at PayLater. Please contact support or checkout using another payment method. We apologise for any inconvenience caused.]]></error_code_body>
+				<service_unavailable_body><![CDATA[We are currently unable to connect to PayLater. Please choose an alternative payment method, or try again later.]]></service_unavailable_body>
+				<out_range_heading><![CDATA[PayLater payment option is currently unavailable]]></out_range_heading>
+				<out_range_message><![CDATA[PayLater is only avaiable for orders between %s and %s. Currently your basket total is %s]]></out_range_message>
+				<error_code_body><![CDATA[Unfortunately, your PayLater application can’t be completed at this time. Please check out, using an alternative payment method. We apologise for any inconvenience caused.]]></error_code_body>
 			</payment>
-			<review><customer_note><![CDATA[<strong>Please Note:</strong> You will be redirected to PayLater site to complete your order.]]></customer_note></review>
+			<review><customer_note><![CDATA[By choosing PayLater, you will be redirected to the PayLater website to complete your order.]]></customer_note></review>
 		</paylater>
 	</default>
 </config>

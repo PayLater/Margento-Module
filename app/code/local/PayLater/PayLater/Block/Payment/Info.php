@@ -52,6 +52,7 @@ class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info imple
 	 */
 	public function canShow()
 	{
-		return $this->helper('paylater')->canShowAtCheckout();
+		$helper = Mage::helper('paylater');
+		return $helper->canShowAtCheckout() && $helper->isAllowedCurrency();
 	}
 }

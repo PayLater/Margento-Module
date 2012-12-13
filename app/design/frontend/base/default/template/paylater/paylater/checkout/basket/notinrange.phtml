@@ -1,0 +1,13 @@
+<?php $currencySymbol = Mage::helper('paylater')->getStoreCurrencySymbol(); ?>
+<?php $basketTotal = Mage::getModel('paylater/checkout_quote')->getGrandTotal(); ?>
+<?php 
+$cache = Mage::getModel('paylater/cache_factory');
+$payLaterData = Mage::helper('paylater')->loadCacheData($cache);
+?>
+<script type="text/javascript">
+	$('p_method_paylater').checked = '';
+	$('p_method_paylater').remove();
+		
+</script>
+<strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigOutRangeHeading('payment')) ?></strong>
+<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigOutRangeMessage('payment'), $currencySymbol . $payLaterData[PayLater_PayLater_Core_Interface::ORDER_LOWER_BOUND], $currencySymbol . $payLaterData[PayLater_PayLater_Core_Interface::ORDER_UPPER_BOUND], $currencySymbol . $basketTotal) ?></p>

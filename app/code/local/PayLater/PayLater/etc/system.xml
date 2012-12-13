@@ -161,10 +161,29 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>0</show_in_store>
 						</order_status>
+						<out_range_heading translate="label">
+							<label>Out of Range Heading</label>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</out_range_heading>
+						<out_range_message translate="label comment">
+							<label>Out of Range Body</label>
+							<comment>
+								<![CDATA[Shows at checkout on payment method step when basket total is not within PayLater range]]>
+							</comment>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>21</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</out_range_message>
 						<service_unavailable_heading translate="label">
 							<label>Service Unavailable Heading</label>
 							<frontend_type>text</frontend_type>
-							<sort_order>20</sort_order>
+							<sort_order>30</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -172,7 +191,7 @@
 						<service_unavailable_body translate="label">
 							<label>Service Unavailable Body</label>
 							<frontend_type>textarea</frontend_type>
-							<sort_order>21</sort_order>
+							<sort_order>31</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
@@ -191,7 +210,7 @@
 					</fields>
 				</payment>
 				<review translate="label">
-					<label>Review</label>
+					<label>Order Review</label>
 					<frontend_type>text</frontend_type>
 					<sort_order>400</sort_order>
 					<show_in_default>1</show_in_default>
@@ -199,7 +218,7 @@
 					<show_in_store>1</show_in_store>
 					<fields>
 						<customer_note translate="label">
-							<label>New order status</label>
+							<label>User Hint</label>
 							<frontend_type>textarea</frontend_type>
 							<sort_order>30</sort_order>
 							<show_in_default>1</show_in_default>

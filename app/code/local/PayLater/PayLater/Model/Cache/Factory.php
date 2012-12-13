@@ -165,7 +165,13 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 				 * @deprecated handled by checkout controller
 				 * $this->_savePayLaterAction();
 				 */
-				$this->_savePayLaterRange($data[self::ORDER_LOWER_BOUND], $data[self::ORDER_UPPER_BOUND]);
+				
+				/**
+				 * @deprecated we wanna show PayLater even when not within range
+				 * $this->_savePayLaterRange($data[self::ORDER_LOWER_BOUND], $data[self::ORDER_UPPER_BOUND]);
+				 * 
+				 */
+				
 			}
 			return $this->getInstance()->load($this->getId());
 		}

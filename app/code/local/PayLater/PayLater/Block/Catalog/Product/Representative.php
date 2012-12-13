@@ -42,7 +42,8 @@ class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_B
 	 */
 	public function canShow()
 	{
-		return Mage::helper('paylater')->canShowOnProduct();
+		$helper = Mage::helper('paylater');
+		return $helper->canShowOnProduct() && $helper->isAllowedCurrency();
 	}
 	
 	public function getProductPrice()

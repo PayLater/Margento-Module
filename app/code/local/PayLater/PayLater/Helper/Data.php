@@ -47,8 +47,14 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @var array 
 	 */
 	protected $_errorCodes = array();
-	
-	
+	/**
+	 * Array of allowed currency 
+	 * 
+	 * @see PayLater_PayLater_Core_Interface
+	 * 
+	 * @var array 
+	 */
+	protected $_allowedCurrencies = array();
 	/**
 	 *  Gets store config value for node and key passed as argument.
 	 * 
@@ -82,6 +88,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
 	}
+
 	
 	/**
 	 * Magic method __call handles methods starting with:
@@ -103,7 +110,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	
 	
 	/**
-	 * Fills errorCodes array
+	 * Fills errorCodes and allowed currencies array
 	 *  
 	 */
 	public function __construct()
@@ -111,6 +118,10 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		foreach (explode(self::ERROR_SEPARATOR, self::ERROR_CODES) as $errorCode) {
 			$const = 'ERROR_' . $errorCode;
 			$this->_errorCodes[$errorCode] = constant('PayLater_PayLater_Core_Interface::'. $const);;
+		}
+		
+		foreach (explode(self::CURRENCY_SEPARATOR, self::PAYLATER_CURRENCIES) as $currencyCode) {
+			$this->_allowedCurrencies[$currencyCode] = $currencyCode;
 		}
 	}
 	
@@ -131,6 +142,34 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		if ($this->canLog()) {
 			Mage::log($info . ' ' . $message, $type, $this->getPayLaterConfigLogFile('dev'));
 		}
+	}
+	
+	/**
+	 * Returns current currency code
+	 * @return string 
+	 */
+	public function getStoreCurrency ()
+	{
+		return Mage::app()->getStore()->getCurrentCurrencyCode(); 
+	}
+	
+	/**
+	 * Returns current store currency symbol
+	 * @return type 
+	 */
+	public function getStoreCurrencySymbol()
+	{
+		return  Mage::app()->getLocale()->currency($this->getStoreCurrency())->getSymbol() ;
+	}
+	
+	/**
+	 * Returns TRUE if store currency is allowed
+	 * @return type 
+	 */
+	public function isAllowedCurrency ()
+	{
+		$currency = $this->getStoreCurrency();
+		return array_key_exists($currency, $this->_allowedCurrencies);
 	}
 
 

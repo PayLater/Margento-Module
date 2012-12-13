@@ -36,7 +36,9 @@
  */
 class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml_Controller_Action
 {
-
+	/**
+	 * @todo add logs for exceptions  
+	 */
 	public function indexAction()
 	{
 		$session = Mage::getSingleton('adminhtml/session');

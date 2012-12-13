@@ -67,6 +67,7 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout
 	 */
 	public function canShow()
 	{
-		return $this->helper('paylater')->canShowAtCheckout();
+		$helper = Mage::helper('paylater');
+		return $helper->canShowAtCheckout() && $helper->isAllowedCurrency();
 	}
 }

@@ -1,3 +1,4 @@
+<?php if ($this->canShow()): ?>
 <script type="text/javascript">
 
 	document.write(PayLater.GetPaymentsWidget(<?php echo $this->getProductPrice() ?>, '<?php echo $this->getPayLaterType() ?>'));
@@ -28,3 +29,4 @@
 <?php endif; ?>
 	})
 </script>
+<?php endif; ?>

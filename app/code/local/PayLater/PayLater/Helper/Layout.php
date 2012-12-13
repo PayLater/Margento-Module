@@ -46,7 +46,10 @@ class PayLater_PayLater_Helper_Layout extends Mage_Core_Helper_Data implements P
 	{
 		return Mage::getSingleton('core/layout');
 	}
-
+	
+	/**
+	 * Sets pricejs.phtml view in 'head' block
+	 */
 	public function setPriceJs()
 	{
 		$layout = $this->_getCoreLayout();

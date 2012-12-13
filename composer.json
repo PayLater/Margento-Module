@@ -2,6 +2,7 @@
     "name": "paylater/paylater",
     "description": "PayLater Magento Module",
     "minimum-stability": "stable",
+    "type": "magento-module",
     "authors": [
         {
             "name": "GPMD Ltd",
@@ -9,6 +10,6 @@
         }
     ],
     "require": {
-
+        "magento-hackathon/magento-composer-installer": "dev-master"
     }
 }

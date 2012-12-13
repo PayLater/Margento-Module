@@ -1,6 +1,6 @@
 <?php $currencySymbol = Mage::helper('paylater')->getStoreCurrencySymbol(); ?>
 <?php $basketTotal = Mage::getModel('paylater/checkout_quote')->getGrandTotal(); ?>
-<?php 
+<?php
 $cache = Mage::getModel('paylater/cache_factory');
 $payLaterData = Mage::helper('paylater')->loadCacheData($cache);
 ?>
@@ -9,5 +9,10 @@ $payLaterData = Mage::helper('paylater')->loadCacheData($cache);
 	$('p_method_paylater').remove();
 		
 </script>
+<div>
+	<img src="<?php echo $this->getSkinUrl('paylater/images/paylater-label-disabled.png') ?>" al="" />
+</div>
+<!--
 <strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigOutRangeHeading('payment')) ?></strong>
+-->
 <p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigOutRangeMessage('payment'), $currencySymbol . $payLaterData[PayLater_PayLater_Core_Interface::ORDER_LOWER_BOUND], $currencySymbol . $payLaterData[PayLater_PayLater_Core_Interface::ORDER_UPPER_BOUND], $currencySymbol . $basketTotal) ?></p>

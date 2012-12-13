@@ -94,10 +94,10 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PAYMENT_METHOD = 'paylater';
 	const PAYLATER_BEFORE_ENDPOINT_ACTION = 'paylater/checkout/gateway';
 	const PAYLATER_POST_RETURN_ERROR_LINK = 'checkout/onepage';
-	const PAYLATER_ORPHANED_ORDER_STATUS = 'PayLater Orphaned';
-	const PAYLATER_ORPHANED_ORDER_STATE = 'PayLater Orphaned';
-	const PAYLATER_FAILED_ORDER_STATUS = 'PayLater Failed';
-	const PAYLATER_FAILED_ORDER_STATE = 'PayLater Failed';
+	const PAYLATER_ORPHANED_ORDER_STATUS = 'paylater_orphaned';
+	const PAYLATER_ORPHANED_ORDER_STATE = 'paylater_orphaned';
+	const PAYLATER_FAILED_ORDER_STATUS = 'paylater_failed';
+	const PAYLATER_FAILED_ORDER_STATE = 'paylater_failed';
 	const PAYLATER_PARAMS_MAP_REFERENCE_KEY = 'reference';
 	const PAYLATER_PARAMS_MAP_RETURN_LINK_KEY = 'returnlink';
 	const PAYLATER_PARAMS_MAP_RETURN_LINK = 'paylater/checkout/continue';

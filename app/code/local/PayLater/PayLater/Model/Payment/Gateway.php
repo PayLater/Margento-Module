@@ -34,7 +34,7 @@
  * @subpackage Model
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_Abstract
+class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_Abstract implements PayLater_PayLater_Core_Interface
 {
 	/**
      * Payment code name
@@ -58,5 +58,4 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
     {
           return true;
     }
-	
 }

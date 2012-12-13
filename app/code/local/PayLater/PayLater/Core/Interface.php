@@ -72,32 +72,74 @@ interface PayLater_PayLater_Core_Interface
 	const CURRENCY_SEPARATOR = ',';
 	const PAYLATER_CURRENCIES = 'GBP';
 	/**
-	 * Config 
+	 * Config events
 	 */
 	const PAYLATER_CLICK_EVENT = 'click';
 	const PAYLATER_HOVER_EVENT = 'mouseover';
+	/**
+	 * Config nodes (defined in config.xml) 
+	 */
 	const PAYLATER_CONFIG_NODE_VERSION = 'modules/PayLater_PayLater/version';
 	const PAYLATER_CONFIG_NODE_LICENSE_URL = 'paylater/license/url';
 	const PAYLATER_CONFIG_NODE_SUPPORT_EMAIL = 'paylater/support/email';
 	const PAYLATER_CONFIG_NODE_REPORT_EMAIL = 'paylater/report/bugs';
 	const PAYLATER_CONFIG_NODE_DEV_EMAIL = 'paylater/dev/email';
+	/**
+	 * Test environment service port 
+	 */
 	const SERVICE_PORT_TEST = 80;
+	/**
+	 * Live environment service port 
+	 */
 	const SERVICE_PORT = 443;
+	/**
+	 * Live and Test environment service timeout
+	 * 
+	 * Note: this should be kept pretty low to avoid system pending when 
+	 * service fsockopen return false
+	 * 
+	 * @see PayLater_PayLater_Helper_Data->isServiceAvailable method
+	 *  
+	 */
 	const SERVICE_TIMEOUT = 3;
+	/**
+	 * config.json object keys 
+	 */
 	const FEE_PERCENT_KEY = 'FeePercent';
 	const ORDER_LOWER_BOUND = 'OrderLowerBound';
 	const ORDER_UPPER_BOUND = 'OrderUpperBound';
+	/**
+	 * PayLater cache config 
+	 */
 	const PAYLATER_CACHE_HASHED_DIRECTORY_LEVEL = 1;
 	const PAYLATER_CACHE_HASHED_DIRECTORY_UMASK = 0777;
+	/**
+	 * PayLater types 
+	 */
 	const PAYLATER_TYPE_PRODUCT = 'product';
 	const PAYLATER_TYPE_CHECKOUT = 'checkout';
+	/**
+	 * PayLater Payment method name 
+	 */
 	const PAYLATER_PAYMENT_METHOD = 'paylater';
+	/**
+	 * PayLater before endpoint post 
+	 */
 	const PAYLATER_BEFORE_ENDPOINT_ACTION = 'paylater/checkout/gateway';
+	/**
+	 * PayLater return link 
+	 */
 	const PAYLATER_POST_RETURN_ERROR_LINK = 'checkout/onepage';
+	/**
+	 * Orders states and statuses 
+	 */
 	const PAYLATER_ORPHANED_ORDER_STATUS = 'paylater_orphaned';
 	const PAYLATER_ORPHANED_ORDER_STATE = 'paylater_orphaned';
 	const PAYLATER_FAILED_ORDER_STATUS = 'paylater_failed';
 	const PAYLATER_FAILED_ORDER_STATE = 'paylater_failed';
+	/**
+	 * PayLater endpoint post keys 
+	 */
 	const PAYLATER_PARAMS_MAP_REFERENCE_KEY = 'reference';
 	const PAYLATER_PARAMS_MAP_RETURN_LINK_KEY = 'returnlink';
 	const PAYLATER_PARAMS_MAP_RETURN_LINK = 'paylater/checkout/continue';
@@ -111,6 +153,9 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH = '2000';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY = 'quantity';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY = 'price';
+	/**
+	 * Gateway page title 
+	 */
 	const PAYLATER_GATEWAY_TITLE = 'Contacting PayLater. Please wait...';
 	//error codes
 	const ERROR_SEPARATOR = ',';

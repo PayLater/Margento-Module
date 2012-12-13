@@ -3,6 +3,6 @@ app/design/adminhtml/default/default/layout/paylater app/design/adminhtml/defaul
 app/design/adminhtml/default/default/template/paylater app/design/adminhtml/default/default/template/paylater
 app/design/frontend/base/default/layout/paylater app/design/frontend/base/default/layout/paylater
 app/design/frontend/base/default/template/paylater app/design/frontend/base/default/template/paylater
-etc/modules/PayLater_PayLater.xml etc/modules/PayLater_PayLater.xml
+app/etc/modules/PayLater_PayLater.xml app/etc/modules/PayLater_PayLater.xml
 skin/adminhtml/default/default/paylater skin/adminhtml/default/default/paylater
 skin/frontend/base/default/paylater skin/frontend/base/default/paylater

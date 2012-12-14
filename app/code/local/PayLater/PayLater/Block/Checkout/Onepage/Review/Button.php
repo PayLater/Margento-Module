@@ -66,7 +66,7 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	protected function _getPostcode ()
 	{
 		$quote = Mage::getModel('paylater/checkout_quote');
-		return $quote->getShippingPostcode();
+		return $quote->getPayLaterPostcode();
 		
 	}
 	/**

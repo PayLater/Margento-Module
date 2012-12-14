@@ -75,6 +75,11 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getInSession()->getShippingAddress();
 	}
+	
+	protected function _isVirtual ()
+	{
+		return $this->_getInSession()->isVirtual();
+	}
 
 
 	/**
@@ -155,6 +160,22 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	public function getShippingAddress()
 	{
 		return $this->_getShipping();
+	}
+	
+	/**
+	 * Gets postcode to be posted to PayLater.
+	 * If quote is virtual returns billing postcode, 
+	 * returns shipping postcode otherwise.
+	 * 
+	 * @return string|bool 
+	 */
+	public function getPayLaterPostcode ()
+	{
+		if ($this->_isVirtual()) {
+			return $this->getBillingPostcode();
+		}
+		
+		return $this->getShippingPostcode();
 	}
 	
 }

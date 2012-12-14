@@ -76,6 +76,16 @@
 					   -->
                 </grand_total>
 			</totals>
+			<order>
+                <statuses>
+                    <paylater_orphaned translate="label">
+                        <label>PayLater Orphaned</label>
+                    </paylater_orphaned>
+					<paylater_failed translate="label">
+                        <label>PayLater Failed</label>
+                    </paylater_failed>
+                </statuses>
+            </order>
 		</sales>
 		<resources>
             <paylater_write>

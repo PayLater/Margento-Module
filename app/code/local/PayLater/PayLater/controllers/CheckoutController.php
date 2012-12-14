@@ -95,7 +95,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$quote = Mage::getModel('paylater/checkout_quote');
 		$orderId = $quote->getReservedOrderId();
 		$order = Mage::getModel('paylater/checkout_onepage')->getOrder($orderId);
-		$order->setState($status);
+		$order->setState($state);
 		$order->setStatus($status);
 		$order->save();
 		return $orderId;

@@ -117,7 +117,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		foreach (explode(self::ERROR_SEPARATOR, self::ERROR_CODES) as $errorCode) {
 			$const = 'ERROR_' . $errorCode;
-			$this->_errorCodes[$errorCode] = constant('PayLater_PayLater_Core_Interface::'. $const);;
+			$this->_errorCodes[$errorCode] = constant('PayLater_PayLater_Core_Interface::'. $const);
 		}
 		
 		foreach (explode(self::CURRENCY_SEPARATOR, self::PAYLATER_CURRENCIES) as $currencyCode) {
@@ -166,9 +166,11 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * Returns TRUE if store currency is allowed
 	 * @return type 
 	 */
-	public function isAllowedCurrency ()
+	public function isAllowedCurrency ($currency = false)
 	{
-		$currency = $this->getStoreCurrency();
+		if ($currency === false) {
+			$currency = $this->getStoreCurrency();
+		}
 		return array_key_exists($currency, $this->_allowedCurrencies);
 	}
 
@@ -219,11 +221,21 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 */
 	public function isServiceAvailable()
 	{
-		$env = $this->getPayLaterConfigEnv('globals');
-		if ($env == self::ENVIRONMENT_TEST) {
+		if ($this->isTestEnvironment()) {
 			return fsockopen(self::SERVICE_HOSTNAME_TEST, self::SERVICE_PORT_TEST, $errno, $errstr, self::SERVICE_TIMEOUT);
 		}
 		return fsockopen(self::SERVICE_HOSTNAME, self::SERVICE_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
+	}
+	
+	/**
+	 * Returns TRUE if enviroment is 'test', FALSE otherise (assume 'live') 
+	 * 
+	 * @return boolean 
+	 */
+	public function isTestEnvironment()
+	{
+		$env = $this->getPayLaterConfigEnv('globals');
+		return $env == self::ENVIRONMENT_TEST ? TRUE : FALSE;
 	}
 
 	/**

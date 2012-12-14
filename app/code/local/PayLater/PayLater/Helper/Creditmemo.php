@@ -48,6 +48,6 @@ class PayLater_PayLater_Helper_Creditmemo extends Mage_Core_Helper_Data implemen
 	
 	public function getSaveUrl()
 	{
-		return Mage::getUrl('*/*/paylater_save', array('_current' => true));
+		return Mage::getUrl('*/*/paylaterSave', array('_current' => true));
 	}
 }

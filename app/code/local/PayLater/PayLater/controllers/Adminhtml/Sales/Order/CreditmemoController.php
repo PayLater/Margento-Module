@@ -35,12 +35,8 @@ require_once 'Mage/Adminhtml/controllers/Sales/Order/CreditmemoController.php';
 
 class PayLater_PayLater_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Sales_Order_CreditmemoController
 {
-//	/**
-//     *  Index page
-//     */
-//    public function newAction()
-//	{
-//        var_dump("Hello!");exit;
-//		
-//    }
+
+	public function paylaterSaveAction(){
+		
+	}
 }

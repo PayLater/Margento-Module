@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+<?php
+
 /**
  * PayLater extension for Magento
  *
@@ -21,18 +21,15 @@
  * @copyright  Copyright (C) 2012 PayLater
  * @license    [TO BE DEFINED]
  */
--->
-<config>
-    <modules>
-        <PayLater_PayLater>
-            <active>true</active>
-            <codePool>local</codePool>
-			<depends>
-				<Mage_Adminhtml />
-				<Mage_Payment />
-				<Mage_Checkout />
-				<Mage_Sales />
-			</depends>
-        </PayLater_PayLater>
-    </modules>
-</config>
+
+/**
+ *
+ * @category   PayLater
+ * @package    PayLater_PayLater
+ * @subpackage Helper
+ * @author     GPMD Ltd <dev@gpmd.co.uk>
+ */
+class PayLater_PayLater_Block_Adminhtml_Sales_Order_Creditmemo_Create_Form extends Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Form
+{
+	
+}

@@ -12,7 +12,7 @@
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade
- * the Wonga PayLater module to newer versions in the future.
+ * the PayLater module to newer versions in the future.
  * If you wish to customize the PayLater module for your needs
  * please refer to http://www.magentocommerce.com for more information.
  *
@@ -51,7 +51,16 @@
 		<models>
 			<paylater>
 				<class>PayLater_PayLater_Model</class>
+				 <resourceModel>paylater_resource</resourceModel>
 			</paylater>
+			<paylater_resource>
+				<class>PayLater_PayLater_Model_Resource</class>
+				<entities>
+					<refund>
+						<table>paylater_refund</table>
+					</refund>
+				</entities>
+			</paylater_resource>
 		</models>
 		<blocks>
 			<paylater>
@@ -68,6 +77,27 @@
                 </grand_total>
 			</totals>
 		</sales>
+		<resources>
+            <paylater_write>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </paylater_write>
+            <paylater_read>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </paylater_read>
+            <paylater_setup>
+                <setup>
+                    <module>PayLater_PayLater</module>
+                    <class>PayLater_PayLater_Model_Resource_Setup</class>
+                </setup>
+                <connection>
+                    <use>core_setup</use>
+                </connection>
+            </paylater_setup>
+		</resources>
 	</global>
 	<frontend>
 		<routers>
@@ -160,6 +190,14 @@
                     <frontName>paylater</frontName>
                 </args>
             </paylater>
+			<adminhtml>
+                <use>admin</use>
+                <args>
+                    <modules>
+                        <PayLater_PayLater_Adminhtml before="Mage_Adminhtml">PayLater_PayLater_Adminhtml</PayLater_PayLater_Adminhtml>
+                    </modules>
+                </args>
+            </adminhtml>
         </routers>
     </admin>
 	<adminhtml>

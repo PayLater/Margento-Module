@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -36,7 +37,7 @@
  */
 class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Action implements PayLater_PayLater_Core_Interface
 {
-	
+
 	/**
 	 *
 	 * @return PayLater_PayLater_Model_Checkout_Onepage 
@@ -45,13 +46,13 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	{
 		return Mage::getModel('paylater/checkout_onepage')->getSingleton();
 	}
-	
+
 	/**
 	 * @deprecated
 	 * 
 	 * @return array 
 	 */
-	protected function _collectAllItems ()
+	protected function _collectAllItems()
 	{
 		$quote = Mage::getModel('paylater/checkout_quote');
 		$items = $quote->getAllItems();
@@ -66,6 +67,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		}
 		return $all;
 	}
+
 	/**
 	 * @deprecated
 	 * 
@@ -74,14 +76,14 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	protected function _outputPayLaterFormBlock()
 	{
 		$layout = $this->getLayout();
-        $update = $layout->getUpdate();
+		$update = $layout->getUpdate();
 		$update->load('paylater_checkout_form');
-        $layout->generateXml();
-        $layout->generateBlocks();
-        $output = $layout->getOutput();
-        return $output;
+		$layout->generateXml();
+		$layout->generateBlocks();
+		$output = $layout->getOutput();
+		return $output;
 	}
-	
+
 	/**
 	 * Sets PayLater order state and status and return order id, or false otherwise
 	 * 
@@ -100,8 +102,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$order->save();
 		return $orderId;
 	}
-	
-	
+
 	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
 	 * 
@@ -150,7 +151,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 		}
 	}
-	
+
 	public function continueAction()
 	{
 		$session = Mage::getSingleton('customer/session');
@@ -158,20 +159,42 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		 * var PayLater_PayLater_Helper_Data 
 		 */
 		$helper = Mage::helper('paylater');
-		$params =  $this->getRequest()->getParams();
+		$params = $this->getRequest()->getParams();
 		$errorCode = $this->getRequest()->getParam('ErrorCodes');
 		if (!$params) {
+			// can be either error at PayLater (customer clicked returned link at PayLater)
+			// or success (also no params are passed)
+			$orderId = Mage::getModel('paylater/checkout_quote')->getReservedOrderId();
+
+			if ($orderId) {
+				try {
+					$apiRequest = Mage::getModel('paylater/api_request');
+					$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
+					$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
+					if ($apiResponse->isSuccessful()) {
+						
+					}
+				} catch (PayLater_PayLater_Exception_InvalidArguments $e) {
+					
+				} catch (Mage_Core_Exception $e) {
+					
+				} catch (Exception $e) {
+					
+				}
+			}
+
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
 			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+			//$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 			return;
 		}
 		if ($errorCode && $errorCode > 0) {
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+			//$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
 			return;
 		}
 	}
+
 }

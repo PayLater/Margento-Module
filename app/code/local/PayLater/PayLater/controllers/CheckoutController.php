@@ -103,6 +103,18 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		return $orderId;
 	}
 
+	protected function _redirectError($errorCode)
+	{
+		$helper = Mage::helper('paylater');
+		$session = Mage::getSingleton('customer/session');
+		if ($errorCode && $errorCode > 0) {
+			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
+			$helper->log($helper->getErrorMessageByCode($errorCode), __METHOD__, Zend_Log::ERR);
+			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+		}
+	}
+
 	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
 	 * 
@@ -154,11 +166,10 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 
 	public function continueAction()
 	{
-		$session = Mage::getSingleton('customer/session');
 		/**
 		 * var PayLater_PayLater_Helper_Data 
 		 */
-		$helper = Mage::helper('paylater');
+		
 		$params = $this->getRequest()->getParams();
 		$errorCode = $this->getRequest()->getParam('ErrorCodes');
 		if (!$params) {
@@ -168,31 +179,30 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 
 			if ($orderId) {
 				try {
+					$order = Mage::getModel('paylater/sales_order', array($orderId));
 					$apiRequest = Mage::getModel('paylater/api_request');
 					$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
 					$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
-					if ($apiResponse->isSuccessful()) {
-						
+					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
+						$order->setStateAndStatus();
+						$order->save();
+					} else {
+						$this->_redirectError($errorCode);
 					}
 				} catch (PayLater_PayLater_Exception_InvalidArguments $e) {
-					
+					$this->_redirectError(self::ERROR_CODE_GENERIC);
 				} catch (Mage_Core_Exception $e) {
-					
+					$this->_redirectError(self::ERROR_CODE_GENERIC);
 				} catch (Exception $e) {
-					
+					$this->_redirectError(self::ERROR_CODE_GENERIC);
 				}
 			}
 
-			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
-			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
-			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
-			//$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+
 			return;
 		}
 		if ($errorCode && $errorCode > 0) {
-			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
-			$helper->log($helper->getErrorMessageByCode(), __METHOD__, Zend_Log::ERR);
-			//$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+			$this->_redirectError($errorCode);
 			return;
 		}
 	}

@@ -200,6 +200,7 @@ interface PayLater_PayLater_Core_Interface
 	const ERROR_500 = 'Merchant does not exists';
 	const ERROR_501 = 'Merchant order duplicated';
 	const ERROR_600 = 'Generic error code for failed application';
+	const ERROR_CODE_GENERIC = 600;
 	/**
 	 * PayLater response 
 	 */
@@ -207,4 +208,5 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_SUMMARY_RESPONSE_STATUS_NODE = 'Status';
 	const PAYLATER_SUMMARY_RESPONSE_AMOUNT_NODE = 'Amount';
 	const PAYLATER_SUMMARY_RESPONSE_POSTCODE_NODE = 'PostCode';
+	const PAYLATER_API_ACCEPTED_RESPONSE = 'accepted';
 }

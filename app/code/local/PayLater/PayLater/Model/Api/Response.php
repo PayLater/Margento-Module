@@ -81,7 +81,7 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	}
 	
 	
-	public function __construct($arguments)
+	public function __construct(array $arguments)
 	{
 		if (!array_key_exists(0, $arguments) && !($arguments[0] instanceof Zend_Http_Client)) {
 			throw new PayLater_PayLater_Exception_InvalidArguments(__METHOD__ . ' ' . Mage::helper('paylater')->__('Invalid arguments. First argument must be instance of Zend_Http_Client'));
@@ -110,7 +110,7 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	
 	public function getStatus ()
 	{
-		return $this->_getResponseXml()->{self::PAYLATER_SUMMARY_RESPONSE_NODE}->{self::PAYLATER_SUMMARY_RESPONSE_STATUS_NODE};
+		return mb_convert_case($this->_getResponseXml()->{self::PAYLATER_SUMMARY_RESPONSE_NODE}->{self::PAYLATER_SUMMARY_RESPONSE_STATUS_NODE}, MB_CASE_LOWER);
 	}
 	
 	public function getAmount ()
@@ -130,5 +130,10 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	public function isSuccessful ()
 	{
 		return $this->_response->isSuccessful();
+	}
+	
+	public function doesAmountMatch (Mage_Sales_Model_Order $order)
+	{
+		return $this->getAmount() == $order->getInstance()->getTotalDue();
 	}
 }

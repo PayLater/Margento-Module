@@ -24,6 +24,8 @@
 
 /**
  *
+ * Static methods provider
+ * 
  * @category   PayLater
  * @package    PayLater_PayLater
  * @subpackage Helper
@@ -39,9 +41,9 @@ class PayLater_PayLater_Module implements PayLater_PayLater_Event_DispatchableIn
 	public static function dispatchEvent($handle, array $parameters)
 	{
 		if (is_array($parameters) && count($parameters) > 0) {
-			$hanlde ? Mage::dispatchEvent($handle, $parameters) : NULL;
+			isset($handle) ? Mage::dispatchEvent($handle, $parameters) : NULL;
 		} else {
-			$hanlde ? Mage::dispatchEvent($handle) : NULL;
+			isset($handle) ? Mage::dispatchEvent($handle) : NULL;
 		}
 	}
 

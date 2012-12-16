@@ -23,7 +23,8 @@
 
 /**
  *
- * Mark a class as able to determine if a given amount is within PayLater range.
+ * Mark a class as able to dispatch PayLater module events.
+ * Implementing classes should not be instantiatable.
  * 
  * @category   PayLater
  * @package    PayLater_PayLater

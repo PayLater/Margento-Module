@@ -34,11 +34,20 @@
 class PayLater_PayLater_Module implements PayLater_PayLater_Event_DispatchableInterface
 {
 
+	/**
+	 * @see PayLater_PayLater_Event_DispatchableInterface 
+	 */
 	private function __construct()
 	{
 	}
-
-	public static function dispatchEvent($handle, array $parameters)
+	
+	/**
+	 * @see PayLater_PayLater_Event_DispatchableInterface
+	 * 
+	 * @param string $handle
+	 * @param array $parameters 
+	 */
+	public static function dispatchEvent(string $handle, array $parameters)
 	{
 		if (is_array($parameters) && count($parameters) > 0) {
 			isset($handle) ? Mage::dispatchEvent($handle, $parameters) : NULL;

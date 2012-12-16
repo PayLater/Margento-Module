@@ -111,8 +111,13 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			$helper->log($helper->getErrorMessageByCode($errorCode), __METHOD__, Zend_Log::ERR);
 			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
 		}
+	}
+	
+	protected function _toOnepageSuccess ()
+	{
+		$this->_redirect('checkout/onepage/success', array('_secure'=>true));
 	}
 
 	/**
@@ -149,18 +154,18 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					 * Nowhere is thrown a PayLater_PayLater_Exception_InvalidHttpClientResponse
 					 */
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
 				} catch (Mage_Core_Exception $e) {
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
 				} catch (Exception $e) {
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
 				}
 			}
 		} catch (Mage_Core_Exception $e) {
 			$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK);
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
 		}
 	}
 
@@ -190,7 +195,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						if ($order->invoice()) {
 							$order->sendEmail();
 						}
-						// redirect success
+						$this->_toOnepageSuccess();
 						return;
 					} else {
 						$this->_redirectError(self::ERROR_CODE_GENERIC);

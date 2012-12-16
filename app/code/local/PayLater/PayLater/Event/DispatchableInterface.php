@@ -33,5 +33,5 @@
  */
 interface PayLater_PayLater_Event_DispatchableInterface
 {
-	public static function dispatchEvent($handle, array $parameters);
+	public static function dispatchEvent(string $handle, array $parameters);
 }

@@ -82,10 +82,10 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 
         // Retrieve corresponding email template id and customer name
         if ($this->_getInstance()->getCustomerIsGuest()) {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
+            $templateId = Mage::getStoreConfig(self::XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE, $storeId);
             $customerName = $this->_getInstance()->getBillingAddress()->getName();
         } else {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
+            $templateId = Mage::getStoreConfig(self::XML_PATH_PAYLATER_EMAIL_TEMPLATE, $storeId);
             $customerName = $this->_getInstance()->getCustomerName();
         }
 
@@ -116,7 +116,8 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
         $mailer->setTemplateParams(array(
                 'order'        => $this,
                 'billing'      => $this->_getInstance()->getBillingAddress(),
-                'payment_html' => $paymentBlockHtml
+                'payment_html' => $paymentBlockHtml,
+				'paylater_info' => 'You paid xx'
             )
         );
         $mailer->send();

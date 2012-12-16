@@ -4,5 +4,7 @@ app/design/adminhtml/default/default/template/paylater app/design/adminhtml/defa
 app/design/frontend/base/default/layout/paylater app/design/frontend/base/default/layout/paylater
 app/design/frontend/base/default/template/paylater app/design/frontend/base/default/template/paylater
 app/etc/modules/PayLater_PayLater.xml app/etc/modules/PayLater_PayLater.xml
+app/locale/en_US/template/emails/sales/paylater_order_new.html app/locale/en_US/template/emails/sales/paylater_order_new.html
+app/locale/en_US/template/emails/sales/paylater_order_new_guest.html app/locale/en_US/template/emails/sales/paylater_order_new_guest.html
 skin/adminhtml/default/default/paylater skin/adminhtml/default/default/paylater
 skin/frontend/base/default/paylater skin/frontend/base/default/paylater

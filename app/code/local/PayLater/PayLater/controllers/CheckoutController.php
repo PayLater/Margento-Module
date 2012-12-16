@@ -155,17 +155,21 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					 */
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+					return;
 				} catch (Mage_Core_Exception $e) {
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+					return;
 				} catch (Exception $e) {
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+					return;
 				}
 			}
 		} catch (Mage_Core_Exception $e) {
 			$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+			return;
 		}
 	}
 
@@ -195,6 +199,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						if ($order->invoice()) {
 							$order->sendEmail();
 						}
+						$order->setInactiveQuote();
 						$this->_toOnepageSuccess();
 						return;
 					} else {

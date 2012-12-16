@@ -169,7 +169,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		/**
 		 * var PayLater_PayLater_Helper_Data 
 		 */
-		
+		$helper = Mage::helper('paylater');
 		$params = $this->getRequest()->getParams();
 		$errorCode = $this->getRequest()->getParam('ErrorCodes');
 		if (!$params) {
@@ -197,12 +197,15 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						return;
 					}
 				} catch (PayLater_PayLater_Exception_InvalidArguments $e) {
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
 					return;
 				} catch (Mage_Core_Exception $e) {
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
 					return;
 				} catch (Exception $e) {
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
 					return;
 				}

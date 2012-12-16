@@ -189,7 +189,6 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						if ($order->invoice()) {
 							$order->sendEmail();
 						}
-						$order->sendEmail();
 					} else {
 						$this->_redirectError(self::ERROR_CODE_GENERIC);
 						return;

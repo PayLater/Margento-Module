@@ -78,6 +78,28 @@
                 </statuses>
             </order>
 		</sales>
+		<template>
+			<email>
+				<paylater_order_template translate="label" module="paylater">
+					<label>PayLater Order New Email</label>
+					<file>sales/paylater_order_new.html</file>
+					<type>html</type>
+				</paylater_order_template>
+				<paylater_order_guest_template translate="label" module="paylater">
+					<label>PayLater New Order Guest Email</label>
+					<file>sales/paylater_order_new_guest.html</file>
+					<type>html</type>
+				</paylater_order_guest_template>
+			</email>
+		</template>
+		<resources>
+			<paylater_setup>
+				<setup>
+					<module>PayLater_PayLater</module>
+					<class>Mage_Sales_Model_Resource_Setup</class>
+				</setup>
+			</paylater_setup>
+		</resources>
 	</global>
 	<frontend>
 		<routers>

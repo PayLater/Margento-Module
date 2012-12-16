@@ -23,6 +23,8 @@
 
 /**
  *
+ * Thrown when a class receive invalid constructor armguments
+ * 
  * @category   PayLater
  * @package    PayLater_PayLater
  * @subpackage Helper

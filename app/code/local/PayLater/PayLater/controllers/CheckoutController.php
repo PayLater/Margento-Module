@@ -169,7 +169,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		/**
 		 * var PayLater_PayLater_Helper_Data 
 		 */
-		
+		$helper = Mage::helper('paylater');
 		$params = $this->getRequest()->getParams();
 		$errorCode = $this->getRequest()->getParam('ErrorCodes');
 		if (!$params) {
@@ -183,24 +183,29 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					$apiRequest = Mage::getModel('paylater/api_request');
 					$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
 					$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
+					
 					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
 						$order->setStateAndStatus();
 						$order->save();
 						if ($order->invoice()) {
 							$order->sendEmail();
 						}
-						$order->sendEmail();
+						// redirect success
+						return;
 					} else {
 						$this->_redirectError(self::ERROR_CODE_GENERIC);
 						return;
 					}
 				} catch (PayLater_PayLater_Exception_InvalidArguments $e) {
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
 					return;
 				} catch (Mage_Core_Exception $e) {
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
 					return;
 				} catch (Exception $e) {
+					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
 					return;
 				}

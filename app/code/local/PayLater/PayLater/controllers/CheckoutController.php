@@ -195,6 +195,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						if ($order->invoice()) {
 							$order->sendEmail();
 						}
+						$order->setInactiveQuote();
 						$this->_toOnepageSuccess();
 						return;
 					} else {

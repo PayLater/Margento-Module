@@ -186,19 +186,26 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
 						$order->setStateAndStatus();
 						$order->save();
+						if ($order->invoice()) {
+							$order->sendEmail();
+						}
+						$order->sendEmail();
 					} else {
-						$this->_redirectError($errorCode);
+						$this->_redirectError(self::ERROR_CODE_GENERIC);
+						return;
 					}
 				} catch (PayLater_PayLater_Exception_InvalidArguments $e) {
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
+					return;
 				} catch (Mage_Core_Exception $e) {
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
+					return;
 				} catch (Exception $e) {
 					$this->_redirectError(self::ERROR_CODE_GENERIC);
+					return;
 				}
 			}
-
-
+			$this->_redirectError(self::ERROR_CODE_GENERIC);
 			return;
 		}
 		if ($errorCode && $errorCode > 0) {

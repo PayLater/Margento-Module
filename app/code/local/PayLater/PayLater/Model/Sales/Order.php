@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -36,13 +37,96 @@
  */
 class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Interface
 {
+
 	protected $_order;
-	
+
 	protected function _getInstance()
 	{
 		return $this->_order;
 	}
 	
+	/**
+     * Send email with order data
+     *
+     * @return Mage_Sales_Model_Order
+     */
+    public function _sendNewOrderEmail()
+    {
+        $storeId = $this->_getInstance()->getStore()->getId();
+
+        if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
+            return $this;
+        }
+        // Get the destination email addresses to send copies to
+        $copyTo = $this->_getInstance()->_getEmails(Mage_Sales_Model_Order::XML_PATH_EMAIL_COPY_TO);
+        $copyMethod = Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+
+        // Start store emulation process
+        $appEmulation = Mage::getSingleton('core/app_emulation');
+        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+
+        try {
+            // Retrieve specified view block from appropriate design package (depends on emulated store)
+            $paymentBlock = Mage::helper('payment')->getInfoBlock($this->_getInstance()->getPayment())
+                ->setIsSecureMode(true);
+            $paymentBlock->getMethod()->setStore($storeId);
+            $paymentBlockHtml = $paymentBlock->toHtml();
+        } catch (Exception $exception) {
+            // Stop store emulation process
+            $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+            throw $exception;
+        }
+
+        // Stop store emulation process
+        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+
+        // Retrieve corresponding email template id and customer name
+        if ($this->_getInstance()->getCustomerIsGuest()) {
+            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_GUEST_TEMPLATE, $storeId);
+            $customerName = $this->_getInstance()->getBillingAddress()->getName();
+        } else {
+            $templateId = Mage::getStoreConfig(self::XML_PATH_EMAIL_TEMPLATE, $storeId);
+            $customerName = $this->_getInstance()->getCustomerName();
+        }
+
+        $mailer = Mage::getModel('core/email_template_mailer');
+        $emailInfo = Mage::getModel('core/email_info');
+        $emailInfo->addTo($this->getCustomerEmail(), $customerName);
+        if ($copyTo && $copyMethod == 'bcc') {
+            // Add bcc to customer email
+            foreach ($copyTo as $email) {
+                $emailInfo->addBcc($email);
+            }
+        }
+        $mailer->addEmailInfo($emailInfo);
+
+        // Email copies are sent as separated emails if their copy method is 'copy'
+        if ($copyTo && $copyMethod == 'copy') {
+            foreach ($copyTo as $email) {
+                $emailInfo = Mage::getModel('core/email_info');
+                $emailInfo->addTo($email);
+                $mailer->addEmailInfo($emailInfo);
+            }
+        }
+
+        // Set all required params and send emails
+        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
+        $mailer->setStoreId($storeId);
+        $mailer->setTemplateId($templateId);
+        $mailer->setTemplateParams(array(
+                'order'        => $this,
+                'billing'      => $this->_getInstance()->getBillingAddress(),
+                'payment_html' => $paymentBlockHtml
+            )
+        );
+        $mailer->send();
+
+        $this->_getInstance()->setEmailSent(true);
+        $this->_getInstance()->_getResource()->saveAttribute($this, 'email_sent');
+
+        return $this;
+    }
+
 	public function __construct(array $arguments)
 	{
 		if (!array_key_exists(0, $arguments) && !(is_numeric($arguments[0]))) {
@@ -50,21 +134,48 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 		}
 		$this->_order = Mage::getModel('sales/order')->load($arguments[0], 'increment_id');
 	}
-	
+
+	public function getInstance()
+	{
+		return $this->_getInstance();
+	}
+
 	public function setStateAndStatus()
 	{
 		$this->_getInstance()->setState(Mage_Sales_Model_Order::STATE_NEW);
 		$this->_getInstance()->setStatus(Mage::helper('paylater')->getPayLaterConfigOrderStatus('payment'));
 	}
-	
+
 	public function save()
 	{
 		$this->_getInstance()->save();
 	}
-	
-	public function getInstance()
+
+	public function canInvoice()
 	{
-		return $this->_getInstance();
+		return $this->_getInstance()->canInvoice();
+	}
+	/**
+	 * Creates an invoice in 'Pending' state initially and then changes it 
+	 * to 'Paid', and return true.
+	 * 
+	 * False otherwise.
+	 * 
+	 * @return bool
+	 */
+	public function invoice()
+	{
+		if ($this->_getInstance()->canInvoice()) {
+			$invoiceId = Mage::getModel('sales/order_invoice_api')->create($this->_getInstance()->getIncrementId(), array());
+			$invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceId);
+			$invoice->capture()->save();
+			return true;
+		}
+		return false;
 	}
 	
+	public function sendEmail ()
+	{
+		$this->_sendNewOrderEmail();
+	}
 }

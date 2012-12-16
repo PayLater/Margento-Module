@@ -150,7 +150,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_FAILED_ORDER_STATUS = 'paylater_failed';
 	const PAYLATER_FAILED_ORDER_STATE = 'paylater_failed';
 	/**
-	 * PayLater endpoint post keys 
+	 * PayLater endpoint post keys and values 
 	 */
 	const PAYLATER_PARAMS_MAP_REFERENCE_KEY = 'reference';
 	const PAYLATER_PARAMS_MAP_RETURN_LINK_KEY = 'returnlink';
@@ -209,4 +209,9 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_SUMMARY_RESPONSE_AMOUNT_NODE = 'Amount';
 	const PAYLATER_SUMMARY_RESPONSE_POSTCODE_NODE = 'PostCode';
 	const PAYLATER_API_ACCEPTED_RESPONSE = 'accepted';
+	/**
+	 * Email templates 
+	 */
+	const XML_PATH_EMAIL_TEMPLATE               = 'sales_email/order/template';
+    const XML_PATH_EMAIL_GUEST_TEMPLATE         = 'sales_email/order/guest_template';
 }

@@ -210,8 +210,10 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_SUMMARY_RESPONSE_POSTCODE_NODE = 'PostCode';
 	const PAYLATER_API_ACCEPTED_RESPONSE = 'accepted';
 	/**
-	 * Email templates 
+	 * New order email templates 
 	 */
-	const XML_PATH_EMAIL_TEMPLATE               = 'sales_email/order/template';
-    const XML_PATH_EMAIL_GUEST_TEMPLATE         = 'sales_email/order/guest_template';
+	const XML_PATH_PAYLATER_EMAIL_TEMPLATE = 'paylater/order/template';
+	const XML_PATH_PAYLATER_EMAIL_TEMPLATE_NODE = 'paylater_order_template';
+    const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE = 'paylater/order/guest_template';
+    const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE_NODE = 'paylater_order_guest_template';
 }

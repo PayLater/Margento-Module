@@ -44,89 +44,117 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_order;
 	}
-	
+
+	protected function _getEmails($configPath)
+	{
+		$data = Mage::getStoreConfig($configPath, $this->_getInstance()->getStoreId());
+		if (!empty($data)) {
+			return explode(',', $data);
+		}
+		return false;
+	}
+
 	/**
-     * Send email with order data
-     *
-     * @return Mage_Sales_Model_Order
-     */
-    public function _sendNewOrderEmail()
-    {
-        $storeId = $this->_getInstance()->getStore()->getId();
+	 * Creates an invoice in 'Pending' state initially and then changes it 
+	 * to 'Paid', and return true.
+	 * 
+	 * False otherwise.
+	 * 
+	 * @return bool
+	 */
+	protected function _invoice()
+	{
+		if ($this->_getInstance()->canInvoice()) {
+			$invoiceId = Mage::getModel('sales/order_invoice_api')->create($this->_getInstance()->getIncrementId(), array());
+			$invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceId);
+			$invoice->capture()->save();
+			return true;
+		}
+		return false;
+	}
 
-        if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
-            return $this;
-        }
-        // Get the destination email addresses to send copies to
-        $copyTo = $this->_getInstance()->_getEmails(Mage_Sales_Model_Order::XML_PATH_EMAIL_COPY_TO);
-        $copyMethod = Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+	/**
+	 * Send email with PayLater order data
+	 *
+	 * @return Mage_Sales_Model_Order
+	 */
+	public function _sendNewOrderEmail()
+	{
+		$storeId = $this->_getInstance()->getStore()->getId();
+		
+		if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
+			return $this;
+		}
+		// Get the destination email addresses to send copies to
+		$copyTo = $this->_getEmails(Mage_Sales_Model_Order::XML_PATH_EMAIL_COPY_TO);
+		$copyMethod = Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_EMAIL_COPY_METHOD, $storeId);
+		// Start store emulation process
+		$appEmulation = Mage::getSingleton('core/app_emulation');
+		$initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
 
-        // Start store emulation process
-        $appEmulation = Mage::getSingleton('core/app_emulation');
-        $initialEnvironmentInfo = $appEmulation->startEnvironmentEmulation($storeId);
+		try {
+			// Retrieve specified view block from appropriate design package (depends on emulated store)
+			$paymentBlock = Mage::helper('payment')->getInfoBlock($this->_getInstance()->getPayment())
+				->setIsSecureMode(true);
+			$paymentBlock->getMethod()->setStore($storeId);
+			$paymentBlockHtml = $paymentBlock->toHtml();
+		} catch (Exception $exception) {
+			// Stop store emulation process
+			$appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+			throw $exception;
+		}
 
-        try {
-            // Retrieve specified view block from appropriate design package (depends on emulated store)
-            $paymentBlock = Mage::helper('payment')->getInfoBlock($this->_getInstance()->getPayment())
-                ->setIsSecureMode(true);
-            $paymentBlock->getMethod()->setStore($storeId);
-            $paymentBlockHtml = $paymentBlock->toHtml();
-        } catch (Exception $exception) {
-            // Stop store emulation process
-            $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
-            throw $exception;
-        }
+		// Stop store emulation process
+		$appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
 
-        // Stop store emulation process
-        $appEmulation->stopEnvironmentEmulation($initialEnvironmentInfo);
+		// Retrieve corresponding email template id and customer name
+		if ($this->_getInstance()->getCustomerIsGuest()) {
+			$templateId = Mage::getStoreConfig(self::XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE, $storeId);
+			$customerName = $this->_getInstance()->getBillingAddress()->getName();
+		} else {
+			$templateId = Mage::getStoreConfig(self::XML_PATH_PAYLATER_EMAIL_TEMPLATE, $storeId);
+			$customerName = $this->_getInstance()->getCustomerName();
+		}
 
-        // Retrieve corresponding email template id and customer name
-        if ($this->_getInstance()->getCustomerIsGuest()) {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE, $storeId);
-            $customerName = $this->_getInstance()->getBillingAddress()->getName();
-        } else {
-            $templateId = Mage::getStoreConfig(self::XML_PATH_PAYLATER_EMAIL_TEMPLATE, $storeId);
-            $customerName = $this->_getInstance()->getCustomerName();
-        }
+		$mailer = Mage::getModel('core/email_template_mailer');
+		$emailInfo = Mage::getModel('core/email_info');
+		$emailInfo->addTo($this->_getInstance()->getCustomerEmail(), $customerName);
+		$this->_getInstance()->getCustomerEmail();
+		if ($copyTo && $copyMethod == 'bcc') {
+			// Add bcc to customer email
+			foreach ($copyTo as $email) {
+				$emailInfo->addBcc($email);
+			}
+		}
+		$mailer->addEmailInfo($emailInfo);
 
-        $mailer = Mage::getModel('core/email_template_mailer');
-        $emailInfo = Mage::getModel('core/email_info');
-        $emailInfo->addTo($this->getCustomerEmail(), $customerName);
-        if ($copyTo && $copyMethod == 'bcc') {
-            // Add bcc to customer email
-            foreach ($copyTo as $email) {
-                $emailInfo->addBcc($email);
-            }
-        }
-        $mailer->addEmailInfo($emailInfo);
+		// Email copies are sent as separated emails if their copy method is 'copy'
+		if ($copyTo && $copyMethod == 'copy') {
+			foreach ($copyTo as $email) {
+				$emailInfo = Mage::getModel('core/email_info');
+				$emailInfo->addTo($email);
+				$mailer->addEmailInfo($emailInfo);
+			}
+		}
 
-        // Email copies are sent as separated emails if their copy method is 'copy'
-        if ($copyTo && $copyMethod == 'copy') {
-            foreach ($copyTo as $email) {
-                $emailInfo = Mage::getModel('core/email_info');
-                $emailInfo->addTo($email);
-                $mailer->addEmailInfo($emailInfo);
-            }
-        }
+		// Set all required params and send emails
+		$mailer->setSender(Mage::getStoreConfig(Mage_Sales_Model_Order::XML_PATH_EMAIL_IDENTITY, $storeId));
+		$mailer->setStoreId($storeId);
+		$mailer->setTemplateId($templateId);
+		$mailer->setTemplateParams(array(
+			'order' => $this->_getInstance(),
+			'billing' => $this->_getInstance()->getBillingAddress(),
+			'payment_html' => $paymentBlockHtml,
+			'paylater_info' => '<p>You paid xx</p>'
+			)
+		);
+		$mailer->send();
 
-        // Set all required params and send emails
-        $mailer->setSender(Mage::getStoreConfig(self::XML_PATH_EMAIL_IDENTITY, $storeId));
-        $mailer->setStoreId($storeId);
-        $mailer->setTemplateId($templateId);
-        $mailer->setTemplateParams(array(
-                'order'        => $this,
-                'billing'      => $this->_getInstance()->getBillingAddress(),
-                'payment_html' => $paymentBlockHtml,
-				'paylater_info' => 'You paid xx'
-            )
-        );
-        $mailer->send();
+		$this->_getInstance()->setEmailSent(true);
+		$this->_getInstance()->getResource()->saveAttribute($this->_getInstance(), 'email_sent');
 
-        $this->_getInstance()->setEmailSent(true);
-        $this->_getInstance()->_getResource()->saveAttribute($this, 'email_sent');
-
-        return $this;
-    }
+		return $this->_getInstance();
+	}
 
 	public function __construct(array $arguments)
 	{
@@ -156,27 +184,15 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_getInstance()->canInvoice();
 	}
-	/**
-	 * Creates an invoice in 'Pending' state initially and then changes it 
-	 * to 'Paid', and return true.
-	 * 
-	 * False otherwise.
-	 * 
-	 * @return bool
-	 */
+
 	public function invoice()
 	{
-		if ($this->_getInstance()->canInvoice()) {
-			$invoiceId = Mage::getModel('sales/order_invoice_api')->create($this->_getInstance()->getIncrementId(), array());
-			$invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceId);
-			$invoice->capture()->save();
-			return true;
-		}
-		return false;
+		return $this->_invoice();
 	}
-	
-	public function sendEmail ()
+
+	public function sendEmail()
 	{
-		$this->_sendNewOrderEmail();
+		return $this->_sendNewOrderEmail();
 	}
+
 }

@@ -40,7 +40,7 @@ class PayLater_PayLater_Block_Checkout_Grandtotal extends Mage_Tax_Block_Checkou
 	
 	public function getTitle ()
 	{
-		return 'Basket Total';
+		return $this->__('Basket Total');
 	}
 	
 	/**

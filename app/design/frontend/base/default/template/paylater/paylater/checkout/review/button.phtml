@@ -1,15 +1,16 @@
 <?php if($this->canShow() && $this->isPayLaterPaymentMethod()): ?>
 <script type="text/javascript">
+	// paylater-text-info update is located in tax/checkout/grandtotal.phtml
 	var payLaterButton = PayLater.GetPaymentButton(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
 	payLaterButton.setAttribute("action", '<?php echo $this->getBaseUrl() . PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION ?>');
 	$('paylater-button').update(payLaterButton);
 	$('PayLater-button').writeAttribute('value', '<?php echo $this->__('Pay with PayLater') ?>');
 </script>
-<div id="paylater-button">
-	
-</div>
+<div id="paylater-button"></div>
 <div id="paylater-customer-note">
+	<div id="paylater-text-info"></div>
 	<?php echo $this->getCustomerNote() ?>
+	
 </div>
 <?php else: ?>
 <button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="review.save();"><span><span><?php echo $this->__('Place Order') ?></span></span></button>

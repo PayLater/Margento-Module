@@ -54,9 +54,14 @@ class PayLater_PayLater_Helper_Layout extends Mage_Core_Helper_Data implements P
 	{
 		$layout = $this->_getCoreLayout();
 		$priceJs = $layout->createBlock(
-			'Mage_Core_Block_Template', 'paylater.pricejs', array('template' => 'paylater/paylater/pricejs.phtml')
+			self::PRICE_JS_BLOCK, self::PRICE_JS_BLOCK_NAME, array('template' => self::PRICE_JS_TEMPLATE)
 		);
 		$headBlock = $layout->getBlock('head');
 		$headBlock->append($priceJs);
+	}
+	
+	public function getCoreLayout ()
+	{
+		return $this->_getCoreLayout();
 	}
 }

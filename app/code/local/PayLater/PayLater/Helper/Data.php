@@ -228,6 +228,22 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	}
 	
 	/**
+	 * Checks whether PayLater endpoint is available.
+	 * 
+	 * Tries connecting to endpoint host at specified port, and returns resource (stream) if successful,
+	 * or false otherwise.
+	 * 
+	 * @return resource/bool 
+	 */
+	public function isEndpointAvailable()
+	{
+		if ($this->isTestEnvironment()) {
+			return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_TEST_SERVER_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
+		}
+		return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_SERVER_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
+	}
+	
+	/**
 	 * Returns TRUE if enviroment is 'test', FALSE otherise (assume 'live') 
 	 * 
 	 * @return boolean 

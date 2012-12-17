@@ -62,7 +62,10 @@ class PayLater_PayLater_Block_Checkout_Gateway extends Mage_Core_Block_Template 
 	
 	public function getActionUrl()
 	{
-		return self::PAYLATER_ENDPOINT_TEST;
+		if (Mage::helper('paylater')->isTestEnvironment()) {
+			return self::PAYLATER_ENDPOINT_TEST;
+		}
+		return self::PAYLATER_ENDPOINT;
 	}
 	
 	public function collectPayLaterData()

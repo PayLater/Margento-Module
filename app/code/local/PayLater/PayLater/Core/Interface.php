@@ -34,15 +34,30 @@
  */
 interface PayLater_PayLater_Core_Interface
 {
-	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
-	const SYSTEM_CONFIG_INFO_TEMPLATE = 'paylater/paylater/system/config/fieldset/info.phtml';
-	
 	/**
 	 * XML_NODE_CDN
 	 * 
-	 * @deprecated 
+	 * @deprecated
 	 */
 	const XML_NODE_CDN = 'paylater/static/cdn';
+	
+	/**
+	 * System config developer log active node 
+	 */
+	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
+	/**
+	 * Templates 
+	 */
+	const SYSTEM_CONFIG_INFO_TEMPLATE  = 'paylater/paylater/system/config/fieldset/info.phtml';
+	const SERVICE_UNAVAILABLE_TEMPLATE = 'paylater/paylater/service/unavailable.phtml';
+	const PAYMENT_METHOD_FORM_TEMPLATE = 'paylater/paylater/method/form.phtml';
+	const PAYMENT_METHOD_INFO_TEMPLATE = 'paylater/paylater/method/info.phtml';
+	const BASKET_NOT_IN_RANGE_TEMPLATE = 'paylater/paylater/checkout/basket/notinrange.phtml';
+	const CHECKOUT_GRANDTOTAL_TEMPLATE = 'paylater/paylater/tax/checkout/grandtotal.phtml';
+	const PRICE_JS_BLOCK = 'Mage_Core_Block_Template';
+	const PRICE_JS_BLOCK_NAME = 'paylater.pricejs';
+	const PRICE_JS_TEMPLATE = 'paylater/paylater/pricejs.phtml';
+	
 	/**
 	 * ENV Types 
 	 */
@@ -52,7 +67,11 @@ interface PayLater_PayLater_Core_Interface
 	 * PayLater Endpoints  
 	 */
 	const PAYLATER_ENDPOINT = 'http://staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_SERVER = 'staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_SERVER_PORT = 443;
 	const PAYLATER_ENDPOINT_TEST = 'http://staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_TEST_SERVER = 'staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_TEST_SERVER_PORT = 80;
 	/**
 	 * PayLater API 
 	 */

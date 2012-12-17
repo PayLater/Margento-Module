@@ -34,17 +34,17 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Onepage_Progress extends Mage_Checkout_Block_Onepage_Progress
+class PayLater_PayLater_Block_Checkout_Onepage_Review_Offer extends Mage_Core_Block_Template
 {
-	protected function _toHtml()
+	protected $_template = 'paylater/paylater/checkout/review/offer.phtml';
+	
+	public function setParentBlock(Mage_Core_Block_Abstract $block)
 	{
-		return parent::_toHtml();
+		parent::setParentBlock($block);
 	}
-
-
-	public function getBilling()
-    {
-        $quote = Mage::getModel('paylater/checkout_quote');
-		return $quote->getBillingAddress();
-    }
+	
+	public function getParentBlock()
+	{
+		return parent::getParentBlock();
+	}
 }

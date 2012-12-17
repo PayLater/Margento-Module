@@ -34,29 +34,17 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Grandtotal extends Mage_Tax_Block_Checkout_Grandtotal implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
+class PayLater_PayLater_Block_Checkout_Onepage_Review_Offer extends Mage_Core_Block_Template
 {
-	protected $_template = self::CHECKOUT_GRANDTOTAL_TEMPLATE;
+	protected $_template = 'paylater/paylater/checkout/review/offer.phtml';
 	
-	public function getTitle ()
+	public function setParentBlock(Mage_Core_Block_Abstract $block)
 	{
-		return $this->__('Basket Total');
+		parent::setParentBlock($block);
 	}
 	
-	/**
-	 * @see PayLater_PayLater_Core_ShowableInterface
-	 * @return boolean 
-	 */
-	public function canShow()
+	public function getParentBlock()
 	{
-		$helper = Mage::helper('paylater');
-		return $helper->canShowAtCheckout() && $helper->isAllowedCurrency();
-	}
-	
-	public function getPayLaterOfferBlock()
-	{
-		$offer = $this->getLayout()->getBlock('paylater.offer');
-		$offer->setParentBlock($this);
-		return $offer;
+		return parent::getParentBlock();
 	}
 }

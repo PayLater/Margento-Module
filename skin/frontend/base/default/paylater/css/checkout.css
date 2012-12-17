@@ -9,8 +9,17 @@
 }
 
 #paylater-customer-note {
-	text-align: left;
+	text-align: justify;
 	margin-left: 190px;
+	width:215px;
+}
+
+#paylater-text-info {
+	font-weight: bolder;
+}
+
+.paylater-review-row td{
+	font-weight: bolder;
 }
 
 .paylater-unavailable {

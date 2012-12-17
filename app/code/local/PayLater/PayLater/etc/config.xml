@@ -138,14 +138,6 @@
 					</paylater_observer>
 				</observers>
 			</controller_action_layout_render_before_checkout_onepage_index>
-			<controller_action_layout_render_before_checkout_onepage_return>
-				<observers>
-					<paylater_observer>
-						<class>paylater/event_observer</class>
-						<method>checkoutOnepageReturnBefore</method>
-					</paylater_observer>
-				</observers>
-			</controller_action_layout_render_before_checkout_onepage_return>
 			<checkout_type_onepage_save_order_after>
 				<observers>
 					<paylater_observer>

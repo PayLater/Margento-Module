@@ -194,5 +194,10 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_sendNewOrderEmail();
 	}
+	
+	public function setInactiveQuote ()
+	{
+		Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+	}
 
 }

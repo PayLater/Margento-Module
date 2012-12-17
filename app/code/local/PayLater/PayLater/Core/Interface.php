@@ -52,7 +52,11 @@ interface PayLater_PayLater_Core_Interface
 	 * PayLater Endpoints  
 	 */
 	const PAYLATER_ENDPOINT = 'http://staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_SERVER = 'staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_SERVER_PORT = 443;
 	const PAYLATER_ENDPOINT_TEST = 'http://staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_TEST_SERVER = 'staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_TEST_SERVER_PORT = 80;
 	/**
 	 * PayLater API 
 	 */

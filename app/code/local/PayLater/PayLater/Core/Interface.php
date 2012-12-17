@@ -36,6 +36,7 @@ interface PayLater_PayLater_Core_Interface
 {
 	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
 	const SYSTEM_CONFIG_INFO_TEMPLATE = 'paylater/paylater/system/config/fieldset/info.phtml';
+	
 	/**
 	 * XML_NODE_CDN
 	 * 
@@ -52,6 +53,17 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_ENDPOINT = 'http://staging.orders.paylater.wongatest.com';
 	const PAYLATER_ENDPOINT_TEST = 'http://staging.orders.paylater.wongatest.com';
+	/**
+	 * PayLater API 
+	 */
+	const PAYLATER_XMLNS = "http://wonga.com/api/3.0";
+	const PAYLATER_XMLNS_XSI = "http://www.w3.org/2001/XMLSchema-instance";
+	const PAYLATER_API_QUERIES_TEST = 'http://staging.merchantapi.paylater.wongatest.com/queries';
+	const PAYLATER_API_QUERIES_LIVE = 'https://merchantapi.paylater.com/queries';
+	const PAYLATER_API_COMMANDS_TEST = 'http://staging.merchantapi.paylater.wongatest.com/commands';
+	const PAYLATER_API_COMMANDS_LIVE = 'https://merchantapi.paylater.com/commands';
+	const PAYLATER_API_REQUEST_MAXREDIRECTS = 0;
+	const PAYLATER_API_REQUEST_TIMEOUT = 30;
 	/**
 	 *  SERVICE_HOSTNAME_: where we get config.json
 	 * 
@@ -138,7 +150,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_FAILED_ORDER_STATUS = 'paylater_failed';
 	const PAYLATER_FAILED_ORDER_STATE = 'paylater_failed';
 	/**
-	 * PayLater endpoint post keys 
+	 * PayLater endpoint post keys and values 
 	 */
 	const PAYLATER_PARAMS_MAP_REFERENCE_KEY = 'reference';
 	const PAYLATER_PARAMS_MAP_RETURN_LINK_KEY = 'returnlink';
@@ -188,7 +200,22 @@ interface PayLater_PayLater_Core_Interface
 	const ERROR_500 = 'Merchant does not exists';
 	const ERROR_501 = 'Merchant order duplicated';
 	const ERROR_600 = 'Generic error code for failed application';
-	
+	const ERROR_CODE_GENERIC = 600;
+	/**
+	 * PayLater response 
+	 */
+	const PAYLATER_SUMMARY_RESPONSE_NODE = 'GetOrderSummaryResponse';
+	const PAYLATER_SUMMARY_RESPONSE_STATUS_NODE = 'Status';
+	const PAYLATER_SUMMARY_RESPONSE_AMOUNT_NODE = 'Amount';
+	const PAYLATER_SUMMARY_RESPONSE_POSTCODE_NODE = 'PostCode';
+	const PAYLATER_API_ACCEPTED_RESPONSE = 'accepted';
+	/**
+	 * New order email templates 
+	 */
+	const XML_PATH_PAYLATER_EMAIL_TEMPLATE = 'paylater/order/template';
+	const XML_PATH_PAYLATER_EMAIL_TEMPLATE_NODE = 'paylater_order_template';
+    const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE = 'paylater/order/guest_template';
+    const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE_NODE = 'paylater_order_guest_template';
 	/**
 	 * Refund reason codes
 	 */

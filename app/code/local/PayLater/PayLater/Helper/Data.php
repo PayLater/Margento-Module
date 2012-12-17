@@ -117,7 +117,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		foreach (explode(self::ERROR_SEPARATOR, self::ERROR_CODES) as $errorCode) {
 			$const = 'ERROR_' . $errorCode;
-			$this->_errorCodes[$errorCode] = constant('PayLater_PayLater_Core_Interface::'. $const);
+			$this->_errorCodes[$errorCode] = constant('PayLater_PayLater_Core_Interface::' . $const);
 		}
 		
 		foreach (explode(self::CURRENCY_SEPARATOR, self::PAYLATER_CURRENCIES) as $currencyCode) {
@@ -286,6 +286,16 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	public function getMerchantServiceCdn()
 	{
 		return sprintf(self::MERCHANTS_CDN, $this->_getModuleConfig('merchant', 'guid'));
+	}
+	
+	/**
+	 * Returns merchant reference set in module config
+	 * 
+	 * @return string|bool 
+	 */
+	public function getMerchantReference ()
+	{
+		return $this->_getModuleConfig('merchant', 'reference');
 	}
 	
 	/**

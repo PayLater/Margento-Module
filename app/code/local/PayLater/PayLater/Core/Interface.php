@@ -238,7 +238,7 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * PayLater offer session keys 
 	 */
-	const PAYLATER_SESSION_MODEL = 'core/session';
+	const PAYLATER_SESSION_MODEL = 'checkout/session';
 	const PAYLATER_SESSION_INFO_TEXT = 'infoText';
 	const PAYLATER_SESSION_EMAIL_INFO_TEXT = 'emailInfoText';
 	const PAYLATER_SESSION_FEE_PRICE = 'feePrice';

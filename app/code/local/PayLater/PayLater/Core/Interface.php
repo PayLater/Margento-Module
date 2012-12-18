@@ -239,13 +239,12 @@ interface PayLater_PayLater_Core_Interface
 	 * PayLater offer session keys 
 	 */
 	const PAYLATER_SESSION_MODEL = 'checkout/session';
+	const PAYLATER_SESSION_DATA_KEY = 'paylater_offer';
 	const PAYLATER_SESSION_INFO_TEXT = 'infoText';
 	const PAYLATER_SESSION_EMAIL_INFO_TEXT = 'emailInfoText';
 	const PAYLATER_SESSION_FEE_PRICE = 'feePrice';
 	const PAYLATER_SESSION_INSTALLMENTS_AMOUNT = 'installmentsAmount';
 	const PAYLATER_SESSION_TOTAL_TO_BE_PAID= 'totalToBePaid';
-	const PAYLATER_SESSION_OFFER_SETTER = 'setPayLaterOffer';
-	const PAYLATER_SESSION_OFFER_GETTER = 'getPayLaterOffer';
 	const PAYLATER_SESSION_OFFER_UNSETTER = 'unsPayLaterOffer';
 	const PAYLATER_SAVE_OFFER_SUCCESS = 'offer-saved';
 	const PAYLATER_SAVE_OFFER_FAILURE = 'offer-not-saved';

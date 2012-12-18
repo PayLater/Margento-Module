@@ -44,10 +44,43 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
     protected $_code = 'paylater';
 	protected $_isGateway = true;
 	protected $_canCapture = true;
-    protected $_canCapturePartial = true;
+    protected $_canCapturePartial = false;
+	protected $_canRefund = true;
+	protected $_canUseInternal = false;
+	protected $_canRefundInvoicePartial = true;
+	protected $_canUseForMultishipping = false;
 	protected $_formBlockType = 'paylater/payment_form';
 	protected $_infoBlockType = 'paylater/payment_info';
 
+	/**
+	 * 
+	 * @param type $type
+	 * @return boolean|PayLater_PayLater_Helper_Data 
+	 */
+    protected function _helper($type = "data")
+	{
+        if($type){
+			return ($type != "data") ? Mage::helper('paylater/'.$type) : Mage::helper('paylater');
+		}
+               
+		return FALSE;
+    }
+	
+	public function capture(Varien_Object $payment, $amount) {
+		$order = Mage::getModel('sales/order')->load($payment->getParentId());
+		if($order->getId()){
+			$payment
+				->setTransactionId($this->_helper()->getPayLaterConfigReference('merchant').'-'.$order->getIncrementId())
+				->setIsTransactionClosed(0);
+		}
+		return $this;
+	}
+	
+	public function refund(Varien_Object $payment, $amount)
+	{
+		Mage::log("refund", null, 'payment.log');exit;
+		parent::refund($payment, $amount);
+	}
 	
 	/**
      * Return Order place redirect url as boolean

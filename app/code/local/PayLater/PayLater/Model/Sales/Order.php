@@ -65,9 +65,14 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	protected function _invoice()
 	{
 		if ($this->_getInstance()->canInvoice()) {
-			$invoiceId = Mage::getModel('sales/order_invoice_api')->create($this->_getInstance()->getIncrementId(), array());
-			$invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceId);
-			$invoice->capture()->save();
+			$order = $this->_getInstance();
+			$invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
+			$invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_ONLINE);
+			$invoice->register();
+			$transaction = Mage::getModel('core/resource_transaction')
+								->addObject($invoice)
+								->addObject($invoice->getOrder());
+			$transaction->save();
 			return true;
 		}
 		return false;

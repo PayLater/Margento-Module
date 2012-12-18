@@ -34,7 +34,7 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout_Block_Onepage_Review_Info implements PayLater_PayLater_Core_ShowableInterface
+class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout_Block_Onepage_Review_Info implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
 {
 	
 	public function _construct()
@@ -49,11 +49,11 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout
      */
     protected function _toHtml()
     {
-		if ($this->canShow() === false || Mage::helper('paylater')->isEndpointAvailable() === false) {
+		if (($this->canShow() === false || Mage::helper('paylater')->isEndpointAvailable() === false) && $this->helper('paylater')->isPayLaterPaymentMethod()) {
 			$checkout = Mage::getModel('paylater/checkout_onepage')->getCheckout();
 			$checkout->setStepData('review', 'allow', false);
 			$checkout->setStepData('payment', 'allow', true);
-			$this->setTemplate('paylater/paylater/service/unavailable.phtml');
+			$this->setTemplate(self::SERVICE_UNAVAILABLE_TEMPLATE);
 		}
 		if (!$this->getTemplate()) {
             return '';

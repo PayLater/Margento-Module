@@ -34,12 +34,12 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info implements PayLater_PayLater_Core_ShowableInterface
+class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
 {
 	protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('paylater/paylater/method/info.phtml');
+        $this->setTemplate(self::PAYMENT_METHOD_INFO_TEMPLATE);
     }
 	
 	public function getPayLaterLogoSrc()

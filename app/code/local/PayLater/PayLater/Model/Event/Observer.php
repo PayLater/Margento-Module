@@ -69,6 +69,13 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		}
 		return false;
 	}
+	
+	protected function _addTotalsChild () 
+	{
+		$layout = Mage::helper('paylater/layout')->getCoreLayout();
+		$totalsBlock = $layout->getBlock('checkout_onepage_review');
+		var_dump($totalsBlock);
+	}
 
 	public function catalogProductViewBefore(Varien_Event_Observer $observer)
 	{
@@ -78,6 +85,12 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	public function checkoutOnepageIndexBefore(Varien_Event_Observer $observer)
 	{
 		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
+		
+	}
+	
+	public function addChildToTotals (Varien_Event_Observer $observer)
+	{
+		$this->_addTotalsChild();
 	}
 	
 	/**

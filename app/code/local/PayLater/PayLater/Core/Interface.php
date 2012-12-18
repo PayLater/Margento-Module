@@ -34,15 +34,30 @@
  */
 interface PayLater_PayLater_Core_Interface
 {
-	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
-	const SYSTEM_CONFIG_INFO_TEMPLATE = 'paylater/paylater/system/config/fieldset/info.phtml';
-	
 	/**
 	 * XML_NODE_CDN
 	 * 
-	 * @deprecated 
+	 * @deprecated
 	 */
 	const XML_NODE_CDN = 'paylater/static/cdn';
+	
+	/**
+	 * System config developer log active node 
+	 */
+	const XML_NODE_SYSTEM_DEV_LOG_ACTIVE = 'dev/log/active';
+	/**
+	 * Templates 
+	 */
+	const SYSTEM_CONFIG_INFO_TEMPLATE  = 'paylater/paylater/system/config/fieldset/info.phtml';
+	const SERVICE_UNAVAILABLE_TEMPLATE = 'paylater/paylater/service/unavailable.phtml';
+	const PAYMENT_METHOD_FORM_TEMPLATE = 'paylater/paylater/method/form.phtml';
+	const PAYMENT_METHOD_INFO_TEMPLATE = 'paylater/paylater/method/info.phtml';
+	const BASKET_NOT_IN_RANGE_TEMPLATE = 'paylater/paylater/checkout/basket/notinrange.phtml';
+	const CHECKOUT_GRANDTOTAL_TEMPLATE = 'paylater/paylater/tax/checkout/grandtotal.phtml';
+	const PRICE_JS_BLOCK = 'Mage_Core_Block_Template';
+	const PRICE_JS_BLOCK_NAME = 'paylater.pricejs';
+	const PRICE_JS_TEMPLATE = 'paylater/paylater/pricejs.phtml';
+	
 	/**
 	 * ENV Types 
 	 */
@@ -220,4 +235,18 @@ interface PayLater_PayLater_Core_Interface
 	const XML_PATH_PAYLATER_EMAIL_TEMPLATE_NODE = 'paylater_order_template';
     const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE = 'paylater/order/guest_template';
     const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE_NODE = 'paylater_order_guest_template';
+	/**
+	 * PayLater offer session keys 
+	 */
+	const PAYLATER_SESSION_MODEL = 'checkout/session';
+	const PAYLATER_SESSION_INFO_TEXT = 'infoText';
+	const PAYLATER_SESSION_EMAIL_INFO_TEXT = 'emailInfoText';
+	const PAYLATER_SESSION_FEE_PRICE = 'feePrice';
+	const PAYLATER_SESSION_INSTALLMENTS_AMOUNT = 'installmentsAmount';
+	const PAYLATER_SESSION_TOTAL_TO_BE_PAID= 'totalToBePaid';
+	const PAYLATER_SESSION_OFFER_SETTER = 'setPayLaterOffer';
+	const PAYLATER_SESSION_OFFER_GETTER = 'getPayLaterOffer';
+	const PAYLATER_SESSION_OFFER_UNSETTER = 'unsPayLaterOffer';
+	const PAYLATER_SAVE_OFFER_SUCCESS = 'offer-saved';
+	const PAYLATER_SAVE_OFFER_FAILURE = 'offer-not-saved';
 }

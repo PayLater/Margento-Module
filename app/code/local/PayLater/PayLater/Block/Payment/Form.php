@@ -39,7 +39,7 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
 	protected function _construct()
     {
         parent::_construct();
-        $this->setTemplate('paylater/paylater/method/form.phtml');
+        $this->setTemplate(self::PAYMENT_METHOD_FORM_TEMPLATE);
     }
 	
 	
@@ -51,7 +51,7 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
     protected function _toHtml()
     {
         if ($this->canShow() === false && Mage::helper('paylater')->isAllowedCurrency()) {
-			$this->setTemplate('paylater/paylater/checkout/basket/notinrange.phtml');
+			$this->setTemplate(self::BASKET_NOT_IN_RANGE_TEMPLATE);
 		}
 		if (!$this->getTemplate()) {
             return '';

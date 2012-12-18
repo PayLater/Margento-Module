@@ -88,6 +88,11 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
 	}
+	
+	protected function _getPaymentMethod ()
+	{
+		return Mage::getModel('paylater/checkout_onepage')->getPaymentMethod();
+	}
 
 	
 	/**
@@ -387,4 +392,57 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		return array_key_exists($code, $this->_errorCodes) ? $this->_errorCodes[$code] : FALSE;
 	}
 	
+	/**
+	 * Gets session vars for PayLater offer stored at review checkout step
+	 * 
+	 * @return array|bool 
+	 */
+	public function getCheckoutOffer ()
+	{
+		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
+		return $session->{self::PAYLATER_SESSION_OFFER_GETTER}();
+	}
+	
+	/**
+	 * Unset session data for PayLater offer 
+	 */
+	public function unsetCheckoutOffer ()
+	{
+		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
+		$session->{self::PAYLATER_SESSION_OFFER_UNSETTER}();
+	}
+	
+	/**
+	 * Returns offer info text
+	 * or FALSE otherwise
+	 * 
+	 * @return string
+	 */
+	public function getOfferInfoText ()
+	{
+		$offer = $this->getCheckoutOffer();
+		return array_key_exists(self::PAYLATER_SESSION_INFO_TEXT, $offer) ? $offer[self::PAYLATER_SESSION_INFO_TEXT] : FALSE;
+	}
+	
+	/**
+	 * Returns offer info text (used in PayLater new order emails) 
+	 * or FALSE otherwise
+	 * 
+	 * @return string
+	 */
+	public function getOfferEmailInfoText ()
+	{
+		$offer = $this->getCheckoutOffer();
+		return array_key_exists(self::PAYLATER_SESSION_EMAIL_INFO_TEXT, $offer) ? $offer[self::PAYLATER_SESSION_EMAIL_INFO_TEXT] : FALSE;
+	}
+	
+	/**
+	 * Returns true is chosen checkout payment method is PayLater
+	 * 
+	 * @return bool 
+	 */
+	public function isPayLaterPaymentMethod ()
+	{
+		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;
+	}
 }

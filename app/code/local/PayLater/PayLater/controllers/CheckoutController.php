@@ -120,12 +120,10 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$this->_redirect('checkout/onepage/success', array('_secure'=>true));
 	}
 	
-	protected function _saveOffer ()
+	protected function _saveOffer ($offer)
 	{
-		$offer = $this->getRequest()->getPost();
-		$session = Mage::getModel(self::PAYLATER_SESSION_MODEL);
-		$setter = self::PAYLATER_SESSION_OFFER_SETTER;
-		$session->$setter($offer);
+		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
+		$session->setData(self::PAYLATER_SESSION_DATA_KEY, $offer);
 	}
 
 	/**
@@ -240,9 +238,11 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	public function saveOfferAction ()
 	{
 		// unset any previous value before saving offer
+		$offer = $this->getRequest()->getPost();
 		Mage::helper('paylater')->unsetCheckoutOffer();
 		if ($this->getRequest()->isPost() && $this->getRequest()->isAjax()) {
-			$this->_saveOffer();
+			$this->_saveOffer($offer);
+			//var_dump(Mage::getSingleton(self::PAYLATER_SESSION_MODEL)->getData());
 			return $this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_SUCCESS);
 		}
 		return $this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_FAILURE);

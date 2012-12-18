@@ -400,7 +400,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	public function getCheckoutOffer ()
 	{
 		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
-		return $session->{self::PAYLATER_SESSION_OFFER_GETTER}();
+		return $session->getData(self::PAYLATER_SESSION_DATA_KEY);
 	}
 	
 	/**
@@ -409,7 +409,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	public function unsetCheckoutOffer ()
 	{
 		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
-		$session->{self::PAYLATER_SESSION_OFFER_UNSETTER}();
+		$session->setData(self::PAYLATER_SESSION_DATA_KEY, FALSE);
 	}
 	
 	/**

@@ -49,7 +49,7 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Info extends Mage_Checkout
      */
     protected function _toHtml()
     {
-		if ($this->canShow() === false || Mage::helper('paylater')->isEndpointAvailable() === false) {
+		if (($this->canShow() === false || Mage::helper('paylater')->isEndpointAvailable() === false) && $this->helper('paylater')->isPayLaterPaymentMethod()) {
 			$checkout = Mage::getModel('paylater/checkout_onepage')->getCheckout();
 			$checkout->setStepData('review', 'allow', false);
 			$checkout->setStepData('payment', 'allow', true);

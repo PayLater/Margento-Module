@@ -4,6 +4,9 @@
 		Please wait while we contact PayLater...
 	</h3>
 </div>
+<div id="paylater-processing">
+	<p><img style="vertical-align:middle" src="<?php echo $this->getSkinUrl('paylater/images/processing-wheel.gif') ?>" alt="" /></p>
+</div>
 <form action="<?php echo $this->getActionUrl() ?>" method="post" name="PayLaterForm" id="paylater-form">
 	<?php $payLater = $this->collectPayLaterData(); ?>
 	<?php foreach ($payLater as $key => $value): ?>

@@ -18,6 +18,11 @@
 	font-weight: bolder;
 }
 
+#paylater-processing {
+	text-align:center;
+	margin-top:20px;
+}
+
 .paylater-review-row td{
 	font-weight: bolder;
 }

@@ -86,7 +86,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	public function _sendNewOrderEmail()
 	{
 		$storeId = $this->_getInstance()->getStore()->getId();
-		
+
 		if (!Mage::helper('sales')->canSendNewOrderEmail($storeId)) {
 			return $this;
 		}
@@ -150,7 +150,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 			'order' => $this->_getInstance(),
 			'billing' => $this->_getInstance()->getBillingAddress(),
 			'payment_html' => $paymentBlockHtml,
-			'paylater_info' => '<p>You paid xx</p>'
+			'paylater_info' => Mage::helper('paylater')->getOfferEmailInfoText()
 			)
 		);
 		$mailer->send();
@@ -199,8 +199,8 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_sendNewOrderEmail();
 	}
-	
-	public function setInactiveQuote ()
+
+	public function setInactiveQuote()
 	{
 		Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 	}

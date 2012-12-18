@@ -119,6 +119,14 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	{
 		$this->_redirect('checkout/onepage/success', array('_secure'=>true));
 	}
+	
+	protected function _saveOffer ()
+	{
+		$offer = $this->getRequest()->getPost();
+		$session = Mage::getModel(self::PAYLATER_SESSION_MODEL);
+		$setter = self::PAYLATER_SESSION_OFFER_SETTER;
+		$session->$setter($offer);
+	}
 
 	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
@@ -228,5 +236,15 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			return;
 		}
 	}
-
+	
+	public function saveOfferAction ()
+	{
+		// unset any previous value before saving offer
+		Mage::helper('paylater')->unsetCheckoutOffer();
+		if ($this->getRequest()->isPost() && $this->getRequest()->isAjax()) {
+			$this->_saveOffer();
+			return $this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_SUCCESS);
+		}
+		return $this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_FAILURE);
+	}
 }

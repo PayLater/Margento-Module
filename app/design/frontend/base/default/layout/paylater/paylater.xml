@@ -45,6 +45,11 @@
 		<reference name="root">
             <action method="setTemplate"><template>page/1column.phtml</template></action>
         </reference>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>paylater/css/checkout.css</stylesheet>
+			</action> 
+		</reference>
 		<reference name="content">
 			<block type="paylater/checkout_gateway" name="paylater.checkout.gateway"  template="paylater/paylater/checkout/gateway.phtml"/>
 		</reference>

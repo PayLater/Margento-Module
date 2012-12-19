@@ -56,7 +56,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 
 	/**
 	 * Creates an invoice in 'Pending' state initially and then changes it 
-	 * to 'Paid', and return true.
+	 * to 'Paid', and returns true.
 	 * 
 	 * False otherwise.
 	 * 
@@ -145,7 +145,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 			'order' => $this->_getInstance(),
 			'billing' => $this->_getInstance()->getBillingAddress(),
 			'payment_html' => $paymentBlockHtml,
-			'paylater_info' => Mage::helper('paylater')->getOfferEmailInfoText()
+			'paylater_info' => Mage::helper('paylater')->getOfferEmailInfoText(),
 			)
 		);
 		$mailer->send();
@@ -192,12 +192,11 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 
 	public function sendEmail()
 	{
-		return $this->_sendNewOrderEmail();
+		$this->_sendNewOrderEmail();
 	}
 
 	public function setInactiveQuote()
 	{
 		Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 	}
-
 }

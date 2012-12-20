@@ -55,19 +55,24 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	}
 
 	/**
-	 * Creates an invoice in 'Pending' state initially and then changes it 
-	 * to 'Paid', and returns true.
-	 * 
+	 * Creates an invoice in 'Pending' state initially and then changes it
+	 * to 'Paid', and return true.
+	 *
 	 * False otherwise.
-	 * 
+	 *
 	 * @return bool
 	 */
 	protected function _invoice()
 	{
 		if ($this->_getInstance()->canInvoice()) {
-			$invoiceId = Mage::getModel('sales/order_invoice_api')->create($this->_getInstance()->getIncrementId(), array());
-			$invoice = Mage::getModel('sales/order_invoice')->loadByIncrementId($invoiceId);
-			$invoice->capture()->save();
+			$order = $this->_getInstance();
+			$invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
+			$invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_ONLINE);
+			$invoice->register();
+			$transaction = Mage::getModel('core/resource_transaction')
+								->addObject($invoice)
+								->addObject($invoice->getOrder());
+			$transaction->save();
 			return true;
 		}
 		return false;
@@ -145,7 +150,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 			'order' => $this->_getInstance(),
 			'billing' => $this->_getInstance()->getBillingAddress(),
 			'payment_html' => $paymentBlockHtml,
-			'paylater_info' => Mage::helper('paylater')->getOfferEmailInfoText(),
+			'paylater_info' => Mage::helper('paylater')->getOfferEmailInfoText()
 			)
 		);
 		$mailer->send();
@@ -199,4 +204,5 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 	}
+
 }

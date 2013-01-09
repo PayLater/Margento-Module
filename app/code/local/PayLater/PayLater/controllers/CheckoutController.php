@@ -106,7 +106,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	protected function _redirectError($errorCode)
 	{
 		$helper = Mage::helper('paylater');
-		$session = Mage::getSingleton('customer/session');
+		$session = Mage::getSingleton('checkout/session');
 		if ($errorCode && $errorCode > 0) {
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			$helper->log($helper->getErrorMessageByCode($errorCode), __METHOD__, Zend_Log::ERR);

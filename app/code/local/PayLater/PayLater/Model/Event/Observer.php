@@ -69,13 +69,6 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		}
 		return false;
 	}
-	
-	protected function _addTotalsChild () 
-	{
-		$layout = Mage::helper('paylater/layout')->getCoreLayout();
-		$totalsBlock = $layout->getBlock('checkout_onepage_review');
-		var_dump($totalsBlock);
-	}
 
 	public function catalogProductViewBefore(Varien_Event_Observer $observer)
 	{
@@ -85,33 +78,20 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	public function checkoutOnepageIndexBefore(Varien_Event_Observer $observer)
 	{
 		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
-		
-	}
-	
-	public function addChildToTotals (Varien_Event_Observer $observer)
-	{
-		$this->_addTotalsChild();
-	}
-	
-	/**
-	 * @deprecated
-	 * 
-	 * @param Varien_Event_Observer $observer 
-	 */
-	public function checkoutOnepageReturnBefore(Varien_Event_Observer $observer)
-	{
-		$onepage = Mage::getModel('paylater/checkout_onepage');
-		$quote = Mage::getModel('paylater/checkout_quote');
-		$onepage->getCheckout()->setStepData('billing', array('label' => Mage::helper('checkout')->__('Billing Information'),
-			'is_show' => true), $quote->getBillingAddress()->getData());
-
-		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
+		$layout = Mage::helper('paylater/layout')->getCoreLayout();
+		$onepage = $layout->getBlock('checkout.onepage');
+		$messages = $layout->createBlock(
+				self::PAYLATER_CHECKOUT_ONEPAGE_MESSAGES_BLOCK, 'paylater.checkout.onepage.messages'
+		);
+		$onepage->setMessagesBlock($messages);
+		$onepage->setTemplate(Mage::helper('paylater')->getPayLaterConfigOnepageIndex('template'));
+		Mage::getSingleton('checkout/session')->addError('my error message');
 	}
 
 	public function saveOrderAfter(Varien_Event_Observer $observer)
 	{
 		$order = $observer->getOrder();
-		$quote = $observer->getQuote();	
+		$quote = $observer->getQuote();
 		/**
 		 * @var Mage_Sales_Model_Quote_Payment 
 		 */
@@ -119,6 +99,32 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		if ($payment->getMethod() == self::PAYLATER_PAYMENT_METHOD) {
 			$order->setCanSendNewEmailFlag(false);
 		}
+	}
+
+	/**
+	 * 
+	 * @deprecated
+	 */
+	public function addChildToTotals(Varien_Event_Observer $observer)
+	{
+		return $this;
+//		$this->_addTotalsChild();
+	}
+
+	/**
+	 * @deprecated
+	 * 
+	 * @param Varien_Event_Observer $observer 
+	 */
+	public function checkoutOnepageReturnBefore(Varien_Event_Observer $observer)
+	{
+		return $this;
+//		$onepage = Mage::getModel('paylater/checkout_onepage');
+//		$quote = Mage::getModel('paylater/checkout_quote');
+//		$onepage->getCheckout()->setStepData('billing', array('label' => Mage::helper('checkout')->__('Billing Information'),
+//			'is_show' => true), $quote->getBillingAddress()->getData());
+//
+//		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
 	}
 
 	/**
@@ -137,6 +143,17 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	public function coreBlockToHtmlAfter(Varien_Event_Observer $observer)
 	{
 		return $this;
+	}
+
+	/**
+	 * @deprecated
+	 * @return \PayLater_PayLater_Model_Event_Observer
+	 */
+	protected function _addTotalsChild()
+	{
+		return $this;
+//		$layout = Mage::helper('paylater/layout')->getCoreLayout();
+//		$totalsBlock = $layout->getBlock('checkout_onepage_review');
 	}
 
 }

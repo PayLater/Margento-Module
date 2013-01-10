@@ -54,6 +54,74 @@ class PayLater_PayLater_Model_Refund extends Mage_Core_Model_Abstract
     }
 	
 	/**
+	 * Generate a CSV of unexported refund records
+	 * 
+	 * @return string|boolean
+	 */
+	public function generateRefundsCsv()
+	{
+		$records = $this->getResourceCollection()->getUnexportedRecords();
+		
+		$this->_helper()->log("Starting CSV Export of ".count($records)." refunds", __CLASS__.'::'.__METHOD__);
+		$csv = new Varien_File_Csv();
+		$tmp_file = Mage::getBaseDir()."/var/cache/PayLaterRefund_".date('Y-m-d_H-i-s').".csv";
+		$rows = array();
+		
+		$header = array();
+		$header['RefundDate'] = 'RefundDate';
+		$header['MerchantReference'] = 'MerchantReference';
+		$header['OrderID'] = 'OrderID';
+		$header['Currency'] = 'Currency';
+		$header['RefundValue'] = 'RefundValue';
+		$header['ReasonCode'] = 'ReasonCode';
+		$rows[] = $header;
+		
+		
+		foreach($records as $record){
+			$row = array();
+			$record->load($record->getId());
+			$this->_helper()->log("Exporting refund ".$record->getId(), __CLASS__.'::'.__METHOD__, Zend_Log::DEBUG);
+			$row['RefundDate'] = $record->getData('refund_date');
+			$row['MerchantReference'] = $record->getData('merchant_reference');
+			$row['OrderID'] = $record->getData('order_id');
+			$row['Currency'] = $record->getData('currency');
+			$row['RefundValue'] = $record->getData('refund_value');
+			$row['ReasonCode'] = $record->getData('reason_code');
+			$rows[] = $row;
+		}
+		if($csv->saveData($tmp_file, $rows)){
+			$records->walk('markAsExported');
+			$this->_helper()->log("Finished CSV export to ".$tmp_file, __CLASS__.'::'.__METHOD__);
+			return $tmp_file;
+		}
+		
+		return FALSE;
+	}
+	
+	/**RefundDate, MerchantReference, OrderID, Currency, RefundValue, ReasonCode
+	 * 
+	 * @return bool
+	 */
+	public function markAsExported()
+	{
+		$this->setData('export_date', date('Y-m-d H:i:s'));
+		if($this->save()){
+			return TRUE;
+		}
+		
+		return FALSE;
+	}
+	
+	/**
+	 * 
+	 * @return bool
+	 */
+	public function hasRecordsToExport()
+	{
+		return $this->getResourceCollection()->hasRecordsToExport();
+	}
+	
+	/**
 	 * 
 	 * @return bool
 	 */

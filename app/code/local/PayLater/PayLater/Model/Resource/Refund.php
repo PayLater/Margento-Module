@@ -41,4 +41,5 @@ class PayLater_PayLater_Model_Resource_Refund extends Mage_Core_Model_Resource_D
     protected function _construct() {
         $this->_init('paylater/refund', 'refund_id');
     }
+
 }

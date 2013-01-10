@@ -3,23 +3,25 @@
 		<script type="text/javascript">
 			var offer = PayLater.getOffer(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>);
 			if (PayLater.IsAmountSuitable(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>)) {
-				textInfoTitle = "<span class='break'>Pay just <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today and </span><span class='break'>3 monthly payments of just <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.";
-				emailInfo = "<p><span class='break'>You paid <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today followed by </span><span class='break'>3 monthly payments of <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.</p>";
+				var textInfoTitle = "<span class='break'>Pay just <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today and </span><span class='break'>3 monthly payments of just <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.";
+				var emailInfo = "<p><span class='break'>You paid <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today followed by </span><span class='break'>3 monthly payments of <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.</p>";
 				$('paylater-text-info').update(textInfoTitle);
 				$('paylater-amount').update('&pound;' + offer.transactionFeePrice + '');
 				var totalToBePaid = parseFloat(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>) + parseFloat(offer.transactionFeePrice);
 				totalToBePaid = totalToBePaid.toFixed(2);
 				$('paylater-total-payable').update('&pound;' + totalToBePaid + '');
 				var params = {
-					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_SESSION_INFO_TEXT ?>' : textInfoTitle,
-					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_SESSION_EMAIL_INFO_TEXT ?>' : emailInfo,
-					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_SESSION_FEE_PRICE ?>' : offer.transactionFeePrice,
-					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_SESSION_INSTALLMENTS_AMOUNT ?>' : offer.paymentInstallmentAmount,
-					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_SESSION_TOTAL_TO_BE_PAID ?>' : totalToBePaid
+					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_INFO_TEXT ?>' : textInfoTitle,
+					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_EMAIL_INFO_TEXT ?>' : emailInfo,
+					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_FEE_PRICE ?>' : offer.transactionFeePrice,
+					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_INSTALLMENTS_AMOUNT ?>' : offer.paymentInstallmentAmount,
+					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_TOTAL_TO_BE_PAID ?>' : totalToBePaid
 				}
-				new Ajax.Request('<?php echo $this->getBaseUrl() ?>paylater/checkout/saveOffer', {
+				new Ajax.Request('<?php echo $this->getBaseUrl() . PayLater_PayLater_Core_Interface::PAYLATER_SAVE_OFFER_PATH ?>', {
 					parameters: params
 				});
+			} else {
+				// remove button
 			}
 		</script>
 		<?php echo $this->__('What you pay today') ?>

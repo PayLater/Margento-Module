@@ -238,18 +238,20 @@ interface PayLater_PayLater_Core_Interface
 	const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE = 'paylater/order/guest_template';
 	const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE_NODE = 'paylater_order_guest_template';
 	/**
-	 * PayLater offer session keys 
+	 * PayLater offer  keys 
 	 */
-	const PAYLATER_SESSION_MODEL = 'paylater/session';
-	const PAYLATER_SESSION_DATA_KEY = 'paylater_offer';
-	const PAYLATER_SESSION_INFO_TEXT = 'infoText';
-	const PAYLATER_SESSION_EMAIL_INFO_TEXT = 'emailInfoText';
-	const PAYLATER_SESSION_FEE_PRICE = 'feePrice';
-	const PAYLATER_SESSION_INSTALLMENTS_AMOUNT = 'installmentsAmount';
-	const PAYLATER_SESSION_TOTAL_TO_BE_PAID = 'totalToBePaid';
-	const PAYLATER_SESSION_OFFER_UNSETTER = 'unsPayLaterOffer';
-	const PAYLATER_SAVE_OFFER_SUCCESS = 'offer-saved';
-	const PAYLATER_SAVE_OFFER_FAILURE = 'offer-not-saved';
+	const PAYLATER_SAVE_OFFER_PATH = 'paylater/checkout/saveOffer';
+	//const PAYLATER_SESSION_MODEL = 'paylater/session';
+	//const PAYLATER_SESSION_DATA_KEY = 'paylater_offer';
+	const PAYLATER_INFO_TEXT = 'paylater_info_text';
+	const PAYLATER_EMAIL_INFO_TEXT = 'paylater_email_info_text';
+	const PAYLATER_FEE_PRICE = 'paylater_fee_price';
+	const PAYLATER_INSTALLMENTS_AMOUNT = 'paylater_installments_amount';
+	const PAYLATER_TOTAL_TO_BE_PAID = 'paylater_total_to_be_paid';
+	
+	//const PAYLATER_OFFER_UNSETTER = 'unsPayLaterOffer';
+	const PAYLATER_SAVE_OFFER_SUCCESS = 'offer-ok';
+	const PAYLATER_SAVE_OFFER_FAILURE = 'offer-ko';
 
 	/**
 	 *  PayLater Checkout Messages

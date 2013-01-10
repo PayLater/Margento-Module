@@ -102,6 +102,18 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$order->save();
 		return $orderId;
 	}
+	
+	/**
+	 * Saves PayLater offer to order
+	 * 
+	 * @param type $orderId
+	 */
+	protected function _setOrderPayLaterOffer ($orderId)
+	{
+		$offer = $this->_getPayLaterOfferArray();
+		$order = Mage::getModel('paylater/sales_order', array($orderId));
+		$order->savePayLaterOffer($offer);
+	}
 
 	protected function _redirectError($errorCode)
 	{
@@ -111,19 +123,25 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			$helper->log($helper->getErrorMessageByCode($errorCode), __METHOD__, Zend_Log::ERR);
 			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 		}
 	}
-	
-	protected function _toOnepageSuccess ()
+
+	protected function _toOnepageSuccess()
 	{
-		$this->_redirect('checkout/onepage/success', array('_secure'=>true));
+		$this->_redirect('checkout/onepage/success', array('_secure' => true));
 	}
-	
-	protected function _saveOffer ($offer)
+
+	protected function _saveOffer($offer)
 	{
-		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
-		$session->setData(self::PAYLATER_SESSION_DATA_KEY, $offer);
+		$quote = Mage::getModel('paylater/checkout_quote');
+		$quote->savePayLaterOffer($offer);
+	}
+
+	protected function _getPayLaterOfferArray()
+	{
+		$quote = Mage::getModel('paylater/checkout_quote');
+		return $quote->getPayLaterOfferArray();
 	}
 
 	/**
@@ -147,9 +165,9 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					// Order was saved without sending any customer email.
 					// @see Observer->saveOrderAfter
 					$orderId = $this->_setPayLaterOrderStateAndStatus(self::PAYLATER_ORPHANED_ORDER_STATUS, self::PAYLATER_ORPHANED_ORDER_STATUS);
+					$this->_setOrderPayLaterOffer($orderId);
 					$paylaterData[self::PAYLATER_PARAMS_MAP_ORDERID_KEY] = $orderId;
 					$this->loadLayout();
-					$this->_initLayoutMessages('customer/session');
 					$this->getLayout()->getBlock('head')->setTitle($this->__(self::PAYLATER_GATEWAY_TITLE));
 					$this->renderLayout();
 					$helper->log('Saved order with id ' . $orderId, __METHOD__);
@@ -160,21 +178,21 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					 * Nowhere is thrown a PayLater_PayLater_Exception_InvalidHttpClientResponse
 					 */
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 					return;
 				} catch (Mage_Core_Exception $e) {
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 					return;
 				} catch (Exception $e) {
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 					return;
 				}
 			}
 		} catch (Mage_Core_Exception $e) {
 			$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure'=>true));
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 			return;
 		}
 	}
@@ -198,7 +216,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					$apiRequest = Mage::getModel('paylater/api_request');
 					$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
 					$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
-					
+
 					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
 						$order->setStateAndStatus();
 						$order->save();
@@ -234,12 +252,9 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			return;
 		}
 	}
-	
-	public function saveOfferAction ()
+
+	public function saveOfferAction()
 	{
-		// unset any previous value before saving offer
-		
-		Mage::helper('paylater')->unsetCheckoutOffer();
 		if ($this->getRequest()->isPost()) {
 			$offer = $this->getRequest()->getPost();
 			$this->_saveOffer($offer);
@@ -248,4 +263,5 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		}
 		$this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_FAILURE);
 	}
+
 }

@@ -178,4 +178,36 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 		return $this->getShippingPostcode();
 	}
 	
+	/**
+	 * Saves PayLater offer at review step
+	 * 
+	 * @param array $offer
+	 */
+	public function savePayLaterOffer (array $offer)
+	{
+		$this->_getInSession()->setPaylaterInfoText($offer[self::PAYLATER_INFO_TEXT]);
+		$this->_getInSession()->setPaylaterEmailInfoText($offer[self::PAYLATER_EMAIL_INFO_TEXT]);
+		$this->_getInSession()->setPaylaterFeePrice($offer[self::PAYLATER_FEE_PRICE]);
+		$this->_getInSession()->setPaylaterInstallmentsAmount($offer[self::PAYLATER_INSTALLMENTS_AMOUNT]);
+		$this->_getInSession()->setPaylaterTotalToBePaid($offer[self::PAYLATER_TOTAL_TO_BE_PAID]);
+		$this->_getInSession()->save();
+	}
+	
+	/**
+	 * Gets PayLater offer array
+	 * 
+	 * @return array
+	 */
+	public function getPayLaterOfferArray ()
+	{
+		$offer = array (
+			self::PAYLATER_INFO_TEXT => $this->_getInSession()->getPaylaterInfoText(),
+			self::PAYLATER_EMAIL_INFO_TEXT => $this->_getInSession()->getPaylaterEmailInfoText(),
+			self::PAYLATER_FEE_PRICE => $this->_getInSession()->getPaylaterFeePrice(),
+			self::PAYLATER_INSTALLMENTS_AMOUNT => $this->_getInSession()->getPaylaterInstallmentsAmount(),
+			self::PAYLATER_TOTAL_TO_BE_PAID => $this->_getInSession()->getPaylaterTotalToBePaid()
+		);
+		return $offer;
+	}
+	
 }

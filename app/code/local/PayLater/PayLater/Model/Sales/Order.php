@@ -70,8 +70,8 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 			$invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_ONLINE);
 			$invoice->register();
 			$transaction = Mage::getModel('core/resource_transaction')
-								->addObject($invoice)
-								->addObject($invoice->getOrder());
+					->addObject($invoice)
+					->addObject($invoice->getOrder());
 			$transaction->save();
 			return true;
 		}
@@ -100,7 +100,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 		try {
 			// Retrieve specified view block from appropriate design package (depends on emulated store)
 			$paymentBlock = Mage::helper('payment')->getInfoBlock($this->_getInstance()->getPayment())
-				->setIsSecureMode(true);
+					->setIsSecureMode(true);
 			$paymentBlock->getMethod()->setStore($storeId);
 			$paymentBlockHtml = $paymentBlock->toHtml();
 		} catch (Exception $exception) {
@@ -150,8 +150,8 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 			'order' => $this->_getInstance(),
 			'billing' => $this->_getInstance()->getBillingAddress(),
 			'payment_html' => $paymentBlockHtml,
-			'paylater_info' => Mage::helper('paylater')->getOfferEmailInfoText()
-			)
+			'paylater_info' => $this->_getInstance()->getPaylaterEmailInfoText()
+				)
 		);
 		$mailer->send();
 
@@ -203,6 +203,16 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	public function setInactiveQuote()
 	{
 		Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
+	}
+
+	public function savePayLaterOffer(array $offer)
+	{
+		$this->_getInstance()->setPaylaterInfoText($offer[self::PAYLATER_INFO_TEXT]);
+		$this->_getInstance()->setPaylaterEmailInfoText($offer[self::PAYLATER_EMAIL_INFO_TEXT]);
+		$this->_getInstance()->setPaylaterFeePrice($offer[self::PAYLATER_FEE_PRICE]);
+		$this->_getInstance()->setPaylaterInstallmentsAmount($offer[self::PAYLATER_INSTALLMENTS_AMOUNT]);
+		$this->_getInstance()->setPaylaterTotalToBePaid($offer[self::PAYLATER_TOTAL_TO_BE_PAID]);
+		$this->save();
 	}
 
 }

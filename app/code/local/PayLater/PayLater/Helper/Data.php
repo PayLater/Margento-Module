@@ -396,6 +396,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * Gets session vars for PayLater offer stored at review checkout step
 	 * 
 	 * @return array|bool 
+	 * @deprecated since changed storage to quote/order table
 	 */
 	public function getCheckoutOffer ()
 	{
@@ -417,6 +418,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * or FALSE otherwise
 	 * 
 	 * @return string
+	 * @deprecated since changed storage to quote/order table
 	 */
 	public function getOfferInfoText ()
 	{
@@ -429,11 +431,12 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * or FALSE otherwise
 	 * 
 	 * @return string
+	 * @deprecated since changed storage to quote/order table 
 	 */
 	public function getOfferEmailInfoText ()
 	{
-		$offer = $this->getCheckoutOffer();
-		return array_key_exists(self::PAYLATER_SESSION_EMAIL_INFO_TEXT, $offer) ? $offer[self::PAYLATER_SESSION_EMAIL_INFO_TEXT] : FALSE;
+//		$offer = $this->getCheckoutOffer();
+//		return array_key_exists(self::PAYLATER_SESSION_EMAIL_INFO_TEXT, $offer) ? $offer[self::PAYLATER_SESSION_EMAIL_INFO_TEXT] : FALSE;
 	}
 	
 	/**

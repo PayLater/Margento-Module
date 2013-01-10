@@ -227,6 +227,27 @@
 						</customer_note>
 					</fields>
 				</review>
+				<template translate="label">
+					<label>Template Files</label>
+					<frontend_type>text</frontend_type>
+					<sort_order>500</sort_order>
+					<show_in_default>1</show_in_default>
+					<show_in_website>1</show_in_website>
+					<show_in_store>1</show_in_store>
+					<fields>
+						<onepage_index translate="label comment">
+							<label>Onepage Checkout Template File</label>
+							<comment>
+								<![CDATA[Onepage Checkout Index File in use.<br /><strong>Note:</strong> If using a custom template file for onepage checkout, copy the PayLater commented code to your template file. Default is paylater/paylater/checkout/onepage/index.phtml]]>
+							</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>10</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</onepage_index>
+					</fields>
+				</template>
 				<dev translate="label">
 					<label>Developer Settings</label>
 					<frontend_type>text</frontend_type>

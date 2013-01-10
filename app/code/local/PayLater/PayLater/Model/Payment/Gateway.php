@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -36,15 +37,16 @@
  */
 class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_Abstract implements PayLater_PayLater_Core_Interface
 {
+
 	/**
-     * Payment code name
-     *
-     * @var string
-     */
-    protected $_code = 'paylater';
+	 * Payment code name
+	 *
+	 * @var string
+	 */
+	protected $_code = 'paylater';
 	protected $_isGateway = true;
 	protected $_canCapture = true;
-    protected $_canCapturePartial = false;
+	protected $_canCapturePartial = false;
 	protected $_canRefund = true;
 	protected $_canUseInternal = false;
 	protected $_canRefundInvoicePartial = true;
@@ -57,32 +59,30 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
 	 * @param type $type
 	 * @return boolean|PayLater_PayLater_Helper_Data
 	 */
-    protected function _helper($type = "data")
+	protected function _helper($type = "data")
 	{
-        if($type){
-			return ($type != "data") ? Mage::helper('paylater/'.$type) : Mage::helper('paylater');
+		if ($type) {
+			return ($type != "data") ? Mage::helper('paylater/' . $type) : Mage::helper('paylater');
 		}
 
 		return FALSE;
-    }
-
+	}
 
 	public function capture(Varien_Object $payment, $amount)
 	{
 		$order = Mage::getModel('sales/order')->load($payment->getParentId());
-		if($order->getId()){
+		if ($order->getId()) {
 			$payment
-				->setTransactionId($this->_helper()->getPayLaterConfigReference('merchant').'-'.$order->getIncrementId())
-				->setIsTransactionClosed(0);
+					->setTransactionId($this->_helper()->getPayLaterConfigReference('merchant') . '-' . $order->getIncrementId())
+					->setIsTransactionClosed(0);
 		}
 		return $this;
 	}
-	
 
 	public function refund(Varien_Object $payment, $amount)
 	{
 		$refund = Mage::getModel('paylater/refund');
-		if(!$refund->createRefundRecord($amount)){
+		if (!$refund->createRefundRecord($amount)) {
 			$this->_getSession()->addError('Error creating refund record, unable to perform a PayLater Refund');
 			$this->_redirectReferer();
 		}
@@ -90,12 +90,13 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
 	}
 
 	/**
-     * Return Order place redirect url as boolean
-     *
-     * @return boolean
-     */
-    public function getOrderPlaceRedirectUrl()
-    {
-          return true;
-    }
+	 * Return Order place redirect url as boolean
+	 *
+	 * @return boolean
+	 */
+	public function getOrderPlaceRedirectUrl()
+	{
+		return true;
+	}
+
 }

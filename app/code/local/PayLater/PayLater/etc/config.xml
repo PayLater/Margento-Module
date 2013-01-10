@@ -290,6 +290,9 @@
 				<error_code_body><![CDATA[Unfortunately, your PayLater application can’t be completed at this time. Please checkout, using an alternative payment method. We apologise for any inconvenience caused.]]></error_code_body>
 			</payment>
 			<review><customer_note><![CDATA[By choosing PayLater, you will be redirected to the PayLater website to complete your order.]]></customer_note></review>
+			<template>
+				<onepage_index>paylater/paylater/checkout/onepage/index.phtml</onepage_index>
+			</template>
 		</paylater>
 	</default>
 </config>

@@ -40,7 +40,7 @@ class PayLater_PayLater_OrderController extends Mage_Core_Controller_Front_Actio
 	 */
 	public function processPayLaterResponseAction()
 	{
-		$session = Mage::getSingleton('customer/session');
+		$session = Mage::getSingleton('checkout/session');
 		/**
 		 * var PayLater_PayLater_Helper_Data 
 		 */

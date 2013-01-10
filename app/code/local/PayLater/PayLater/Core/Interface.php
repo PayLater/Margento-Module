@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -39,8 +40,9 @@ interface PayLater_PayLater_Core_Interface
 	 * 
 	 * @deprecated
 	 */
+
 	const XML_NODE_CDN = 'paylater/static/cdn';
-	
+
 	/**
 	 * System config developer log active node 
 	 */
@@ -48,7 +50,7 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * Templates 
 	 */
-	const SYSTEM_CONFIG_INFO_TEMPLATE  = 'paylater/paylater/system/config/fieldset/info.phtml';
+	const SYSTEM_CONFIG_INFO_TEMPLATE = 'paylater/paylater/system/config/fieldset/info.phtml';
 	const SERVICE_UNAVAILABLE_TEMPLATE = 'paylater/paylater/service/unavailable.phtml';
 	const PAYMENT_METHOD_FORM_TEMPLATE = 'paylater/paylater/method/form.phtml';
 	const PAYMENT_METHOD_INFO_TEMPLATE = 'paylater/paylater/method/info.phtml';
@@ -57,7 +59,7 @@ interface PayLater_PayLater_Core_Interface
 	const PRICE_JS_BLOCK = 'Mage_Core_Block_Template';
 	const PRICE_JS_BLOCK_NAME = 'paylater.pricejs';
 	const PRICE_JS_TEMPLATE = 'paylater/paylater/pricejs.phtml';
-	
+
 	/**
 	 * ENV Types 
 	 */
@@ -106,7 +108,7 @@ interface PayLater_PayLater_Core_Interface
 	const CURRENCY_SEPARATOR = ',';
 	const PAYLATER_CURRENCIES = 'GBP';
 	const CURRENCY_GBP_ISO = 826;
-	
+
 	/**
 	 * Config events
 	 */
@@ -238,8 +240,8 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const XML_PATH_PAYLATER_EMAIL_TEMPLATE = 'paylater/order/template';
 	const XML_PATH_PAYLATER_EMAIL_TEMPLATE_NODE = 'paylater_order_template';
-    const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE = 'paylater/order/guest_template';
-    const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE_NODE = 'paylater_order_guest_template';
+	const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE = 'paylater/order/guest_template';
+	const XML_PATH_PAYLATER_EMAIL_GUEST_TEMPLATE_NODE = 'paylater_order_guest_template';
 	/**
 	 * PayLater offer session keys 
 	 */
@@ -249,11 +251,11 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_SESSION_EMAIL_INFO_TEXT = 'emailInfoText';
 	const PAYLATER_SESSION_FEE_PRICE = 'feePrice';
 	const PAYLATER_SESSION_INSTALLMENTS_AMOUNT = 'installmentsAmount';
-	const PAYLATER_SESSION_TOTAL_TO_BE_PAID= 'totalToBePaid';
+	const PAYLATER_SESSION_TOTAL_TO_BE_PAID = 'totalToBePaid';
 	const PAYLATER_SESSION_OFFER_UNSETTER = 'unsPayLaterOffer';
 	const PAYLATER_SAVE_OFFER_SUCCESS = 'offer-saved';
 	const PAYLATER_SAVE_OFFER_FAILURE = 'offer-not-saved';
-	
+
 	/**
 	 * Refund reason codes
 	 */
@@ -273,7 +275,6 @@ interface PayLater_PayLater_Core_Interface
 	const REASON_MR12_REASON = 'Full Refund - Pricing change';
 	const REASON_MR13_REASON = 'Full Refund - Buyer Remorse';
 	const REASON_MR14_REASON = 'Full Refund - Other';
-	
 	const REASON_MR01_DESCRIPTION = 'Damaged items in order';
 	const REASON_MR02_DESCRIPTION = 'Items missing from order';
 	const REASON_MR03_DESCRIPTION = 'Customer doesn\'t get what they expected';
@@ -288,4 +289,10 @@ interface PayLater_PayLater_Core_Interface
 	const REASON_MR12_DESCRIPTION = 'Customer may have been charged an incorrect price at checkout';
 	const REASON_MR13_DESCRIPTION = 'Customer changes mind, has second thoughts about order';
 	const REASON_MR14_DESCRIPTION = 'Any other full refund reason not captured by other refund codes';
+
+	/**
+	 *  PayLater Checkout Messages
+	 */
+	const PAYLATER_CHECKOUT_ONEPAGE_MESSAGES_BLOCK = 'PayLater_PayLater_Block_Checkout_Onepage_Messages';
+
 }

@@ -132,7 +132,7 @@ interface PayLater_PayLater_Core_Interface
 	 * @see PayLater_PayLater_Helper_Data->isServiceAvailable method
 	 *  
 	 */
-	const SERVICE_TIMEOUT = 3;
+	const SERVICE_TIMEOUT = 5;
 	/**
 	 * config.json object keys 
 	 */
@@ -238,7 +238,7 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * PayLater offer session keys 
 	 */
-	const PAYLATER_SESSION_MODEL = 'checkout/session';
+	const PAYLATER_SESSION_MODEL = 'paylater/session';
 	const PAYLATER_SESSION_DATA_KEY = 'paylater_offer';
 	const PAYLATER_SESSION_INFO_TEXT = 'infoText';
 	const PAYLATER_SESSION_EMAIL_INFO_TEXT = 'emailInfoText';

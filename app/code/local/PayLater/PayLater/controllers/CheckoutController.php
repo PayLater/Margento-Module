@@ -238,13 +238,14 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	public function saveOfferAction ()
 	{
 		// unset any previous value before saving offer
-		$offer = $this->getRequest()->getPost();
+		
 		Mage::helper('paylater')->unsetCheckoutOffer();
-		if ($this->getRequest()->isPost() && $this->getRequest()->isAjax()) {
+		if ($this->getRequest()->isPost()) {
+			$offer = $this->getRequest()->getPost();
 			$this->_saveOffer($offer);
-			//var_dump(Mage::getSingleton(self::PAYLATER_SESSION_MODEL)->getData());
-			return $this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_SUCCESS);
+			$this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_SUCCESS);
+			return;
 		}
-		return $this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_FAILURE);
+		$this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_FAILURE);
 	}
 }

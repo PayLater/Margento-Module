@@ -55,11 +55,11 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	}
 
 	/**
-	 * Creates an invoice in 'Pending' state initially and then changes it 
+	 * Creates an invoice in 'Pending' state initially and then changes it
 	 * to 'Paid', and return true.
-	 * 
+	 *
 	 * False otherwise.
-	 * 
+	 *
 	 * @return bool
 	 */
 	protected function _invoice()
@@ -197,7 +197,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 
 	public function sendEmail()
 	{
-		return $this->_sendNewOrderEmail();
+		$this->_sendNewOrderEmail();
 	}
 
 	public function setInactiveQuote()

@@ -22,7 +22,7 @@
 	<?php endforeach; ?>
 </form>
 <script language="JavaScript" type="text/javascript">
-	document.observe("dom:loaded", function() { 
+	Event.observe(window, 'load', function() {
 		var paymentform = document.getElementById('paylater-form');
 		paymentform.submit();
 	}); 

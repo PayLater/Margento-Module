@@ -85,6 +85,20 @@
                         <label>PayLater Failed</label>
                     </paylater_failed>
                 </statuses>
+				<states>
+					<paylater_orphaned>
+						<label>PayLater Orphaned</label>
+						<statuses>
+							<paylater_orphaned />
+						</statuses>
+					</paylater_orphaned>
+					<paylater_failed translate="label">
+                        <label>PayLater Failed</label>
+                        <statuses>
+                            <paylater_failed />
+                        </statuses>
+                    </paylater_failed>
+				</states>
             </order>
 		</sales>
 		<template>

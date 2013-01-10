@@ -71,9 +71,6 @@
 			<totals>
 				<grand_total>
 					<renderer>paylater/checkout_grandtotal</renderer>
-					<!--
-     <admin_renderer>adminhtml/sales_order_create_totals_grandtotal</admin_renderer>
-		   -->
 				</grand_total>
 			</totals>
 			<order>
@@ -271,6 +268,9 @@
 			<product>
 				<event>mouseover</event>
 			</product>
+			<checkout>
+				<show_out_range_message>1</show_out_range_message>
+			</checkout>
 			<payment>
 				<order_status>pending</order_status>
 				<service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]>

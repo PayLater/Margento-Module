@@ -138,5 +138,4 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	{
 		return $this;
 	}
-
 }

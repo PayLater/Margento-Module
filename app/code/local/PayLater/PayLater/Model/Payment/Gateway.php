@@ -81,8 +81,12 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
 
 	public function refund(Varien_Object $payment, $amount)
 	{
-		Mage::log("refund", null, 'payment.log');exit;
-		parent::refund($payment, $amount);
+		$refund = Mage::getModel('paylater/refund');
+		if(!$refund->createRefundRecord($amount)){
+			$this->_getSession()->addError('Error creating refund record, unable to perform a PayLater Refund');
+			$this->_redirectReferer();
+		}
+		return parent::refund($payment, $amount);
 	}
 
 	/**

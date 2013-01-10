@@ -100,8 +100,13 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
 	const PAYLATER_PRICE_JS_TEST = 'http://staging.paylater.wongatest.com/paylater-merchant/price.js';
+	/**
+	 * Supported PayLater currencies.
+	 */
 	const CURRENCY_SEPARATOR = ',';
 	const PAYLATER_CURRENCIES = 'GBP';
+	const CURRENCY_GBP_ISO = 826;
+	
 	/**
 	 * Config events
 	 */
@@ -252,7 +257,8 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * Refund reason codes
 	 */
-	const REASON_CODES = 'MR01,MR02,MR03,MR04,MR05,MR06,MR07,MR08,MR09,MR10,MR11,MR12,MR13,MR14,';
+	const REASON_CODES_SEPARATOR = ',';
+	const REASON_CODES = 'MR01,MR02,MR03,MR04,MR05,MR06,MR07,MR08,MR09,MR10,MR11,MR12,MR13,MR14';
 	const REASON_MR01_REASON = 'Partial Refund - Damaged Goods';
 	const REASON_MR02_REASON = 'Partial Refund - Goods / Parts not Received';
 	const REASON_MR03_REASON = 'Partial Refund - Good Not as Described';

@@ -37,6 +37,12 @@ class PayLater_PayLater_Adminhtml_Sales_Order_CreditmemoController extends Mage_
 {
 
 	public function paylaterSaveAction(){
-		
+		$data = $this->getRequest()->getPost('creditmemo');
+		if(!isset($data['reason_for_refund']) || (isset($data['reason_for_refund']) && !$data['reason_for_refund'])){
+			$this->_getSession()->addError('A \'Reason For Refund\' must be selected to perform a PayLater Refund');
+			return $this->_redirectReferer();
+		}
+		return parent::saveAction();
 	}
+	
 }

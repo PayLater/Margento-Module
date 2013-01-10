@@ -46,6 +46,11 @@ class PayLater_PayLater_Helper_Creditmemo extends Mage_Core_Helper_Data implemen
 		return FALSE;
 	}
 	
+	/**
+	 * Get save url for creditmemo form in adminhtml
+	 * 
+	 * @return string
+	 */
 	public function getSaveUrl()
 	{
 		return Mage::getUrl('*/*/paylaterSave', array('_current' => true));

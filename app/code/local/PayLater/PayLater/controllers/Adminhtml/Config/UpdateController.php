@@ -61,4 +61,33 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. ' . $e->getMessage()));
 		}
 	}
+	
+	public function refundAction()
+	{
+		$session = Mage::getSingleton('adminhtml/session');
+		$file_path = Mage::getModel('paylater/refund')->generateRefundsCsv();
+		try{
+			$this->_sendCsv($file_path);
+			unlink($file_path);
+		}catch(Exception $e){
+			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
+			$this->_redirectReferer();
+		}
+	}
+	
+	protected function _sendCsv($file_path) {
+        if (!is_file ($file_path) || !is_readable($file_path)) {
+            Mage::throwException("PayLater CSV '$file_path' unavailable");
+		}
+		$this->getResponse()
+				->setHttpResponseCode(200)
+				->setHeader('Pragma', 'public', true)
+				->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
+				->setHeader('Content-type: text/csv')
+				->setHeader('Content-Length', filesize($file_path))
+				->setHeader('Content-Disposition', 'attachment' . '; filename=' . basename($file_path));
+		$this->getResponse()->clearBody();
+		$this->getResponse()->sendHeaders();
+		readfile($file_path);
+	}
 }

@@ -102,8 +102,13 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
 	const PAYLATER_PRICE_JS_TEST = 'http://staging.paylater.wongatest.com/paylater-merchant/price.js';
+	/**
+	 * Supported PayLater currencies.
+	 */
 	const CURRENCY_SEPARATOR = ',';
 	const PAYLATER_CURRENCIES = 'GBP';
+	const CURRENCY_GBP_ISO = 826;
+
 	/**
 	 * Config events
 	 */
@@ -250,6 +255,40 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_SESSION_OFFER_UNSETTER = 'unsPayLaterOffer';
 	const PAYLATER_SAVE_OFFER_SUCCESS = 'offer-saved';
 	const PAYLATER_SAVE_OFFER_FAILURE = 'offer-not-saved';
+
+	/**
+	 * Refund reason codes
+	 */
+	const REASON_CODES_SEPARATOR = ',';
+	const REASON_CODES = 'MR01,MR02,MR03,MR04,MR05,MR06,MR07,MR08,MR09,MR10,MR11,MR12,MR13,MR14';
+	const REASON_MR01_REASON = 'Partial Refund - Damaged Goods';
+	const REASON_MR02_REASON = 'Partial Refund - Goods / Parts not Received';
+	const REASON_MR03_REASON = 'Partial Refund - Good Not as Described';
+	const REASON_MR04_REASON = 'Partial Refund - GOGW';
+	const REASON_MR05_REASON = 'Partial Refund - Pricing change';
+	const REASON_MR06_REASON = 'Partial Refund - Buyer Remorse';
+	const REASON_MR07_REASON = 'Partial Refund - Other';
+	const REASON_MR08_REASON = 'Full Refund - Damaged Goods';
+	const REASON_MR09_REASON = 'Full Refund - Goods / Parts not Received';
+	const REASON_MR10_REASON = 'Full Refund - Goods Not as Described';
+	const REASON_MR11_REASON = 'Full Refund - GOGW';
+	const REASON_MR12_REASON = 'Full Refund - Pricing change';
+	const REASON_MR13_REASON = 'Full Refund - Buyer Remorse';
+	const REASON_MR14_REASON = 'Full Refund - Other';
+	const REASON_MR01_DESCRIPTION = 'Damaged items in order';
+	const REASON_MR02_DESCRIPTION = 'Items missing from order';
+	const REASON_MR03_DESCRIPTION = 'Customer doesn\'t get what they expected';
+	const REASON_MR04_DESCRIPTION = 'Gesture of Goodwill from the merchant - can cover a multitude of internal merchant reasons for refund (poor service, "found cheaper elsewhere", etc)';
+	const REASON_MR05_DESCRIPTION = 'Customer may have been charged an incorrect price at checkout';
+	const REASON_MR06_DESCRIPTION = 'Customer changes mind, has second thoughts about order';
+	const REASON_MR07_DESCRIPTION = 'Any other partial refund reason not captured by other refund codes';
+	const REASON_MR08_DESCRIPTION = 'Damaged items in order';
+	const REASON_MR09_DESCRIPTION = 'Items missing from order';
+	const REASON_MR10_DESCRIPTION = 'Customer doesn\'t get what they expected';
+	const REASON_MR11_DESCRIPTION = 'Gesture of Goodwill from the merchant - can cover a multitude of internal merchant reasons for refund (poor service, "found cheaper elsewhere", etc)';
+	const REASON_MR12_DESCRIPTION = 'Customer may have been charged an incorrect price at checkout';
+	const REASON_MR13_DESCRIPTION = 'Customer changes mind, has second thoughts about order';
+	const REASON_MR14_DESCRIPTION = 'Any other full refund reason not captured by other refund codes';
 
 	/**
 	 *  PayLater Checkout Messages

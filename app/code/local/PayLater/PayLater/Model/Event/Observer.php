@@ -85,7 +85,6 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		);
 		$onepage->setMessagesBlock($messages);
 		$onepage->setTemplate(Mage::helper('paylater')->getPayLaterConfigOnepageIndex('template'));
-		Mage::getSingleton('checkout/session')->addError('my error message');
 	}
 
 	public function saveOrderAfter(Varien_Event_Observer $observer)

@@ -8,4 +8,48 @@
 			</action>
 		</reference>
 	</adminhtml_system_config_edit>
+
+	<adminhtml_sales_order_creditmemo_new>
+		<reference name="sales_creditmemo_create">
+			<remove name="form" />
+			<block type="adminhtml/sales_order_creditmemo_create_form" name="paylater_form" as="form" template="paylater/sales/order/creditmemo/create/form.phtml">
+				<block type="adminhtml/sales_order_view_info" name="order_info" template="sales/order/view/info.phtml"></block>
+				<block type="adminhtml/sales_order_payment" name="order_payment"></block>
+				<block type="paylater/adminhtml_sales_order_creditmemo_create_items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
+					<action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
+					<action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+					<action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+					<action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+					<block type="core/text_list" name="order_item_extra_info"></block>
+					<block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+
+					<block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+						<block type="adminhtml/sales_order_creditmemo_create_adjustments" name="adjustments" template="paylater/sales/order/creditmemo/create/totals/adjustments.phtml" />
+						<block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+					</block>
+					<block type="core/text_list" name="submit_before" />
+					<block type="core/text_list" name="submit_after" />
+				</block>
+			</block>
+		</reference>
+	</adminhtml_sales_order_creditmemo_new>
+
+	<adminhtml_sales_order_creditmemo_updateqty>
+		<block type="paylater/adminhtml_sales_order_creditmemo_create_items" name="order_items" template="sales/order/creditmemo/create/items.phtml">
+            <action method="addItemRender"><type>default</type><block>adminhtml/sales_items_renderer_default</block><template>sales/order/creditmemo/create/items/renderer/default.phtml</template></action>
+            <action method="addColumnRender"><column>qty</column><block>adminhtml/sales_items_column_qty</block><template>sales/items/column/qty.phtml</template></action>
+            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name</block><template>sales/items/column/name.phtml</template></action>
+            <action method="addColumnRender"><column>name</column><block>adminhtml/sales_items_column_name_grouped</block><template>sales/items/column/name.phtml</template><type>grouped</type></action>
+            <block type="core/text_list" name="order_item_extra_info"></block>
+            <block type="adminhtml/sales_order_totalbar" name="order_totalbar" template="sales/order/totalbar.phtml"></block>
+
+            <block type="adminhtml/sales_order_creditmemo_totals" name="creditmemo_totals" template="sales/order/totals.phtml">
+                <block type="adminhtml/sales_order_creditmemo_create_adjustments" name="adjustments" template="paylater/sales/order/creditmemo/create/totals/adjustments.phtml" />
+                <block type="adminhtml/sales_order_totals_tax" name="tax" template="sales/order/totals/tax.phtml" />
+            </block>
+
+            <block type="core/text_list" name="submit_before" />
+            <block type="core/text_list" name="submit_after" />
+        </block>
+	</adminhtml_sales_order_creditmemo_updateqty>
 </layout>

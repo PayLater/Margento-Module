@@ -28,8 +28,10 @@
             <active>true</active>
             <codePool>local</codePool>
 			<depends>
+				<Mage_Adminhtml />
 				<Mage_Payment />
 				<Mage_Checkout />
+				<Mage_Sales />
 			</depends>
         </PayLater_PayLater>
     </modules>

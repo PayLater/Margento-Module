@@ -31,6 +31,7 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
+
 class PayLater_PayLater_Model_Resource_Setup extends Mage_Sales_Model_Entity_Setup
 {
 	

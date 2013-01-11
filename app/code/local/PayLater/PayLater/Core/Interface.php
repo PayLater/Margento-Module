@@ -246,15 +246,16 @@ interface PayLater_PayLater_Core_Interface
 	 * PayLater offer  keys 
 	 */
 	const PAYLATER_SAVE_OFFER_PATH = 'paylater/checkout/saveOffer';
-	//const PAYLATER_SESSION_MODEL = 'paylater/session';
-	//const PAYLATER_SESSION_DATA_KEY = 'paylater_offer';
 	const PAYLATER_INFO_TEXT = 'paylater_info_text';
 	const PAYLATER_EMAIL_INFO_TEXT = 'paylater_email_info_text';
+	const PAYLATER_ORDER_STATUS = 'paylater_order_status';
+	const PAYLATER_AMOUNT = 'paylater_amount';
 	const PAYLATER_FEE_PRICE = 'paylater_fee_price';
+	const PAYLATER_AGREEMENT_DURATION_DAYS = 'paylater_duration_days';
 	const PAYLATER_INSTALLMENTS_AMOUNT = 'paylater_installments_amount';
+	const PAYLATER_APR = 'paylater_apr';
 	const PAYLATER_TOTAL_TO_BE_PAID = 'paylater_total_to_be_paid';
-	
-	//const PAYLATER_OFFER_UNSETTER = 'unsPayLaterOffer';
+	const PAYLATER_ADDITIONAL = 'paylater_additional';
 	const PAYLATER_SAVE_OFFER_SUCCESS = 'offer-ok';
 	const PAYLATER_SAVE_OFFER_FAILURE = 'offer-ko';
 

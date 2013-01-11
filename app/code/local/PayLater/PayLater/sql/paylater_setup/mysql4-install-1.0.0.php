@@ -65,15 +65,26 @@ $installer->run("
     );
 ");
 
-$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_INFO_TEXT, array('type' => 'varchar'));
-$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_EMAIL_INFO_TEXT, array('type' => 'varchar'));
-$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_FEE_PRICE, array('type' => 'decimal'));
-$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_INSTALLMENTS_AMOUNT, array('type' => 'decimal'));
-$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_TOTAL_TO_BE_PAID, array('type' => 'decimal'));
-$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_INFO_TEXT, array('type' => 'varchar'));
-$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_EMAIL_INFO_TEXT, array('type' => 'varchar'));
-$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_FEE_PRICE, array('type' => 'decimal'));
-$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_INSTALLMENTS_AMOUNT, array('type' => 'decimal'));
-$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_TOTAL_TO_BE_PAID, array('type' => 'decimal'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_ORDER_STATUS, array('type'=>'varchar'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_INFO_TEXT, array('type'=>'varchar'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_EMAIL_INFO_TEXT, array('type'=>'varchar'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_AMOUNT, array('type'=>'decimal'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_FEE_PRICE, array('type'=>'decimal'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_INSTALLMENTS_AMOUNT, array('type'=>'decimal'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_AGREEMENT_DURATION_DAYS, array('type'=>'integer'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_APR, array('type'=>'varchar'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_TOTAL_TO_BE_PAID, array('type'=>'decimal'));
+$installer->addAttribute('quote', PayLater_PayLater_Core_Interface::PAYLATER_ADDITIONAL, array('type'=>'text'));
+
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_ORDER_STATUS, array('type'=>'varchar'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_INFO_TEXT, array('type'=>'varchar'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_EMAIL_INFO_TEXT, array('type'=>'varchar'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_AMOUNT, array('type'=>'decimal'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_FEE_PRICE, array('type'=>'decimal'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_INSTALLMENTS_AMOUNT, array('type'=>'decimal'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_AGREEMENT_DURATION_DAYS, array('type'=>'integer'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_APR, array('type'=>'varchar'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_TOTAL_TO_BE_PAID, array('type'=>'decimal'));
+$installer->addAttribute('order', PayLater_PayLater_Core_Interface::PAYLATER_ADDITIONAL, array('type'=>'text'));
 
 $installer->endSetup();

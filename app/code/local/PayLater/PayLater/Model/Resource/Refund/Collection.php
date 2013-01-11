@@ -32,7 +32,7 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Resource_Refund_Collection extends Mage_Core_Model_Resource_Db_Collection_Abstract
+class PayLater_PayLater_Model_Resource_Refund_Collection extends Mage_Sales_Model_Mysql4_Collection_Abstract
 {
 
 	public function _construct()

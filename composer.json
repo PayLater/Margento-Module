@@ -1,7 +1,7 @@
 {
     "name": "paylater/paylater",
     "description": "PayLater Magento Module",
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "type": "magento-module",
     "authors": [
         {

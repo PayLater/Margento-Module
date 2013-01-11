@@ -252,7 +252,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_AMOUNT = 'paylater_amount';
 	const PAYLATER_FEE_PRICE = 'paylater_fee_price';
 	const PAYLATER_AGREEMENT_DURATION_DAYS = 'paylater_duration_days';
-	const PAYLATER_INSTALLMENTS_AMOUNT = 'paylater_inst_amount';
+	const PAYLATER_INSTALLMENTS_AMOUNT = 'paylater_installments_amount';
 	const PAYLATER_APR = 'paylater_apr';
 	const PAYLATER_TOTAL_TO_BE_PAID = 'paylater_total_to_be_paid';
 	const PAYLATER_ADDITIONAL = 'paylater_additional';

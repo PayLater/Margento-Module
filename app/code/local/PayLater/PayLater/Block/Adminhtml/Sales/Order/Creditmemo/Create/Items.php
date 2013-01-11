@@ -26,7 +26,7 @@
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @subpackage Helper
+ * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
 class PayLater_PayLater_Block_Adminhtml_Sales_Order_Creditmemo_Create_Items extends Mage_Adminhtml_Block_Sales_Order_Creditmemo_Create_Items
@@ -52,8 +52,12 @@ class PayLater_PayLater_Block_Adminhtml_Sales_Order_Creditmemo_Create_Items exte
     protected function _prepareLayout()
     {
 		$return = parent::_prepareLayout();
-		$label = ($this->_helper('creditmemo')->isPayLaterPayment($this->getOrder()->getPayment())) ? Mage::helper('sales')->__('PayLater Refund') : Mage::helper('sales')->__('Refund');
-		$this->getChild('submit_button')->setLabel($label);
+		if($this->getCreditmemo()->canRefund()){
+			if ($this->getCreditmemo()->getInvoice() && $this->getCreditmemo()->getInvoice()->getTransactionId()) {
+				$label = ($this->_helper('creditmemo')->isPayLaterPayment($this->getOrder()->getPayment())) ? Mage::helper('sales')->__('PayLater Refund') : Mage::helper('sales')->__('Refund');
+				$this->getChild('submit_button')->setLabel($label);
+			}
+		}
 		return $return;
     }
 

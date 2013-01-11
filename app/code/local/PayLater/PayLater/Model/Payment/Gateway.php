@@ -37,6 +37,7 @@
  */
 class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_Abstract implements PayLater_PayLater_Core_Interface
 {
+
 	/**
 	 * Payment code name
 	 *
@@ -45,7 +46,7 @@ class PayLater_PayLater_Model_Payment_Gateway extends Mage_Payment_Model_Method_
 	protected $_code = 'paylater';
 	protected $_isGateway = true;
 	protected $_canCapture = true;
-    protected $_canCapturePartial = false;
+	protected $_canCapturePartial = false;
 	protected $_canRefund = true;
 	protected $_canUseInternal = false;
 	protected $_canRefundInvoicePartial = true;

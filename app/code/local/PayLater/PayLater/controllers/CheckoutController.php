@@ -102,13 +102,13 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$order->save();
 		return $orderId;
 	}
-	
+
 	/**
 	 * Saves PayLater offer to order
 	 * 
 	 * @param type $orderId
 	 */
-	protected function _setOrderPayLaterOffer ($orderId)
+	protected function _setOrderPayLaterOffer($orderId)
 	{
 		$offer = $this->_getPayLaterOfferArray();
 		$order = Mage::getModel('paylater/sales_order', array($orderId));

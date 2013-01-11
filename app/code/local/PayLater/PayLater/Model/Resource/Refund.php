@@ -32,7 +32,7 @@
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
 
-class PayLater_PayLater_Model_Resource_Refund extends Mage_Core_Model_Resource_Db_Abstract
+class PayLater_PayLater_Model_Resource_Refund extends Mage_Core_Model_Mysql4_Abstract
 {
     /**
      * Intialize resource model.

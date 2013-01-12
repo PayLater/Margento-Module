@@ -83,7 +83,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	 *
 	 * @return Mage_Sales_Model_Order
 	 */
-	public function _sendNewOrderEmail()
+	protected function _sendNewOrderEmail()
 	{
 		$storeId = $this->_getInstance()->getStore()->getId();
 
@@ -168,18 +168,29 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 		}
 		$this->_order = Mage::getModel('sales/order')->load($arguments[0], 'increment_id');
 	}
-
+	
+	/**
+	 * 
+	 * @return Mage_Sales_Model_Order
+	 */
 	public function getInstance()
 	{
 		return $this->_getInstance();
 	}
-
+	
+	/**
+	 *  Sets new order state and status
+	 */
 	public function setStateAndStatus()
 	{
 		$this->_getInstance()->setState(Mage_Sales_Model_Order::STATE_NEW);
 		$this->_getInstance()->setStatus(Mage::helper('paylater')->getPayLaterConfigOrderStatus('payment'));
 	}
-
+	
+	/**
+	 * Order save method wrapper
+	 * 
+	 */
 	public function save()
 	{
 		$this->_getInstance()->save();
@@ -189,28 +200,46 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_getInstance()->canInvoice();
 	}
-
+	
+	/**
+	 * Programmatically invoice order
+	 * 
+	 * @return bool
+	 */
 	public function invoice()
 	{
 		return $this->_invoice();
 	}
-
+	
+	/**
+	 *  Sends new order email
+	 */
 	public function sendEmail()
 	{
 		$this->_sendNewOrderEmail();
 	}
-
+	/**
+	 * Gets checkout session quote and set it to inactive
+	 */
 	public function setInactiveQuote()
 	{
 		Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 	}
-
+	
+	/**
+	 * Saves PayLaterOffer quote fields to order
+	 * 
+	 * @param array $offer 
+	 */
 	public function savePayLaterOffer(array $offer)
 	{
 		$this->_getInstance()->setPaylaterInfoText($offer[self::PAYLATER_INFO_TEXT]);
 		$this->_getInstance()->setPaylaterEmailInfoText($offer[self::PAYLATER_EMAIL_INFO_TEXT]);
+		$this->_getInstance()->setPaylaterAmount($offer[self::PAYLATER_AMOUNT]);
 		$this->_getInstance()->setPaylaterFeePrice($offer[self::PAYLATER_FEE_PRICE]);
 		$this->_getInstance()->setPaylaterInstallmentsAmount($offer[self::PAYLATER_INSTALLMENTS_AMOUNT]);
+		$this->_getInstance()->setPaylaterDurationDays($offer[self::PAYLATER_AGREEMENT_DURATION_DAYS]);
+		$this->_getInstance()->setPaylaterApr($offer[self::PAYLATER_APR]);
 		$this->_getInstance()->setPaylaterTotalToBePaid($offer[self::PAYLATER_TOTAL_TO_BE_PAID]);
 		$this->save();
 	}

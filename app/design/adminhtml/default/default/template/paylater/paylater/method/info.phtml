@@ -1,1 +1,13 @@
+<?php $_order = $this->getOrder();?>
 <img src="<?php echo $this->getPayLaterLogoSrc() ?>"  alt="PayLater" />
+<?php if($_order) : ?>
+<div>
+	<p><strong><?php echo $this->__('Amount of credit (purchase price)') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterAmount(), true, false); ?></p>
+	<p><strong><?php echo $this->__('PayLater transaction fee') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterFeePrice(), true, false); ?></p>
+	<p><strong><?php echo $this->__('Total amount payable') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterTotalToBePaid(), true, false); ?></p>
+	<p><strong><?php echo $this->__('Duration of agreement') ?>:</strong> <?php echo $_order->getPaylaterDurationDays() . ' ' . $this->__('days'); ?> </p>
+	<p><strong><?php echo $this->__('1 Payment of') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterFeePrice(), true, false); ?></p>
+	<p><strong><?php echo $this->__('Followed by 3 payments of') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterInstallmentsAmount(), true, false); ?></p>
+	<p><strong><?php echo $this->__('Representative APR') ?>:</strong> <?php echo $_order->getPaylaterApr(); ?></p>
+</div>
+<?php endif; ?>

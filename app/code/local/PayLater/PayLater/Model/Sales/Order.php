@@ -243,5 +243,10 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 		$this->_getInstance()->setPaylaterTotalToBePaid($offer[self::PAYLATER_TOTAL_TO_BE_PAID]);
 		$this->save();
 	}
+	
+	public function savePayLaterOrderStatus ($status)
+	{
+		$this->_getInstance()->setPaylaterOrderStatus($status);
+	}
 
 }

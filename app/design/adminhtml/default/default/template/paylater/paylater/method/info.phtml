@@ -2,6 +2,7 @@
 <img src="<?php echo $this->getPayLaterLogoSrc() ?>"  alt="PayLater" />
 <?php if($_order) : ?>
 <div>
+	<p><strong><?php echo $this->__('Order status') ?>:</strong> <?php echo uc_words($_order->getPaylaterOrderStatus()); ?></p>
 	<p><strong><?php echo $this->__('Amount of credit (purchase price)') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterAmount(), true, false); ?></p>
 	<p><strong><?php echo $this->__('PayLater transaction fee') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterFeePrice(), true, false); ?></p>
 	<p><strong><?php echo $this->__('Total amount payable') ?>:</strong> <?php echo Mage::helper('core')->currency($_order->getPaylaterTotalToBePaid(), true, false); ?></p>

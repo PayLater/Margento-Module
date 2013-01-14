@@ -53,12 +53,12 @@ class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info imple
 	protected function _getOrder()
 	{
 		try { 
-			$_orderEdit = Mage::helper('paylater/layout')->getCoreLayout()->getBlock('order_info');
-			if ($_orderEdit) {
-				return $_orderEdit->getOrder();
+			$_orderInfo = Mage::helper('paylater/layout')->getCoreLayout()->getBlock('order_info');
+			if ($_orderInfo) {
+				return $_orderInfo->getOrder();
 			}
 			
-			return Mage::registry('order');
+			return false;
 			
 		} catch (Mage_Exception $e) {
 			return false;

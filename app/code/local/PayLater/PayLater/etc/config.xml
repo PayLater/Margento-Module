@@ -50,17 +50,17 @@
 		</helpers>
 		<models>
 			<paylater>
-				<class>PayLater_PayLater_Model</class>
-				 <resourceModel>paylater_resource</resourceModel>
+				 <class>PayLater_PayLater_Model</class>
+				 <resourceModel>paylater_mysql4</resourceModel>
 			</paylater>
-			<paylater_resource>
-				<class>PayLater_PayLater_Model_Resource</class>
+			<paylater_mysql4>
+				<class>PayLater_PayLater_Model_Mysql4</class>
 				<entities>
 					<refund>
 						<table>paylater_refund</table>
 					</refund>
 				</entities>
-			</paylater_resource>
+			</paylater_mysql4>
 		</models>
 		<blocks>
 			<paylater>
@@ -102,7 +102,7 @@
             <paylater_setup>
                 <setup>
                     <module>PayLater_PayLater</module>
-                    <class>PayLater_PayLater_Model_Resource_Setup</class>
+                    <class>PayLater_PayLater_Model_Mysql4_Setup</class>
                 </setup>
                 <connection>
                     <use>core_setup</use>

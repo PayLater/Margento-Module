@@ -1,5 +1,4 @@
 <?php
-
 /**
  * PayLater extension for Magento
  *
@@ -32,38 +31,15 @@
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Resource_Refund_Collection extends Mage_Sales_Model_Mysql4_Collection_Abstract
+
+class PayLater_PayLater_Model_Mysql4_Refund extends Mage_Core_Model_Mysql4_Abstract
 {
-
-	public function _construct()
-	{
-		$this->_init('paylater/refund');
-	}
-
-	/**
-	 * Determines if there are any records that have not been exported
-	 * 
-	 * @return boolean
-	 */
-	public function hasRecordsToExport()
-	{
-		$record_collection = $this->getUnexportedRecords();
-		if(count($record_collection)){
-			return TRUE;
-		}
-		
-		return FALSE;
-	}
-	
-	/**
-	 * Returns a collection of unexported records
-	 * 
-	 * @return \PayLater_PayLater_Model_Resource_Refund_Collection
-	 */
-	public function getUnexportedRecords()
-	{
-		$this->addFieldToFilter('export_date', array('null' => NULL));
-		return $this;
-	}
+    /**
+     * Intialize resource model.
+     * Set main entity table name and primary key field name.
+     */
+    protected function _construct() {
+        $this->_init('paylater/refund', 'refund_id');
+    }
 
 }

@@ -219,6 +219,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 
 					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
 						$order->setStateAndStatus();
+						$order->setPayLaterOrderStatus($apiResponse->getStatus());
 						$order->save();
 						if ($order->invoice()) {
 							$order->sendEmail();
@@ -227,6 +228,8 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						$this->_toOnepageSuccess();
 						return;
 					} else {
+						$order->setPayLaterOrderStatus($apiResponse->getStatus());
+						$order->save();
 						$this->_redirectError(self::ERROR_CODE_GENERIC);
 						return;
 					}

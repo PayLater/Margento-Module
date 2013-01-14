@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -35,17 +36,51 @@
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
 class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
-{
+{	
 	protected function _construct()
-    {
-        parent::_construct();
-        $this->setTemplate(self::PAYMENT_METHOD_INFO_TEMPLATE);
-    }
-	
+	{
+		parent::_construct();
+		$this->setTemplate(self::PAYMENT_METHOD_INFO_TEMPLATE);
+	}
+	/**
+	 * Returns order model in scope in sales_order_edit layout block,
+	 * or false otherwise.
+	 * 
+	 * Catches exceptions for graceful layout load
+	 * 
+	 * @return Mage_Sales_Model_Order
+	 */
+	protected function _getOrder()
+	{
+		try { 
+			$_orderInfo = Mage::helper('paylater/layout')->getCoreLayout()->getBlock('order_info');
+			if ($_orderInfo) {
+				return $_orderInfo->getOrder();
+			}
+			
+			return false;
+			
+		} catch (Mage_Exception $e) {
+			return false;
+		} catch (Exception $e) {
+			return false;
+		}
+		return false;
+	}
+
 	public function getPayLaterLogoSrc()
 	{
 		return $this->getSkinUrl('paylater/images/paylater-label.png');
 	}
+	/**
+	 * 
+	 * @return Mage_Sales_Model_Order
+	 */
+	public function getOrder()
+	{
+		return $this->_getOrder();
+	}
+
 	/**
 	 * @see PayLater_PayLater_Core_ShowableInterface
 	 * @return boolean 

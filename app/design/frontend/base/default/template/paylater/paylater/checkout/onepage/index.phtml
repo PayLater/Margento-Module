@@ -32,7 +32,7 @@
 <!-- COPY ENDS -->
 <script type="text/javascript" src="<?php echo $this->getJsUrl('varien/accordion.js') ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getSkinUrl('js/opcheckout.js') ?>"></script>
-<?php if (version_compare(Mage::getVersion(), '1.6.0', '<') ): ?>
+<?php if (version_compare(Mage::getVersion(), '1.7.0', '<') ): ?>
 <script type="text/javascript">countryRegions = <?php echo $this->helper('directory')->getRegionJson() ?></script>
 <?php endif; ?>
 <ol class="opc" id="checkoutSteps">

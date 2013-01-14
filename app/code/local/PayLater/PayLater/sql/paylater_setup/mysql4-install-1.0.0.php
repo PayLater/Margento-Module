@@ -1,7 +1,7 @@
 <?php
 
 $installer = $this;
-/* @var $installer GPMD_Paylater_Model_Resource_Setup */
+/* @var $installer GPMD_Paylater_Model_Mysql4_Setup */
 
 $installer->startSetup();
 

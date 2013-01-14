@@ -406,6 +406,8 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	
 	/**
 	 * Unset session data for PayLater offer 
+	 * 
+	 * @deprecated since changed storage to quote/order table
 	 */
 	public function unsetCheckoutOffer ()
 	{

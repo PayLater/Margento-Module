@@ -9,7 +9,7 @@
 			</block>
 		</reference>
 	</catalog_product_view>
-	
+
 	<checkout_onepage_index>
 		<reference name="head">
 			<action method="addCss">
@@ -17,6 +17,25 @@
 			</action> 
 		</reference>
 	</checkout_onepage_index>
+
+	<onestepcheckout_index_index>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>paylater/css/checkout.css</stylesheet>
+			</action> 
+		</reference>
+	</onestepcheckout_index_index>
+
+	<onestepcheckout_ajax_set_methods_separate>
+        <block output="toHtml" type="core/template" name="set_methods_result" as="set_methods_result" template="onestepcheckout/set_methods_separate.phtml" >
+            <block type="onestepcheckout/summary" as="summary" name="onestepcheckout.summary" template="onestepcheckout/summary.phtml">
+                    <block type="core/template" as="preview" name="onestepcheckout.summary.preview" template="onestepcheckout/preview/preview.phtml" />
+                </block>
+            <block type="checkout/onepage_payment_methods" name="choose-payment-method" template="paylater/paylater/checkout/onestep/payment_method.phtml" as="choose-payment-method">
+                <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
+            </block>
+        </block>
+    </onestepcheckout_ajax_set_methods_separate>
 	
 	<checkout_onepage_review translate="label">
         <label>One Page Checkout Overview</label>

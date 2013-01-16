@@ -78,15 +78,12 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 		var payment_method = $RF(form, 'payment[method]');
 		parameters['payment_method'] = payment_method;
 		parameters['payment[method]'] = payment_method;
-		
-		if (payment_method != 'paylater') {
-			
-		}
+		var totals = get_totals_element();
+		totals.update('<div class="loading-ajax">&nbsp;</div>');
 		
 		var payment_methods = $$('div.payment-methods')[0];
-			payment_methods.update('<div class="loading-ajax">&nbsp;</div>');
-			var totals = get_totals_element();
-			totals.update('<div class="loading-ajax">&nbsp;</div>');
+		payment_methods.update('<div class="loading-ajax">&nbsp;</div>');
+			
 		
 		new Ajax.Request(url, {
 			method: 'post',
@@ -101,9 +98,9 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 					}
 					payment_methods.replace(data.payment_method);
 					if (payment_method != 'paylater') {
-						totals.update(data.summary);
+					//totals.update(data.summary);
 					}
-
+					totals.update(data.summary);
 					// Add new event handlers
 
 					if(shipment_methods_found)  {
@@ -135,13 +132,34 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 
 						}
 					}
-
+					
+					if (payment_method == 'paylater') {
+						if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
+							$$('div.onestepcheckout-place-order-wrapper')[0].hide();
+						}
+			
+						new Ajax.Request(url.split('/')[0] + '/paylater/onestep/review', {
+							method: 'post',
+							onSuccess: function(transport)    {
+								if(transport.status == 200)    {
+									totals.update(transport.responseText);
+									if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
+										$$('div.onestepcheckout-place-order-wrapper')[0].hide();
+									}
+								}
+							},
+							parameters: parameters
+						});
+			
+					}
 
 				}
 			},
 			parameters: parameters
 		});
-
+		
+		
+		
 	}
 }
 
@@ -199,8 +217,12 @@ function get_separate_save_methods_function(url, update_payments)
 				if(transport.status == 200)    {
 					var data = transport.responseText.evalJSON();
 					var form = $('onestepcheckout-form');
-
-					totals.update(data.summary);
+					if (payment_method == 'paylater') {
+						totals.update('<div class="loading-ajax">&nbsp;</div>');
+					} else {
+						totals.update(data.summary);
+					}
+					
 					$$('div.onestepcheckout-place-order-wrapper')[0].show();
 					if(update_payments)    {
 

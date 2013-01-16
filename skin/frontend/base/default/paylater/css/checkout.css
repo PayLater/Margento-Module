@@ -38,3 +38,7 @@
  .onestepcheckout-index-index #representative-wrap {
 	left : 0;
 }
+
+.onestepcheckout-index-index div.checkoutcontainer {
+    overflow: visible !important;
+}

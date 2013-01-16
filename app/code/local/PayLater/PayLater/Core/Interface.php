@@ -164,10 +164,12 @@ interface PayLater_PayLater_Core_Interface
 	 * PayLater before endpoint post 
 	 */
 	const PAYLATER_BEFORE_ENDPOINT_ACTION = 'paylater/checkout/gateway';
+	const PAYLATER_ONESTEP_BEFORE_ENDPOINT_ACTION = 'paylater/onestep/gateway';
 	/**
 	 * PayLater return link 
 	 */
 	const PAYLATER_POST_RETURN_ERROR_LINK = 'checkout/onepage';
+	const PAYLATER_ONESTEP_POST_RETURN_ERROR_LINK = 'onestepcheckout/';
 	/**
 	 * Orders states and statuses 
 	 */
@@ -297,5 +299,10 @@ interface PayLater_PayLater_Core_Interface
 	 *  PayLater Checkout Messages
 	 */
 	const PAYLATER_CHECKOUT_ONEPAGE_MESSAGES_BLOCK = 'PayLater_PayLater_Block_Checkout_Onepage_Messages';
-
+	/**
+	 * Checkout type
+	 * 
+	 */
+	const PAYLATER_CHECKOUT_TYPE_ONEPAGE = 'onepage';
+	const PAYLATER_CHECKOUT_TYPE_ONESTEP = 'onestep';
 }

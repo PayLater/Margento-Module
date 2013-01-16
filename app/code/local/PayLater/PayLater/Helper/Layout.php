@@ -60,6 +60,19 @@ class PayLater_PayLater_Helper_Layout extends Mage_Core_Helper_Data implements P
 		$headBlock->append($priceJs);
 	}
 	
+	/**
+	 * Sets js.phtml view in 'head' block for onestep checkout
+	 */
+	public function setOnestepJs()
+	{
+		$layout = $this->_getCoreLayout();
+		$priceJs = $layout->createBlock(
+			self::PRICE_JS_BLOCK, 'paylater.onestep.js', array('template' => 'paylater/paylater/checkout/onestep/js.phtml')
+		);
+		$headBlock = $layout->getBlock('head');
+		$headBlock->append($priceJs);
+	}
+	
 	public function getCoreLayout ()
 	{
 		return $this->_getCoreLayout();

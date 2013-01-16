@@ -121,7 +121,9 @@ $$('#checkout-payment-method-load dt input').invoke('observe', 'click', function
     $$('dd.payment-method').invoke('hide');
 	/* Show paylater form */
 	$('container_payment_method_paylater').show();
-    if(element.checked) {
+    if(element.checked && payment.currentMethod == 'paylater') {
+        payment.switchMethod(payment.currentMethod);
+    } else if(element.checked &&  payment.currentMethod != 'paylater') {
         payment.switchMethod(payment.currentMethod);
         var form = $(name);
         var container = $('container_payment_method_' + element.getValue());

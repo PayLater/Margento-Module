@@ -80,6 +80,11 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getInSession()->isVirtual();
 	}
+	
+	public function getInstance ()
+	{
+		return $this->_getInSession();
+	}
 
 
 	/**

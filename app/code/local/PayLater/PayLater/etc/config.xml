@@ -253,6 +253,7 @@
 				<event>mouseover</event>
 			</product>
 			<checkout>
+				<type>onepage</type>
 				<show_out_range_message>1</show_out_range_message>
 			</checkout>
 			<payment>

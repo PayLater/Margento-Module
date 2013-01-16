@@ -123,7 +123,13 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			$helper->log($helper->getErrorMessageByCode($errorCode), __METHOD__, Zend_Log::ERR);
 			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+			if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONEPAGE) {
+				$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+			} 
+			else if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONESTEP) {
+				$this->_redirect(self::PAYLATER_ONESTEP_POST_RETURN_ERROR_LINK, array('_secure' => true));
+			} 
+			
 		}
 	}
 
@@ -228,7 +234,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						$this->_toOnepageSuccess();
 						return;
 					} else {
-						$order->setPayLaterOrderStatus($apiResponse->getStatus());
+						$order->savePayLaterOrderStatus($apiResponse->getStatus());
 						$order->save();
 						$this->_redirectError(self::ERROR_CODE_GENERIC);
 						return;

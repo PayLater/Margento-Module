@@ -450,4 +450,9 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;
 	}
+	
+	public function getCheckoutType ()
+	{
+		return $this->getPayLaterConfigType('checkout');
+	}
 }

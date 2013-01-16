@@ -90,9 +90,17 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	public function onestepCheckoutIndexBefore(Varien_Event_Observer $observer)
 	{
 		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
-		$layout = Mage::helper('paylater/layout')->getCoreLayout();
-		$onestepPaymentMethod = $layout->getBlock('choose-payment-method');
+		$layout = Mage::helper('paylater/layout');
+		$coreLayout = $layout->getCoreLayout();
+		$onestep = $coreLayout->getBlock('onestepcheckout.checkout');
+		$onestep->setTemplate('paylater/paylater/checkout/onestep/checkout.phtml');
+		$messages = $coreLayout->createBlock(
+				self::PAYLATER_CHECKOUT_ONEPAGE_MESSAGES_BLOCK, 'paylater.checkout.onepage.messages'
+		);
+		$onestep->setMessagesBlock($messages);
+		$onestepPaymentMethod = $coreLayout->getBlock('choose-payment-method');
 		$onestepPaymentMethod->setTemplate('paylater/paylater/checkout/onestep/payment_method.phtml');
+		$layout->setOnestepJs();
 	}
 
 	public function saveOrderAfter(Varien_Event_Observer $observer)

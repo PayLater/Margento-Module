@@ -1,4 +1,4 @@
-
+<?php if ($this->helper('paylater')->getCheckoutType () == PayLater_PayLater_Core_Interface::PAYLATER_CHECKOUT_TYPE_ONEPAGE): ?>
 <div id="checkout-review-table-wrapper">
     <table class="data-table" id="checkout-review-table">
 		<col width="1" />
@@ -18,3 +18,10 @@
 	</table>
 	 
 </div>
+<?php elseif ($this->helper('paylater')->getCheckoutType () == PayLater_PayLater_Core_Interface::PAYLATER_CHECKOUT_TYPE_ONESTEP): ?>
+<div id="checkout-review-table-wrapper">
+	<p><strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong></p>
+	
+	<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>
+</div>
+<?php endif; ?>

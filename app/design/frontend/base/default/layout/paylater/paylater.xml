@@ -28,6 +28,9 @@
 
 	<onestepcheckout_ajax_set_methods_separate>
 		<block output="toHtml" type="core/template" name="set_methods_result" as="set_methods_result" template="onestepcheckout/set_methods_separate.phtml" >
+			<block type="onestepcheckout/summary" as="summary" name="onestepcheckout.summary" template="onestepcheckout/summary.phtml">
+				<block type="core/template" as="preview" name="onestepcheckout.summary.preview" template="onestepcheckout/preview/preview.phtml" />
+			</block>
 			<block type="checkout/onepage_payment_methods" name="choose-payment-method" template="paylater/paylater/checkout/onestep/payment_method.phtml" as="choose-payment-method">
 				<action method="setMethodFormTemplate">
 					<method>purchaseorder</method>

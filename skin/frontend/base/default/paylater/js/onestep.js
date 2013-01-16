@@ -80,11 +80,13 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 		parameters['payment[method]'] = payment_method;
 		
 		if (payment_method != 'paylater') {
-			var payment_methods = $$('div.payment-methods')[0];
+			
+		}
+		
+		var payment_methods = $$('div.payment-methods')[0];
 			payment_methods.update('<div class="loading-ajax">&nbsp;</div>');
 			var totals = get_totals_element();
 			totals.update('<div class="loading-ajax">&nbsp;</div>');
-		}
 		
 		new Ajax.Request(url, {
 			method: 'post',

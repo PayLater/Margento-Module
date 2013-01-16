@@ -97,10 +97,12 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 						shipment_methods.update(data.shipping_method);
 					}
 					payment_methods.replace(data.payment_method);
-					if (payment_method != 'paylater') {
-					//totals.update(data.summary);
+					payment_method = $RF(form, 'payment[method]');
+					if (payment_method == 'paylater') {
+						totals.update('<div class="loading-ajax">&nbsp;</div>');
+					} else {
+						totals.update(data.summary);
 					}
-					totals.update(data.summary);
 					// Add new event handlers
 
 					if(shipment_methods_found)  {
@@ -217,6 +219,7 @@ function get_separate_save_methods_function(url, update_payments)
 				if(transport.status == 200)    {
 					var data = transport.responseText.evalJSON();
 					var form = $('onestepcheckout-form');
+					payment_method = $RF(form, 'payment[method]')
 					if (payment_method == 'paylater') {
 						totals.update('<div class="loading-ajax">&nbsp;</div>');
 					} else {
@@ -245,30 +248,32 @@ function get_separate_save_methods_function(url, update_payments)
 							}
 						}
 					}
+					
+					if (payment_method == 'paylater') {
+						if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
+							$$('div.onestepcheckout-place-order-wrapper')[0].hide();
+						}
+			
+						new Ajax.Request(url.split('/')[0] + '/paylater/onestep/review', {
+							method: 'post',
+							onSuccess: function(transport)    {
+								if(transport.status == 200)    {
+									totals.update(transport.responseText);
+									if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
+										$$('div.onestepcheckout-place-order-wrapper')[0].hide();
+									}
+								}
+							},
+							parameters: parameters
+						});
+			
+					}
 				}
 			},
 			parameters: parameters
 		});
 		
-		if (payment_method == 'paylater') {
-			if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
-				$$('div.onestepcheckout-place-order-wrapper')[0].hide();
-			}
-			
-			new Ajax.Request(url.split('/')[0] + '/paylater/onestep/review', {
-				method: 'post',
-				onSuccess: function(transport)    {
-					if(transport.status == 200)    {
-						totals.update(transport.responseText);
-						if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
-							$$('div.onestepcheckout-place-order-wrapper')[0].hide();
-						}
-					}
-				},
-				parameters: parameters
-			});
-			
-		}
+		
 	}
 }
 

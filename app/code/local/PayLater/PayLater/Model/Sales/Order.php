@@ -3,7 +3,6 @@
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
  *
@@ -11,29 +10,26 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- *
+ * 
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade
  * the PayLater PayLater module to newer versions in the future.
  * If you wish to customize the PayLater PayLater module for your needs
- * please refer to http://www.magentocommerce.com for more information.
+ * please contact PayLater.
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @copyright  Copyright (C) 2012 PayLater
+ * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Short description of the class
- *
- * Long description of the class (if any...)
  *
  * @category   PayLater
  * @package    PayLater_PayLater
  * @subpackage Model
- * @author     GPMD Ltd <dev@gpmd.co.uk>
+ * @author     GPMD <dev@gpmd.co.uk>
  */
 class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Interface
 {
@@ -168,7 +164,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 		}
 		$this->_order = Mage::getModel('sales/order')->load($arguments[0], 'increment_id');
 	}
-	
+
 	/**
 	 * 
 	 * @return Mage_Sales_Model_Order
@@ -177,7 +173,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_getInstance();
 	}
-	
+
 	/**
 	 *  Sets new order state and status
 	 */
@@ -186,7 +182,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 		$this->_getInstance()->setState(Mage_Sales_Model_Order::STATE_NEW);
 		$this->_getInstance()->setStatus(Mage::helper('paylater')->getPayLaterConfigOrderStatus('payment'));
 	}
-	
+
 	/**
 	 * Order save method wrapper
 	 * 
@@ -200,7 +196,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_getInstance()->canInvoice();
 	}
-	
+
 	/**
 	 * Programmatically invoice order
 	 * 
@@ -210,7 +206,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_invoice();
 	}
-	
+
 	/**
 	 *  Sends new order email
 	 */
@@ -218,6 +214,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		$this->_sendNewOrderEmail();
 	}
+
 	/**
 	 * Gets checkout session quote and set it to inactive
 	 */
@@ -225,7 +222,7 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		Mage::getSingleton('checkout/session')->getQuote()->setIsActive(false)->save();
 	}
-	
+
 	/**
 	 * Saves PayLaterOffer quote fields to order
 	 * 
@@ -243,8 +240,8 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 		$this->_getInstance()->setPaylaterTotalToBePaid($offer[self::PAYLATER_TOTAL_TO_BE_PAID]);
 		$this->save();
 	}
-	
-	public function savePayLaterOrderStatus ($status)
+
+	public function savePayLaterOrderStatus($status)
 	{
 		$this->_getInstance()->setPaylaterOrderStatus($status);
 	}

@@ -1,8 +1,8 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
  *
@@ -24,6 +24,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 require_once 'Mage/Adminhtml/controllers/Sales/Order/CreditmemoController.php';
+
 /**
  * @deprecated
  *
@@ -32,17 +33,17 @@ require_once 'Mage/Adminhtml/controllers/Sales/Order/CreditmemoController.php';
  * @subpackage Block
  * @author     GPMD Ltd <dev@gpmd.co.uk>
  */
-
 class PayLater_PayLater_Adminhtml_Sales_Order_CreditmemoController extends Mage_Adminhtml_Sales_Order_CreditmemoController
 {
 
-	public function paylaterSaveAction(){
+	public function paylaterSaveAction()
+	{
 		$data = $this->getRequest()->getPost('creditmemo');
-		if(!isset($data['reason_for_refund']) || (isset($data['reason_for_refund']) && !$data['reason_for_refund'])){
-			$this->_getSession()->addError('A \'Reason For Refund\' must be selected to perform a PayLater Refund');
+		if (!isset($data['reason_for_refund']) || (isset($data['reason_for_refund']) && !$data['reason_for_refund'])) {
+			$this->_getSession()->addError(Mage::helper('paylater')->__('A \'Reason For Refund\' must be selected to perform a PayLater Refund'));
 			return $this->_redirectReferer();
 		}
 		return parent::saveAction();
 	}
-	
+
 }

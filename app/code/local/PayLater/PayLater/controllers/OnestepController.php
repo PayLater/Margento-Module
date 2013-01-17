@@ -3,7 +3,6 @@
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
  *
@@ -64,13 +63,13 @@ class PayLater_PayLater_OnestepController extends Idev_OneStepCheckout_AjaxContr
 
 		try {
 			$payment = $this->getRequest()->getPost('payment', array());
-			
+
 			if (!empty($paymentMethod)) {
 				$payment['method'] = $paymentMethod;
 			}
 			$helper->savePayment($payment);
 		} catch (Exception $e) {
-
+			
 		}
 		$this->_getOnepage()->getQuote()->collectTotals()->save();
 		$this->loadLayout(false);

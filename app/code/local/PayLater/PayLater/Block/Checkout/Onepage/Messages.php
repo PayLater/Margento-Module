@@ -1,11 +1,11 @@
-<?php 
+<?php
+
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
- * 
+ *
  * This source file is subject to the Open Software License (OSL 3.0)
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
@@ -16,7 +16,7 @@
  * Do not edit or add to this file if you wish to upgrade
  * the PayLater PayLater module to newer versions in the future.
  * If you wish to customize the PayLater PayLater module for your needs
- * please refer to http://www.magentocommerce.com for more information.
+ * please contact PayLater.
  *
  * @category   PayLater
  * @package    PayLater_PayLater
@@ -25,27 +25,26 @@
  */
 
 /**
- * Short description of the class
- *
- * Long description of the class (if any...)
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @subpackage Block
+ * @subpackage Model
  * @author     GPMD <dev@gpmd.co.uk>
  */
 class PayLater_PayLater_Block_Checkout_Onepage_Messages extends Mage_Core_Block_Messages
 {
-    /**
-     * Storage for used types of message storages
-     *
-     * @var array
-     */
-    protected $_usedStorageTypes = array('checkout/session');
-	
+
+	/**
+	 * Storage for used types of message storages
+	 *
+	 * @var array
+	 */
+	protected $_usedStorageTypes = array('checkout/session');
+
 	public function _prepareLayout()
-    {
-        $this->addMessages(Mage::getSingleton('checkout/session')->getMessages(true));
-        parent::_prepareLayout();
-    }
+	{
+		$this->addMessages(Mage::getSingleton('checkout/session')->getMessages(true));
+		parent::_prepareLayout();
+	}
+
 }

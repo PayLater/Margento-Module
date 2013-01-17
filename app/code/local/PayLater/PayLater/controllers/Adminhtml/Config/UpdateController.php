@@ -1,4 +1,5 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
@@ -36,6 +37,7 @@
  */
 class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml_Controller_Action
 {
+
 	/**
 	 * @todo add logs for exceptions  
 	 */
@@ -44,40 +46,39 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 		$session = Mage::getSingleton('adminhtml/session');
 		$cache = Mage::getModel('paylater/cache_factory');
 		$cache->getInstance()->clean(
-			Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('PayLater')
+				Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('PayLater')
 		);
-		
+
 		try {
-			$cache->save();	
+			$cache->save();
 			$session->addSuccess(Mage::helper('paylater')->__('PayLater Configuration has been successfully updated'));
 			$this->_redirectReferer();
-
 		} catch (PayLater_PayLater_Exception_InvalidMerchantData $e) {
 			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Invalid Merchant Data.'));
-			
 		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
 			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Service Unavailable.'));
-		}catch (Exception $e) {
+		} catch (Exception $e) {
 			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. ' . $e->getMessage()));
 		}
 	}
-	
+
 	public function refundAction()
 	{
 		$session = Mage::getSingleton('adminhtml/session');
 		$file_path = Mage::getModel('paylater/refund')->generateRefundsCsv();
-		try{
+		try {
 			$this->_sendCsv($file_path);
 			unlink($file_path);
-		}catch(Exception $e){
+		} catch (Exception $e) {
 			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
 			$this->_redirectReferer();
 		}
 	}
-	
-	protected function _sendCsv($file_path) {
-        if (!is_file ($file_path) || !is_readable($file_path)) {
-            Mage::throwException("PayLater CSV '$file_path' unavailable");
+
+	protected function _sendCsv($file_path)
+	{
+		if (!is_file($file_path) || !is_readable($file_path)) {
+			Mage::throwException("PayLater CSV '$file_path' unavailable");
 		}
 		$this->getResponse()
 				->setHttpResponseCode(200)
@@ -90,4 +91,5 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 		$this->getResponse()->sendHeaders();
 		readfile($file_path);
 	}
+
 }

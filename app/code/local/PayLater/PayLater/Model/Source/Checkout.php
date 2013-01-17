@@ -1,8 +1,8 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
  *
@@ -16,7 +16,7 @@
  * Do not edit or add to this file if you wish to upgrade
  * the PayLater PayLater module to newer versions in the future.
  * If you wish to customize the PayLater PayLater module for your needs
- * please refer to http://www.magentocommerce.com for more information.
+ * please contact PayLater.
  *
  * @category   PayLater
  * @package    PayLater_PayLater
@@ -25,9 +25,6 @@
  */
 
 /**
- * Short description of the class
- *
- * Long description of the class (if any...)
  *
  * @category   PayLater
  * @package    PayLater_PayLater
@@ -36,17 +33,19 @@
  */
 class PayLater_PayLater_Model_Source_Checkout extends Mage_Core_Model_Abstract implements PayLater_PayLater_Core_Interface
 {
+
 	public function toOptionArray()
-    {
-        return array(
-            array(
-                'value' => self::PAYLATER_CHECKOUT_TYPE_ONEPAGE,
-                'label' => Mage::helper('paylater')->__('Onepage (default)')
-            ),
-            array(
-                'value' => self::PAYLATER_CHECKOUT_TYPE_ONESTEP,
-                'label' => Mage::helper('paylater')->__('OneStep')
-            )
-        );
-    }
+	{
+		return array(
+			array(
+				'value' => self::PAYLATER_CHECKOUT_TYPE_ONEPAGE,
+				'label' => Mage::helper('paylater')->__('Onepage (default)')
+			),
+			array(
+				'value' => self::PAYLATER_CHECKOUT_TYPE_ONESTEP,
+				'label' => Mage::helper('paylater')->__('OneStep')
+			)
+		);
+	}
+
 }

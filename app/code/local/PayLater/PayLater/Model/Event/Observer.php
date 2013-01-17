@@ -3,7 +3,6 @@
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
  *
@@ -11,29 +10,26 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- *
+ * 
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade
  * the PayLater PayLater module to newer versions in the future.
  * If you wish to customize the PayLater PayLater module for your needs
- * please refer to http://www.magentocommerce.com for more information.
+ * please contact PayLater.
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @copyright  Copyright (C) 2012 PayLater
+ * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Short description of the class
- *
- * Long description of the class (if any...)
  *
  * @category   PayLater
  * @package    PayLater_PayLater
  * @subpackage Model
- * @author     GPMD Ltd <dev@gpmd.co.uk>
+ * @author     GPMD <dev@gpmd.co.uk>
  */
 class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_Interface
 {
@@ -86,7 +82,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		$onepage->setMessagesBlock($messages);
 		$onepage->setTemplate(Mage::helper('paylater')->getPayLaterConfigOnepageIndex('template'));
 	}
-	
+
 	public function onestepCheckoutIndexBefore(Varien_Event_Observer $observer)
 	{
 		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
@@ -114,61 +110,6 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		if ($payment->getMethod() == self::PAYLATER_PAYMENT_METHOD) {
 			$order->setCanSendNewEmailFlag(false);
 		}
-	}
-
-	/**
-	 * 
-	 * @deprecated
-	 */
-	public function addChildToTotals(Varien_Event_Observer $observer)
-	{
-		return $this;
-//		$this->_addTotalsChild();
-	}
-
-	/**
-	 * @deprecated
-	 * 
-	 * @param Varien_Event_Observer $observer 
-	 */
-	public function checkoutOnepageReturnBefore(Varien_Event_Observer $observer)
-	{
-		return $this;
-//		$onepage = Mage::getModel('paylater/checkout_onepage');
-//		$quote = Mage::getModel('paylater/checkout_quote');
-//		$onepage->getCheckout()->setStepData('billing', array('label' => Mage::helper('checkout')->__('Billing Information'),
-//			'is_show' => true), $quote->getBillingAddress()->getData());
-//
-//		$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
-	}
-
-	/**
-	 * @deprecated
-	 * @param Varien_Event_Observer $observer 
-	 */
-	public function coreBlockToHtmlBefore(Varien_Event_Observer $observer)
-	{
-		return $this;
-	}
-
-	/**
-	 * @deprecated
-	 * @param Varien_Event_Observer $observer 
-	 */
-	public function coreBlockToHtmlAfter(Varien_Event_Observer $observer)
-	{
-		return $this;
-	}
-
-	/**
-	 * @deprecated
-	 * @return \PayLater_PayLater_Model_Event_Observer
-	 */
-	protected function _addTotalsChild()
-	{
-		return $this;
-//		$layout = Mage::helper('paylater/layout')->getCoreLayout();
-//		$totalsBlock = $layout->getBlock('checkout_onepage_review');
 	}
 
 }

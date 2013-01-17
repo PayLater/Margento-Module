@@ -38,43 +38,6 @@
 class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml_Controller_Action
 {
 
-	/**
-	 * @todo add logs for exceptions  
-	 */
-	public function indexAction()
-	{
-		$session = Mage::getSingleton('adminhtml/session');
-		$cache = Mage::getModel('paylater/cache_factory');
-		$cache->getInstance()->clean(
-				Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('PayLater')
-		);
-
-		try {
-			$cache->save();
-			$session->addSuccess(Mage::helper('paylater')->__('PayLater Configuration has been successfully updated'));
-			$this->_redirectReferer();
-		} catch (PayLater_PayLater_Exception_InvalidMerchantData $e) {
-			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Invalid Merchant Data.'));
-		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
-			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Service Unavailable.'));
-		} catch (Exception $e) {
-			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. ' . $e->getMessage()));
-		}
-	}
-
-	public function refundAction()
-	{
-		$session = Mage::getSingleton('adminhtml/session');
-		$file_path = Mage::getModel('paylater/refund')->generateRefundsCsv();
-		try {
-			$this->_sendCsv($file_path);
-			unlink($file_path);
-		} catch (Exception $e) {
-			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
-			$this->_redirectReferer();
-		}
-	}
-
 	protected function _sendCsv($file_path)
 	{
 		if (!is_file($file_path) || !is_readable($file_path)) {
@@ -90,6 +53,43 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 		$this->getResponse()->clearBody();
 		$this->getResponse()->sendHeaders();
 		readfile($file_path);
+	}
+
+	public function indexAction()
+	{
+		$session = Mage::getSingleton('adminhtml/session');
+		$cache = Mage::getModel('paylater/cache_factory');
+		$cache->getInstance()->clean(
+				Zend_Cache::CLEANING_MODE_MATCHING_TAG, array('PayLater')
+		);
+
+		try {
+			$cache->save();
+			$session->addSuccess(Mage::helper('paylater')->__('PayLater Configuration has been successfully updated'));
+			$this->_redirectReferer();
+		} catch (PayLater_PayLater_Exception_InvalidMerchantData $e) {
+			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Invalid Merchant Data.'));
+			Mage::helper('paylater')->log(Mage::helper('paylater')->__($e->getMessage(), __METHOD__, Zend_Log::ERR));
+		} catch (PayLater_PayLater_Exception_ServiceUnavailable $e) {
+			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. Service Unavailable.'));
+			Mage::helper('paylater')->log(Mage::helper('paylater')->__($e->getMessage(), __METHOD__, Zend_Log::ERR));
+		} catch (Exception $e) {
+			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. ' . $e->getMessage()));
+			Mage::helper('paylater')->log(Mage::helper('paylater')->__($e->getMessage(), __METHOD__, Zend_Log::ERR));
+		}
+	}
+
+	public function refundAction()
+	{
+		$session = Mage::getSingleton('adminhtml/session');
+		$file_path = Mage::getModel('paylater/refund')->generateRefundsCsv();
+		try {
+			$this->_sendCsv($file_path);
+			unlink($file_path);
+		} catch (Exception $e) {
+			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
+			$this->_redirectReferer();
+		}
 	}
 
 }

@@ -42,7 +42,7 @@
 
 	<onestepcheckout_ajax_save_billing>
         <block output="toHtml" type="onestepcheckout/billing" name="billing" as="billing" template="onestepcheckout/billing.phtml">
-            <block type="checkout/onepage_payment_methods" name="choose-payment-method" template="onestepcheckout/payment_method.phtml" as="choose-payment-method">
+            <block type="checkout/onepage_payment_methods" name="choose-payment-method" template="paylater/paylater/checkout/onestep/payment_method.phtml" as="choose-payment-method">
                 <action method="setMethodFormTemplate"><method>purchaseorder</method><template>payment/form/purchaseorder.phtml</template></action>
             </block>
             <block type="checkout/onepage_shipping_method_available" name="choose-shipping-method" template="onestepcheckout/shipping_method.phtml" as="choose-shipping-method" />

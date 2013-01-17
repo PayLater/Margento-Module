@@ -1,3 +1,5 @@
+
+var globalPaymentMethod;
 function get_save_billing_function(url, set_methods_url, update_payments, triggered)
 {
 	if(typeof update_payments == 'undefined')    {
@@ -77,6 +79,7 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 		}
 
 		var payment_method = $RF(form, 'payment[method]');
+		globalPaymentMethod = payment_method;
 		parameters['payment_method'] = payment_method;
 		parameters['payment[method]'] = payment_method;
 		var totals = get_totals_element();
@@ -102,8 +105,7 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 						shipment_methods.update(data.shipping_method);
 					}
 					payment_methods.replace(data.payment_method);
-					payment_method = $RF(form, 'payment[method]');
-					if (payment_method == 'paylater') {
+					if (globalPaymentMethod == 'paylater') {
 						totals.update('<div class="loading-ajax">&nbsp;</div>');
 					} else {
 						totals.update(data.summary);
@@ -140,11 +142,11 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 						}
 					}
 					
-					if (payment_method == 'paylater') {
+					if (globalPaymentMethod == 'paylater') {
 						if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
 							$$('div.onestepcheckout-place-order-wrapper')[0].hide();
 						}
-			
+						
 						new Ajax.Request(url.split('/')[0] + '/paylater/onestep/review', {
 							method: 'post',
 							onSuccess: function(transport)    {
@@ -152,7 +154,7 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 									totals.update(transport.responseText);
 									if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
 										$$('div.onestepcheckout-place-order-wrapper')[0].hide();
-									}
+								}
 								}
 							},
 							parameters: parameters
@@ -187,6 +189,7 @@ function get_separate_save_methods_function(url, update_payments)
 			var form = $('onestepcheckout-form');
 			var shipping_method = $RF(form, 'shipping_method');
 			var payment_method = $RF(form, 'payment[method]');
+			globalPaymentMethod = payment_method;
 			var totals = get_totals_element();
 			var freeMethod = $('p_method_free');
 			if(freeMethod){
@@ -220,15 +223,14 @@ function get_separate_save_methods_function(url, update_payments)
 					$$('div.onestepcheckout-place-order-wrapper')[0].hide();
 				}
 			}
+			
 			new Ajax.Request(url, {
 				method: 'post',
 				onSuccess: function(transport)    {
 					if(transport.status == 200)    {
-						
 						var data = transport.responseText.evalJSON();
 						var form = $('onestepcheckout-form');
-						var payment_method = $RF(form, 'payment[method]');
-						if (payment_method == 'paylater') {
+						if (globalPaymentMethod == 'paylater') {
 							totals.update('<div class="loading-ajax">&nbsp;</div>');
 						} else {
 							totals.update(data.summary);
@@ -257,11 +259,10 @@ function get_separate_save_methods_function(url, update_payments)
 							}
 						}
 					
-						if (payment_method == 'paylater') {
+						if (globalPaymentMethod == 'paylater') {
 							if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
-								$$('div.onestepcheckout-place-order-wrapper')[0].hide();
+									$$('div.onestepcheckout-place-order-wrapper')[0].hide();
 							}
-			
 							new Ajax.Request(url.split('/')[0] + '/paylater/onestep/review', {
 								method: 'post',
 								onSuccess: function(transport)    {

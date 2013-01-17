@@ -27,7 +27,7 @@
 <script type="text/javascript">
 	// paylater-text-info update is located in tax/checkout/grandtotal.phtml
 	var payLaterButton = PayLater.GetPaymentButton(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
-	payLaterButton.setAttribute("action", '<?php echo $this->getBaseUrl() . PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION ?>');
+	payLaterButton.setAttribute("action", '<?php echo $this->getUrl(PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION, array('_secure' => true))  ?>');
 	$('paylater-button').update(payLaterButton);
 	$('PayLater-button').writeAttribute('value', '<?php echo $this->__('Pay with PayLater') ?>');
 </script>

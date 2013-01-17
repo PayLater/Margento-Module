@@ -75,7 +75,7 @@ class PayLater_PayLater_Block_Checkout_Gateway extends Mage_Core_Block_Template 
 			self::PAYLATER_PARAMS_MAP_ORDERID_KEY => $quote->getReservedOrderId(),
 			self::PAYLATER_PARAMS_MAP_CURRENCY_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_CURRENCY_KEY],
 			self::PAYLATER_PARAMS_MAP_POSTCODE_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_POSTCODE_KEY],
-			self::PAYLATER_PARAMS_MAP_RETURN_LINK_KEY => Mage::getBaseUrl() . self::PAYLATER_PARAMS_MAP_RETURN_LINK,
+			self::PAYLATER_PARAMS_MAP_RETURN_LINK_KEY => $this->getUrl(self::PAYLATER_PARAMS_MAP_RETURN_LINK, array('_secure' => true)),
 			'item' => $this->_collectAllItems()
 		);
 	}

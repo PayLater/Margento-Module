@@ -237,8 +237,7 @@
 		<payment>
 			<paylater>
 				<active>1</active>
-            	
-				<model>paylater/payment_gateway</model>
+            	<model>paylater/payment_gateway</model>
 			</paylater>
 		</payment>
 		<paylater>

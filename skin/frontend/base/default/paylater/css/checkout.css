@@ -42,3 +42,9 @@
 .onestepcheckout-index-index div.checkoutcontainer {
     overflow: visible !important;
 }
+
+.onestepcheckout-index-index #paylater-customer-note {
+	margin-left: 0;
+    margin-top: 80px;
+	width: 280px;
+}

@@ -93,13 +93,13 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		$layout = Mage::helper('paylater/layout');
 		$coreLayout = $layout->getCoreLayout();
 		$onestep = $coreLayout->getBlock('onestepcheckout.checkout');
-		$onestep->setTemplate('paylater/paylater/checkout/onestep/checkout.phtml');
+		$onestep->setTemplate(Mage::helper('paylater')->getPayLaterConfigOnestepIndex('template'));
 		$messages = $coreLayout->createBlock(
 				self::PAYLATER_CHECKOUT_ONEPAGE_MESSAGES_BLOCK, 'paylater.checkout.onepage.messages'
 		);
 		$onestep->setMessagesBlock($messages);
 		$onestepPaymentMethod = $coreLayout->getBlock('choose-payment-method');
-		$onestepPaymentMethod->setTemplate('paylater/paylater/checkout/onestep/payment_method.phtml');
+		$onestepPaymentMethod->setTemplate(Mage::helper('paylater')->getPayLaterConfigOnestepPaymentMethod('template'));
 		$layout->setOnestepJs();
 	}
 

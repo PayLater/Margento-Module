@@ -269,11 +269,12 @@
 				</error_code_body>
 			</payment>
 			<review>
-				<customer_note><![CDATA[By choosing PayLater, you will be redirected to the PayLater website to complete your order.]]>
-				</customer_note>
+				<customer_note><![CDATA[By choosing PayLater, you will be redirected to the PayLater website to complete your order.]]></customer_note>
 			</review>
 			<template>
 				<onepage_index>paylater/paylater/checkout/onepage/index.phtml</onepage_index>
+				<onestep_index>paylater/paylater/checkout/onestep/checkout.phtml</onestep_index>
+				<onestep_payment_method>paylater/paylater/checkout/onestep/payment_method.phtml</onestep_payment_method>
 			</template>
 		</paylater>
 	</default>

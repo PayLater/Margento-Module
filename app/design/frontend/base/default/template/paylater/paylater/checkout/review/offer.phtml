@@ -45,7 +45,7 @@
 					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_APR ?>' : offer.APR,
 					'<?php echo PayLater_PayLater_Core_Interface::PAYLATER_TOTAL_TO_BE_PAID ?>' : totalToBePaid
 				}
-				new Ajax.Request('<?php echo $this->getBaseUrl() . PayLater_PayLater_Core_Interface::PAYLATER_SAVE_OFFER_PATH ?>', {
+				new Ajax.Request('<?php echo $this->getUrl(PayLater_PayLater_Core_Interface::PAYLATER_SAVE_OFFER_PATH, array('_secure' => true)) ?>', {
 					parameters: params
 				});
 			}

@@ -3,31 +3,33 @@
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
  *
- * [TO BE DEFINED]
- *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ * 
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade
- * the Wonga PayLater module to newer versions in the future.
- * If you wish to customize the PayLater module for your needs
- * please refer to http://www.magentocommerce.com for more information.
+ * the PayLater PayLater module to newer versions in the future.
+ * If you wish to customize the PayLater PayLater module for your needs
+ * please contact PayLater.
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @copyright  Copyright (C) 2012 PayLater
- * @license    [TO BE DEFINED]
+ * @copyright  Copyright (C) 2013 PayLater
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @subpackage Helper
- * @author     GPMD Ltd <dev@gpmd.co.uk>
+ * @subpackage Model
+ * @author     GPMD <dev@gpmd.co.uk>
  */
 class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements PayLater_PayLater_Core_Interface
 {
@@ -37,7 +39,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @var GPMD_Data_Inflector 
 	 */
 	protected $_inflector;
-	
+
 	/**
 	 * Array of PayLater error codes
 	 * See: PayLater Integration Guide - Developer error codes
@@ -47,6 +49,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @var array 
 	 */
 	protected $_errorCodes = array();
+
 	/**
 	 * Array of allowed currency 
 	 * 
@@ -55,6 +58,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @var array 
 	 */
 	protected $_allowedCurrencies = array();
+
 	/**
 	 *  Gets store config value for node and key passed as argument.
 	 * 
@@ -77,8 +81,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
 	}
-	
-	
+
 	/**
 	 * Returns system log status
 	 * 
@@ -88,13 +91,12 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getStoreConfig(self::XML_NODE_SYSTEM_DEV_LOG_ACTIVE, $this->getStoreId());
 	}
-	
-	protected function _getPaymentMethod ()
+
+	protected function _getPaymentMethod()
 	{
 		return Mage::getModel('paylater/checkout_onepage')->getPaymentMethod();
 	}
 
-	
 	/**
 	 * Magic method __call handles methods starting with:
 	 * 
@@ -112,8 +114,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			return $this->_getModuleConfig($arguments[0], $inflectedName);
 		}
 	}
-	
-	
+
 	/**
 	 * Fills errorCodes and allowed currencies array
 	 *  
@@ -124,18 +125,17 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			$const = 'ERROR_' . $errorCode;
 			$this->_errorCodes[$errorCode] = constant('PayLater_PayLater_Core_Interface::' . $const);
 		}
-		
+
 		foreach (explode(self::CURRENCY_SEPARATOR, self::PAYLATER_CURRENCIES) as $currencyCode) {
 			$this->_allowedCurrencies[$currencyCode] = $currencyCode;
 		}
 	}
-	
+
 	public function canLog()
 	{
 		return $this->_getSystemLogActiveStatus() && $this->getPayLaterConfigLogEnabled('dev');
 	}
 
-	
 	/**
 	 * Logs message to gpmd_giftwraplite.log file or to other file if
 	 * specified.
@@ -148,37 +148,36 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			Mage::log($info . ' ' . $message, $type, $this->getPayLaterConfigLogFile('dev'));
 		}
 	}
-	
+
 	/**
 	 * Returns current currency code
 	 * @return string 
 	 */
-	public function getStoreCurrency ()
+	public function getStoreCurrency()
 	{
-		return Mage::app()->getStore()->getCurrentCurrencyCode(); 
+		return Mage::app()->getStore()->getCurrentCurrencyCode();
 	}
-	
+
 	/**
 	 * Returns current store currency symbol
 	 * @return type 
 	 */
 	public function getStoreCurrencySymbol()
 	{
-		return  Mage::app()->getLocale()->currency($this->getStoreCurrency())->getSymbol() ;
+		return Mage::app()->getLocale()->currency($this->getStoreCurrency())->getSymbol();
 	}
-	
+
 	/**
 	 * Returns TRUE if store currency is allowed
 	 * @return type 
 	 */
-	public function isAllowedCurrency ($currency = false)
+	public function isAllowedCurrency($currency = false)
 	{
 		if ($currency === false) {
 			$currency = $this->getStoreCurrency();
 		}
 		return array_key_exists($currency, $this->_allowedCurrencies);
 	}
-
 
 	/**
 	 * Returns helper's module name in format modulename
@@ -231,7 +230,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		}
 		return fsockopen(self::SERVICE_HOSTNAME, self::SERVICE_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
 	}
-	
+
 	/**
 	 * Checks whether PayLater endpoint is available.
 	 * 
@@ -247,7 +246,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		}
 		return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_SERVER_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
 	}
-	
+
 	/**
 	 * Returns TRUE if enviroment is 'test', FALSE otherise (assume 'live') 
 	 * 
@@ -293,13 +292,13 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 				$this->log($this->__('Caught Service Unavailable Exception, data loaded from cache'), __METHOD__);
 				$data = $cacheFactory->getInstance()->load($cacheFactory->getId());
 			}
-		}catch (Exception $e) {
+		} catch (Exception $e) {
 			$this->log($this->__('Caught General Exception. Cache data load returns false'), __METHOD__);
 			$data = false;
 		}
 		return $data;
 	}
-	
+
 	/**
 	 * Gets merchant CDN
 	 * @return type 
@@ -308,17 +307,17 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return sprintf(self::MERCHANTS_CDN, $this->_getModuleConfig('merchant', 'guid'));
 	}
-	
+
 	/**
 	 * Returns merchant reference set in module config
 	 * 
 	 * @return string|bool 
 	 */
-	public function getMerchantReference ()
+	public function getMerchantReference()
 	{
 		return $this->_getModuleConfig('merchant', 'reference');
 	}
-	
+
 	/**
 	 * Returns Magento core config model
 	 * 
@@ -328,7 +327,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return Mage::getConfig();
 	}
-	
+
 	/**
 	 * Returns true if PayLater can show on a particular product and verified the
 	 * price is within PayLater range.
@@ -337,23 +336,24 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * 
 	 * @return boolean 
 	 */
-	public function canShowOnProduct ()
+	public function canShowOnProduct()
 	{
 		$isEnabled = $this->getPayLaterConfigRunStatus('globals');
-	
+
 		if ($isEnabled) {
 			$cache = Mage::getModel('paylater/cache_factory');
 			$payLaterData = $this->loadCacheData($cache);
 			if (is_array($payLaterData)) {
 				$currentProduct = Mage::getModel('paylater/catalog_product');
-				if ($currentProduct->isWithinPayLaterRange($payLaterData)){
+				if ($currentProduct->isWithinPayLaterRange($payLaterData)) {
 					return true;
 				}
-			} 
+			}
 		}
-		
+
 		return false;
 	}
+
 	/**
 	 * Returns true if PayLater can show at checkout and verified the
 	 * price is within PayLater range.
@@ -362,24 +362,24 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * 
 	 * @return boolean 
 	 */
-	public function canShowAtCheckout ()
+	public function canShowAtCheckout()
 	{
 		$isEnabled = $this->getPayLaterConfigRunStatus('globals');
-	
+
 		if ($isEnabled) {
 			$cache = Mage::getModel('paylater/cache_factory');
 			$payLaterData = $this->loadCacheData($cache);
 			if (is_array($payLaterData)) {
 				$quote = Mage::getModel('paylater/checkout_quote');
-				if ($quote->isWithinPayLaterRange($payLaterData)){
+				if ($quote->isWithinPayLaterRange($payLaterData)) {
 					return true;
 				}
-			} 
+			}
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Takes an error code as argument and returns message for code,
 	 * or FALSE otherwise.
@@ -387,34 +387,34 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @param int $code
 	 * @return string|bool 
 	 */
-	public function getErrorMessageByCode ($code)
+	public function getErrorMessageByCode($code)
 	{
 		return array_key_exists($code, $this->_errorCodes) ? $this->_errorCodes[$code] : FALSE;
 	}
-	
+
 	/**
 	 * Gets session vars for PayLater offer stored at review checkout step
 	 * 
 	 * @return array|bool 
 	 * @deprecated since changed storage to quote/order table
 	 */
-	public function getCheckoutOffer ()
+	public function getCheckoutOffer()
 	{
 		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
 		return $session->getData(self::PAYLATER_SESSION_DATA_KEY);
 	}
-	
+
 	/**
 	 * Unset session data for PayLater offer 
 	 * 
 	 * @deprecated since changed storage to quote/order table
 	 */
-	public function unsetCheckoutOffer ()
+	public function unsetCheckoutOffer()
 	{
 		$session = Mage::getSingleton(self::PAYLATER_SESSION_MODEL);
 		$session->setData(self::PAYLATER_SESSION_DATA_KEY, FALSE);
 	}
-	
+
 	/**
 	 * Returns offer info text
 	 * or FALSE otherwise
@@ -422,12 +422,12 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @return string
 	 * @deprecated since changed storage to quote/order table
 	 */
-	public function getOfferInfoText ()
+	public function getOfferInfoText()
 	{
 		$offer = $this->getCheckoutOffer();
 		return array_key_exists(self::PAYLATER_SESSION_INFO_TEXT, $offer) ? $offer[self::PAYLATER_SESSION_INFO_TEXT] : FALSE;
 	}
-	
+
 	/**
 	 * Returns offer info text (used in PayLater new order emails) 
 	 * or FALSE otherwise
@@ -435,24 +435,25 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @return string
 	 * @deprecated since changed storage to quote/order table 
 	 */
-	public function getOfferEmailInfoText ()
+	public function getOfferEmailInfoText()
 	{
 //		$offer = $this->getCheckoutOffer();
 //		return array_key_exists(self::PAYLATER_SESSION_EMAIL_INFO_TEXT, $offer) ? $offer[self::PAYLATER_SESSION_EMAIL_INFO_TEXT] : FALSE;
 	}
-	
+
 	/**
 	 * Returns true is chosen checkout payment method is PayLater
 	 * 
 	 * @return bool 
 	 */
-	public function isPayLaterPaymentMethod ()
+	public function isPayLaterPaymentMethod()
 	{
 		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;
 	}
-	
-	public function getCheckoutType ()
+
+	public function getCheckoutType()
 	{
 		return $this->getPayLaterConfigType('checkout');
 	}
+
 }

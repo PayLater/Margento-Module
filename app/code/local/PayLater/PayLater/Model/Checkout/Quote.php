@@ -1,8 +1,8 @@
 <?php
+
 /**
  * PayLater extension for Magento
  *
- * Long description of this file (if any...)
  *
  * NOTICE OF LICENSE
  *
@@ -10,82 +10,79 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- *
+ * 
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade
  * the PayLater PayLater module to newer versions in the future.
  * If you wish to customize the PayLater PayLater module for your needs
- * please refer to http://www.magentocommerce.com for more information.
+ * please contact PayLater.
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @copyright  Copyright (C) 2012 PayLater
+ * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
 /**
- * Short description of the class
- *
- * Long description of the class (if any...)
  *
  * @category   PayLater
  * @package    PayLater_PayLater
  * @subpackage Model
- * @author     GPMD Ltd <dev@gpmd.co.uk>
+ * @author     GPMD <dev@gpmd.co.uk>
  */
 class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_RangeableInterface
 {
-	protected function _getInSession ()
+
+	protected function _getInSession()
 	{
 		return Mage::getSingleton('checkout/session')->getQuote();
 	}
-	
-	protected function _getGrandTotal ()
+
+	protected function _getGrandTotal()
 	{
 		return $this->_getInSession()->getGrandTotal();
 	}
-	
+
 	protected function _getBillingPostcode()
 	{
 		return $this->_getInSession()->getBillingAddress()->getPostcode();
 	}
-	
+
 	protected function _getShippingPostcode()
 	{
 		return $this->_getInSession()->getShippingAddress()->getPostcode();
 	}
-	
-	protected function _getAllItems ()
+
+	protected function _getAllItems()
 	{
 		return $this->_getInSession()->getAllItems();
 	}
-	
+
 	protected function _getReservedOrderId()
 	{
 		return $this->_getInSession()->getReservedOrderId();
 	}
-	
+
 	protected function _getBilling()
 	{
 		return $this->_getInSession()->getBillingAddress();
 	}
-	
+
 	protected function _getShipping()
 	{
 		return $this->_getInSession()->getShippingAddress();
 	}
-	
-	protected function _isVirtual ()
+
+	protected function _isVirtual()
 	{
 		return $this->_getInSession()->isVirtual();
 	}
-	
-	public function getInstance ()
+
+	public function getInstance()
 	{
 		return $this->_getInSession();
 	}
-
 
 	/**
 	 * @see PayLater_PayLater_Core_RangeableInterface
@@ -99,6 +96,7 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 		$orderUpperBound = $paylaterData[self::ORDER_UPPER_BOUND];
 		return $grandTotal >= $orderLowerBound && $grandTotal <= $orderUpperBound;
 	}
+
 	/**
 	 * Returns quote grand total
 	 * @return float 
@@ -107,7 +105,7 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getGrandTotal();
 	}
-	
+
 	/**
 	 * Returns billing address postcode
 	 * 
@@ -117,6 +115,7 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getBillingPostcode();
 	}
+
 	/**
 	 * Returns shipping address postcode
 	 * 
@@ -126,17 +125,17 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getShippingPostcode();
 	}
-	
+
 	/**
-     * Retrieve quote items array
-     *
-     * @return array
-     */
-    public function getAllItems()
-    {
-        return $this->_getAllItems();
-    }
-	
+	 * Retrieve quote items array
+	 *
+	 * @return array
+	 */
+	public function getAllItems()
+	{
+		return $this->_getAllItems();
+	}
+
 	/**
 	 * Returns quote reserved order id, or FALSE otherwise
 	 * 
@@ -146,7 +145,7 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getReservedOrderId();
 	}
-	
+
 	/**
 	 * Gets quote billing address
 	 * 
@@ -156,7 +155,7 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getBilling();
 	}
-	
+
 	/**
 	 * Gets quote shipping address
 	 * 
@@ -166,7 +165,7 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getShipping();
 	}
-	
+
 	/**
 	 * Gets postcode to be posted to PayLater.
 	 * If quote is virtual returns billing postcode, 
@@ -174,21 +173,21 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	 * 
 	 * @return string|bool 
 	 */
-	public function getPayLaterPostcode ()
+	public function getPayLaterPostcode()
 	{
 		if ($this->_isVirtual()) {
 			return $this->getBillingPostcode();
 		}
-		
+
 		return $this->getShippingPostcode();
 	}
-	
+
 	/**
 	 * Saves PayLater offer at review step
 	 * 
 	 * @param array $offer
 	 */
-	public function savePayLaterOffer (array $offer)
+	public function savePayLaterOffer(array $offer)
 	{
 		$this->_getInSession()->setPaylaterInfoText($offer[self::PAYLATER_INFO_TEXT]);
 		$this->_getInSession()->setPaylaterEmailInfoText($offer[self::PAYLATER_EMAIL_INFO_TEXT]);
@@ -200,15 +199,15 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 		$this->_getInSession()->setPaylaterTotalToBePaid($offer[self::PAYLATER_TOTAL_TO_BE_PAID]);
 		$this->_getInSession()->save();
 	}
-	
+
 	/**
 	 * Gets PayLater offer array
 	 * 
 	 * @return array
 	 */
-	public function getPayLaterOfferArray ()
+	public function getPayLaterOfferArray()
 	{
-		$offer = array (
+		$offer = array(
 			self::PAYLATER_INFO_TEXT => $this->_getInSession()->getPaylaterInfoText(),
 			self::PAYLATER_EMAIL_INFO_TEXT => $this->_getInSession()->getPaylaterEmailInfoText(),
 			self::PAYLATER_AMOUNT => $this->_getInSession()->getPaylaterAmount(),
@@ -220,5 +219,5 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 		);
 		return $offer;
 	}
-	
+
 }

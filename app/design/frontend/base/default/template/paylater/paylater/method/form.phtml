@@ -1,35 +1,38 @@
-<?php if ($this->canShow()): ?>
-	<script type="text/javascript">
-		//PayLater.GetStyles();
-		var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
-		if ($('representative-wrap')) {
-			$('representative-wrap').update(representative);
-			$('representative-wrap').observe('click', function(){
-				$('p_method_paylater').checked = 'checked';
-				payment.switchMethod('paylater');
-			});
-			$('representative-wrap').observe('mouseover', function(){
-				$$('div.PayLater-popup')[0].writeAttribute('style', 'display:block;margin:0;');
-			});
-				
-			$('representative-wrap').observe('mouseout', function(){
-				$$('div.PayLater-popup')[0].writeAttribute('style', 'display:none;');
-			});
-		}
+<div id="payment_form_paylater">
+	<?php if ($this->canShow()): ?>
+		<div id="representative-wrap-wrap">
+			<div id="representative-wrap"></div>
+		</div>
+		<script type="text/javascript">
+			//PayLater.GetStyles();
+			var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
 			
+			if ($('representative-wrap')) {
+				$('representative-wrap').update(representative);
+				if ($$('div.PayLater-checkout img')) {
+					// wrapping image in label tags (this also deal with summary reload for onestep checkout)
+					$$('div.PayLater-checkout img')[0].wrap('label', {'for' : 'p_method_paylater'})
+				}
+				$('representative-wrap').observe('click', function(){
+					$('p_method_paylater').checked = 'checked';
+					payment.switchMethod('paylater');
+				});
+				$('representative-wrap').observe('mouseover', function(){
+					$$('div.PayLater-popup')[0].writeAttribute('style', 'display:block;margin:0;');
+				});
+					
+				$('representative-wrap').observe('mouseout', function(){
+					$$('div.PayLater-popup')[0].writeAttribute('style', 'display:none;');
+				});
+			}
+		</script>
+	<?php elseif ($this->helper('paylater')->isPayLaterPaymentMethod() && $this->helper('paylater')->isAllowedCurrency()): ?>
+		<script type="text/javascript">
+			$('p_method_paylater').checked = '';
+			$('p_method_paylater').remove();
 			
-			
-	</script>
-	<div id="representative-wrap-wrap">
-		<div id="representative-wrap"></div>
-	</div>
-	
-<?php elseif ($this->helper('paylater')->isPayLaterPaymentMethod() && $this->helper('paylater')->isAllowedCurrency()): ?>
-	<script type="text/javascript">
-		$('p_method_paylater').checked = '';
-		$('p_method_paylater').remove();
-		
-	</script>
-	<strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong>
-	<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>
-<?php endif; ?>
+		</script>
+		<strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong>
+		<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>
+	<?php endif; ?>
+</div>

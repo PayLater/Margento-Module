@@ -34,3 +34,17 @@
 .payler-review-td {
 	border-left: 1px solid #D9DDE3;
 }
+
+ .onestepcheckout-index-index #representative-wrap {
+	left : 0;
+}
+
+.onestepcheckout-index-index div.checkoutcontainer {
+    overflow: visible !important;
+}
+
+.onestepcheckout-index-index #paylater-customer-note {
+	margin-left: 0;
+    margin-top: 80px;
+	width: 280px;
+}

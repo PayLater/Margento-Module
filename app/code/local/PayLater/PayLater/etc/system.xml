@@ -161,12 +161,24 @@
 					<show_in_website>1</show_in_website>
 					<show_in_store>1</show_in_store>
 					<fields>
+						<type translate="label comment">
+							<label>Type</label>
+							<comment>
+									<![CDATA[<span>Must be set to checkout type in use</span>]]>
+							</comment>
+							<sort_order>1</sort_order>
+							<frontend_type>select</frontend_type>
+							<source_model>paylater/source_checkout</source_model>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+						</type>
 						<show_out_range_message translate="label comment">
 							<label>Display Message when amount out of Threshold</label>
 							<comment>
 								<![CDATA[Set to "Yes" if you want to display a message when basket amount is out of PayLater allowed threshold.]]>
 							</comment>
-							<sort_order>1</sort_order>
+							<sort_order>10</sort_order>
 							<frontend_type>select</frontend_type>
 							<source_model>adminhtml/system_config_source_yesno</source_model>
 							<show_in_default>1</show_in_default>
@@ -277,6 +289,28 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</onepage_index>
+						<onestep_index translate="label comment">
+							<label>OneStep Checkout Template File</label>
+							<comment>
+								<![CDATA[OneStep Checkout Index File in use.<br /><strong>Note:</strong> If using a custom template file for onestep checkout, copy the PayLater commented code to your template file. Default is paylater/paylater/checkout/onestep/checkout.phtml]]>
+							</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>20</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</onestep_index>
+						<onestep_payment_method translate="label comment">
+							<label>OneStep Checkout Payment Method File</label>
+							<comment>
+								<![CDATA[OneStep Checkout payment methods template file in use. Default is paylater/paylater/checkout/onestep/payment_method.phtml]]>
+							</comment>
+							<frontend_type>text</frontend_type>
+							<sort_order>30</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</onestep_payment_method>
 					</fields>
 				</template>
 				<dev translate="label">

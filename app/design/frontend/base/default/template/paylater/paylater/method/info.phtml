@@ -1,7 +1,5 @@
 <?php if ($this->canShow()): ?>
-<img src="<?php echo $this->getPayLaterLogoSrc() ?>"  alt="PayLater" />
+<img id="paylater-info-label-image" src="<?php echo $this->getPayLaterLogoSrc() ?>"  alt="PayLater" />
 <?php else: ?>
-<img src="<?php echo $this->getPayLaterLogoSrc() ?>"  alt="PayLater" />
-<!--<strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong>
-<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>-->
+<img id="paylater-info-label-image" src="<?php echo $this->getPayLaterLogoSrc() ?>"  alt="PayLater" /> 
 <?php endif; ?>

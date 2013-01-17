@@ -18,7 +18,7 @@
  *
  * @category   PayLater
  * @package    PayLater_PayLater
- * @copyright  Copyright (C) 2012 PayLater
+ * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 var globalPaymentMethod;

@@ -77,6 +77,7 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 			$session->addError(Mage::helper('paylater')->__('PayLater Configuration could not be updated. ' . $e->getMessage()));
 			Mage::helper('paylater')->log(Mage::helper('paylater')->__($e->getMessage()), __METHOD__, Zend_Log::ERR);
 		}
+		$this->_redirectReferer();
 	}
 
 	public function refundAction()

@@ -73,7 +73,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_ENDPOINT = 'https://staging.orders.paylater.wongatest.com';
 	const PAYLATER_ENDPOINT_SERVER = 'staging.orders.paylater.wongatest.com';
 	const PAYLATER_ENDPOINT_SERVER_PORT = 443;
-	const PAYLATER_ENDPOINT_TEST = 'https://staging.orders.paylater.wongatest.com';
+	const PAYLATER_ENDPOINT_TEST = 'http://staging.orders.paylater.wongatest.com';
 	const PAYLATER_ENDPOINT_TEST_SERVER = 'staging.orders.paylater.wongatest.com';
 	const PAYLATER_ENDPOINT_TEST_SERVER_PORT = 80;
 	/**
@@ -103,7 +103,7 @@ interface PayLater_PayLater_Core_Interface
 	 * PAYLATER_PRICE_JS  
 	 */
 	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
-	const PAYLATER_PRICE_JS_TEST = 'http://staging.paylater.wongatest.com/paylater-merchant/price.js';
+	const PAYLATER_PRICE_JS_TEST = 'https://paylater.s3.amazonaws.com/price.js';
 	/**
 	 * Supported PayLater currencies.
 	 */

@@ -223,12 +223,15 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * 
 	 * @return resource/bool 
 	 */
-	public function isServiceAvailable()
+	public function isServiceAvailable($timeout = false)
 	{
-		if ($this->isTestEnvironment()) {
-			return fsockopen(self::SERVICE_HOSTNAME_TEST, self::SERVICE_PORT_TEST, $errno, $errstr, self::SERVICE_TIMEOUT);
+		if ($timeout === false) {
+			$timeout = self::SERVICE_TIMEOUT;
 		}
-		return fsockopen(self::SERVICE_HOSTNAME, self::SERVICE_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
+		if ($this->isTestEnvironment()) {
+			return fsockopen(self::SERVICE_HOSTNAME_TEST, self::SERVICE_PORT_TEST, $errno, $errstr, $timeout);
+		}
+		return fsockopen(self::SERVICE_HOSTNAME, self::SERVICE_PORT, $errno, $errstr, $timeout);
 	}
 
 	/**
@@ -239,12 +242,15 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * 
 	 * @return resource/bool 
 	 */
-	public function isEndpointAvailable()
+	public function isEndpointAvailable($timeout = false)
 	{
-		if ($this->isTestEnvironment()) {
-			return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_TEST_SERVER_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
+		if ($timeout === false) {
+			$timeout = self::SERVICE_TIMEOUT;
 		}
-		return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_SERVER_PORT, $errno, $errstr, self::SERVICE_TIMEOUT);
+		if ($this->isTestEnvironment()) {
+			return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_TEST_SERVER_PORT, $errno, $errstr, $timeout);
+		}
+		return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_SERVER_PORT, $errno, $errstr, $timeout);
 	}
 
 	/**

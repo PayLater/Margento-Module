@@ -35,13 +35,13 @@
 			<url>http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)</url>
 		</license>
 		<support>
-			<email>dev@gpmd.co.uk</email>
+			<email>magento@wonga.com</email>
 		</support>
 		<report>
-			<bugs>dev@gpmd.co.uk</bugs>
+			<bugs>magento@wonga.com</bugs>
 		</report>
 		<dev>
-			<email>dev@gpmd.co.uk</email>
+			<email>magento@wonga.com</email>
 		</dev>
 	</paylater>
 	<global>

@@ -29,7 +29,7 @@
 			var offer = PayLater.getOffer(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>);
 			if (PayLater.IsAmountSuitable(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>)) {
 				var textInfoTitle = "<span class='break'>Pay just <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today and </span><span class='break'>3 monthly payments of just <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.";
-				var emailInfo = "<p><span class='break'>You paid <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today followed by </span><span class='break'>3 monthly payments of <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.</p>";
+				var emailInfo = "<p><span class='break'>You paid <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today and the balance will be spread over </span><span class='break'>3 monthly payments of <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.</p>";
 				$('paylater-text-info').update(textInfoTitle);
 				$('paylater-amount').update('&pound;' + offer.transactionFeePrice + '');
 				totalToBePaid = parseFloat(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>) + parseFloat(offer.transactionFeePrice);

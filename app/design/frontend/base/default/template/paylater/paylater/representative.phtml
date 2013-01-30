@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * PayLater extension for Magento
  *
@@ -24,34 +24,41 @@
  */
 ?>
 <?php if ($this->canShow()): ?>
-<script type="text/javascript">
+	<div id="representative-holder"></div>
+	<script type="text/javascript">
 
-	document.write(PayLater.GetPaymentsWidget(<?php echo $this->getProductPrice() ?>, '<?php echo $this->getPayLaterType() ?>'));
-	
-	Event.observe(window, 'load', function() {
-		$$('p.apr-link')[0].writeAttribute('id', 'display-handler');
-		$$('div.PayLater-popup')[0].writeAttribute('id', 'paylater-representative-popup');
-		
-<?php if ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_HOVER_EVENT): ?>
-			$('display-handler').observe('mouseover', function(){
-				$('paylater-representative-popup').writeAttribute('style', 'display:block;');
-			});
-				
-			$('display-handler').observe('mouseout', function(){
-				$('paylater-representative-popup').writeAttribute('style', 'display:none;');
-			});
-<?php elseif ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_CLICK_EVENT): ?>
-			$('display-handler').observe('click', function(){
-				if (!$('paylater-representative-popup').visible()) {
+		var representative = PayLater.GetPaymentsWidget(<?php echo $this->getProductPrice() ?>, '<?php echo $this->getPayLaterType() ?>');
+		$('representative-holder').update(representative);
+		Event.observe(window, 'load', function() {
+			$$('p.apr-link')[0].writeAttribute('id', 'display-handler');
+			$$('div.PayLater-popup')[0].writeAttribute('id', 'paylater-representative-popup');
+			
+	<?php if ($this->isConfigurableProduct()):?>
+			Event.observe($$('span.price')[0], 'change', function (evt){
+				console.log(evt)
+			})
+	<?php endif; ?>
+			
+	<?php if ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_HOVER_EVENT): ?>
+				$('display-handler').observe('mouseover', function(){
 					$('paylater-representative-popup').writeAttribute('style', 'display:block;');
-					$('display-handler').update('<?php echo $this->__('Hide Representative Example') ?>');
-				} else {
+				});
+						
+				$('display-handler').observe('mouseout', function(){
 					$('paylater-representative-popup').writeAttribute('style', 'display:none;');
-					$('display-handler').update('<?php echo $this->__('See Representative Example') ?>');
-				}
-			});
+				});
+	<?php elseif ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_CLICK_EVENT): ?>
+				$('display-handler').observe('click', function(){
+					if (!$('paylater-representative-popup').visible()) {
+						$('paylater-representative-popup').writeAttribute('style', 'display:block;');
+						$('display-handler').update('<?php echo $this->__('Hide Representative Example') ?>');
+					} else {
+						$('paylater-representative-popup').writeAttribute('style', 'display:none;');
+						$('display-handler').update('<?php echo $this->__('See Representative Example') ?>');
+					}
+				});
 
-<?php endif; ?>
-	})
-</script>
+	<?php endif; ?>
+		})
+	</script>
 <?php endif; ?>

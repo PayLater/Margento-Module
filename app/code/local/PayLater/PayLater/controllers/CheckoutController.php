@@ -167,10 +167,16 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					$orderId = $this->_setPayLaterOrderStateAndStatus(self::PAYLATER_ORPHANED_ORDER_STATUS, self::PAYLATER_ORPHANED_ORDER_STATUS);
 					$this->_setOrderPayLaterOffer($orderId);
 					$paylaterData[self::PAYLATER_PARAMS_MAP_ORDERID_KEY] = $orderId;
-					$this->loadLayout();
-					$this->getLayout()->getBlock('head')->setTitle($this->__(self::PAYLATER_GATEWAY_TITLE));
-					$this->renderLayout();
-					$helper->log('Saved order with id ' . $orderId, __METHOD__);
+					if ($helper->isEndpointAvailable(60)) {
+						$this->loadLayout();
+						$this->getLayout()->getBlock('head')->setTitle($this->__(self::PAYLATER_GATEWAY_TITLE));
+						$this->renderLayout();
+						$helper->log('Saved order with id ' . $orderId, __METHOD__);
+					} else {
+						$helper->log($helper->__('PayLater could not connect to endpoint at gateway stage'), __METHOD__, Zend_Log::ERR);
+						$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+					}
+					
 				} catch (PayLater_PayLater_Exception_InvalidHttpClientResponse $e) {
 					/**
 					 * @deprecated catch 

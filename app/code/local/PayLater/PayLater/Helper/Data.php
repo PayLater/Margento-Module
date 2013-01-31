@@ -248,7 +248,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			$timeout = self::SERVICE_TIMEOUT;
 		}
 		if ($this->isTestEnvironment()) {
-			return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_TEST_SERVER_PORT, $errno, $errstr, $timeout);
+			return fsockopen(self::PAYLATER_ENDPOINT_TEST_SERVER, self::PAYLATER_ENDPOINT_TEST_SERVER_PORT, $errno, $errstr, $timeout);
 		}
 		return fsockopen(self::PAYLATER_ENDPOINT_SERVER, self::PAYLATER_ENDPOINT_SERVER_PORT, $errno, $errstr, $timeout);
 	}

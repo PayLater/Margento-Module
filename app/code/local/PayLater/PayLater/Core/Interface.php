@@ -98,7 +98,7 @@ interface PayLater_PayLater_Core_Interface
 	 * MERCHANT_CDN where we get config.json for a particular merchant 
 	 * @see PayLater_PayLater_Helper_Data->getMerchantServiceCdn method
 	 */
-	const MERCHANTS_CDN = 'https://paylater.s3.amazonaws.com/merchants/%s/config.json';
+	const MERCHANTS_CDN = 'https://s3-eu-west-1.amazonaws.com/paylater/merchants/%s/config.json';
 	/**
 	 * PAYLATER_PRICE_JS  
 	 */

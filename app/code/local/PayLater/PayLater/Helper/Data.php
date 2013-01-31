@@ -231,7 +231,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		if ($this->isTestEnvironment()) {
 			return fsockopen(self::SERVICE_HOSTNAME_TEST, self::SERVICE_PORT_TEST, $errno, $errstr, $timeout);
 		}
-		return fsockopen(self::SERVICE_HOSTNAME, self::SERVICE_PORT, $errno, $errstr, $timeout);
+		return fsockopen(self::SERVICE_HOSTNAME_LIVE, self::SERVICE_PORT, $errno, $errstr, $timeout);
 	}
 
 	/**

@@ -45,11 +45,12 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 		}
 		$this->getResponse()
 				->setHttpResponseCode(200)
+				->setHeader('Content-Disposition', 'attachment' . '; filename="' . urlencode(basename($file_path)) . '"')
 				->setHeader('Pragma', 'public', true)
 				->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-				->setHeader('Content-type: text/csv')
-				->setHeader('Content-Length', filesize($file_path))
-				->setHeader('Content-Disposition', 'attachment' . '; filename=' . basename($file_path));
+				->setHeader('Content-type: application/octet-stream')
+				->setHeader('Content-Length', filesize($file_path));
+				
 		$this->getResponse()->clearBody();
 		$this->getResponse()->sendHeaders();
 		readfile($file_path);
@@ -84,6 +85,19 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 	{
 		$session = Mage::getSingleton('adminhtml/session');
 		$file_path = Mage::getModel('paylater/refund')->generateRefundsCsv();
+		try {
+			$this->_sendCsv($file_path);
+			unlink($file_path);
+		} catch (Exception $e) {
+			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
+			$this->_redirectReferer();
+		}
+	}
+	
+	public function refundAllAction()
+	{
+		$session = Mage::getSingleton('adminhtml/session');
+		$file_path = Mage::getModel('paylater/refund')->generateAllRefundsCsv();
 		try {
 			$this->_sendCsv($file_path);
 			unlink($file_path);

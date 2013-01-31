@@ -64,5 +64,10 @@ class PayLater_PayLater_Model_Mysql4_Refund_Collection extends Mage_Sales_Model_
 		$this->addFieldToFilter('export_date', array('null' => 1));
 		return $this;
 	}
+	
+	public function exportAllRecords ()
+	{
+		return $this;
+	}
 
 }

@@ -100,6 +100,15 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</refund>
+						<all_refund translate="label">
+							<label>Entire Refund History</label>
+							<frontend_type>button</frontend_type>
+							<frontend_model>paylater/adminhtml_system_config_refund_all</frontend_model>
+							<sort_order>3</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+						</all_refund>
 					</fields>
 				</update>
 				<merchant translate="label">
@@ -120,6 +129,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
+							<validate>required-entry</validate>
 						</reference>
 						<guid translate="label comment">
 							<label>Merchant GUID</label>
@@ -131,6 +141,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
+							<validate>required-entry change-to-uppercase</validate>
 						</guid>
 					</fields>
 				</merchant>
@@ -291,6 +302,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<validate>required-entry</validate>
 						</onepage_index>
 						<onestep_index translate="label comment">
 							<label>OneStep Checkout Template File</label>
@@ -302,6 +314,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<validate>required-entry</validate>
 						</onestep_index>
 						<onestep_payment_method translate="label comment">
 							<label>OneStep Checkout Payment Method File</label>
@@ -313,6 +326,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<validate>required-entry</validate>
 						</onestep_payment_method>
 					</fields>
 				</template>

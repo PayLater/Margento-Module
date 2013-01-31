@@ -92,13 +92,13 @@ interface PayLater_PayLater_Core_Interface
 	 * 
 	 * @see PayLater_PayLater_Helper_Data->isServiceAvailable method
 	 */
-	const SERVICE_HOSTNAME_LIVE = 's3-eu-west-1.amazonaws.com';
-	const SERVICE_HOSTNAME_TEST = 's3-eu-west-1.amazonaws.com';
+	const SERVICE_HOSTNAME_LIVE = 'paylater.s3.amazonaws.com';
+	const SERVICE_HOSTNAME_TEST = 'paylater.s3.amazonaws.com';
 	/**
 	 * MERCHANT_CDN where we get config.json for a particular merchant 
 	 * @see PayLater_PayLater_Helper_Data->getMerchantServiceCdn method
 	 */
-	const MERCHANTS_CDN = 'https://s3-eu-west-1.amazonaws.com/paylater/merchants/%s/config.json';
+	const MERCHANTS_CDN = 'https://paylater.s3.amazonaws.com/merchants/%s/config.json';
 	/**
 	 * PAYLATER_PRICE_JS  
 	 */

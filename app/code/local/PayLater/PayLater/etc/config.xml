@@ -25,72 +25,72 @@
  */
 -->
 <config>
-	<modules>
-		<PayLater_PayLater>
-			<version>1.0.0</version>
-		</PayLater_PayLater>
-	</modules>
-	<paylater>
-		<license>
-			<url>http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)</url>
-		</license>
-		<support>
-			<email>magento@wonga.com</email>
-		</support>
-		<report>
-			<bugs>magento@wonga.com</bugs>
-		</report>
-		<dev>
-			<email>magento@wonga.com</email>
-		</dev>
-	</paylater>
-	<global>
-		<helpers>
-			<paylater>
-				<class>PayLater_PayLater_Helper</class>
-			</paylater>
-		</helpers>
-		<models>
-			<paylater>
-				 <class>PayLater_PayLater_Model</class>
-				 <resourceModel>paylater_mysql4</resourceModel>
-			</paylater>
-			<paylater_mysql4>
-				<class>PayLater_PayLater_Model_Mysql4</class>
-				<entities>
-					<refund>
-						<table>paylater_refund</table>
-					</refund>
-				</entities>
-			</paylater_mysql4>
-		</models>
-		<blocks>
-			<paylater>
-				<class>PayLater_PayLater_Block</class>
-			</paylater>
-		</blocks>
-		<sales>
-			<totals>
-				<grand_total>
-					<renderer>paylater/checkout_grandtotal</renderer>
-				</grand_total>
-			</totals>
-		</sales>
-		<template>
-			<email>
-				<paylater_order_template translate="label" module="paylater">
-					<label>PayLater Order New Email</label>
-					<file>sales/paylater_order_new.html</file>
-					<type>html</type>
-				</paylater_order_template>
-				<paylater_order_guest_template translate="label" module="paylater">
-					<label>PayLater New Order Guest Email</label>
-					<file>sales/paylater_order_new_guest.html</file>
-					<type>html</type>
-				</paylater_order_guest_template>
-			</email>
-		</template>
-		<resources>
+    <modules>
+        <PayLater_PayLater>
+            <version>1.0.1</version>
+        </PayLater_PayLater>
+    </modules>
+    <paylater>
+        <license>
+            <url>http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)</url>
+        </license>
+        <support>
+            <email>magento@wonga.com</email>
+        </support>
+        <report>
+            <bugs>magento@wonga.com</bugs>
+        </report>
+        <dev>
+            <email>magento@wonga.com</email>
+        </dev>
+    </paylater>
+    <global>
+        <helpers>
+            <paylater>
+                <class>PayLater_PayLater_Helper</class>
+            </paylater>
+        </helpers>
+        <models>
+            <paylater>
+                <class>PayLater_PayLater_Model</class>
+                <resourceModel>paylater_mysql4</resourceModel>
+            </paylater>
+            <paylater_mysql4>
+                <class>PayLater_PayLater_Model_Mysql4</class>
+                <entities>
+                    <refund>
+                        <table>paylater_refund</table>
+                    </refund>
+                </entities>
+            </paylater_mysql4>
+        </models>
+        <blocks>
+            <paylater>
+                <class>PayLater_PayLater_Block</class>
+            </paylater>
+        </blocks>
+        <sales>
+            <totals>
+                <grand_total>
+                    <renderer>paylater/checkout_grandtotal</renderer>
+                </grand_total>
+            </totals>
+        </sales>
+        <template>
+            <email>
+                <paylater_order_template translate="label" module="paylater">
+                    <label>PayLater Order New Email</label>
+                    <file>sales/paylater_order_new.html</file>
+                    <type>html</type>
+                </paylater_order_template>
+                <paylater_order_guest_template translate="label" module="paylater">
+                    <label>PayLater New Order Guest Email</label>
+                    <file>sales/paylater_order_new_guest.html</file>
+                    <type>html</type>
+                </paylater_order_guest_template>
+            </email>
+        </template>
+        <resources>
             <paylater_write>
                 <connection>
                     <use>core_setup</use>
@@ -110,61 +110,61 @@
                     <use>core_setup</use>
                 </connection>
             </paylater_setup>
-		</resources>
-	</global>
-	<frontend>
-		<routers>
-			<paylater>
-				<use>standard</use>
-				<args>
-					<module>PayLater_PayLater</module>
-					<frontName>paylater</frontName>
-				</args>
-			</paylater>
-		</routers>
-		<events>
-			<controller_action_layout_render_before_catalog_product_view>
-				<observers>
-					<paylater_observer>
-						<class>paylater/event_observer</class>
-						<method>catalogProductViewBefore</method>
-					</paylater_observer>
-				</observers>
-			</controller_action_layout_render_before_catalog_product_view>
-			<controller_action_layout_render_before_checkout_onepage_index>
-				<observers>
-					<paylater_observer>
-						<class>paylater/event_observer</class>
-						<method>checkoutOnepageIndexBefore</method>
-					</paylater_observer>
-				</observers>
-			</controller_action_layout_render_before_checkout_onepage_index>
-			<controller_action_layout_render_before_onestepcheckout_index_index>
-				<observers>
-					<paylater_observer>
-						<class>paylater/event_observer</class>
-						<method>onestepCheckoutIndexBefore</method>
-					</paylater_observer>
-				</observers>
-			</controller_action_layout_render_before_onestepcheckout_index_index>
-			<checkout_type_onepage_save_order_after>
-				<observers>
-					<paylater_observer>
-						<class>paylater/event_observer</class>
-						<method>saveOrderAfter</method>
-					</paylater_observer>
-				</observers>
-			</checkout_type_onepage_save_order_after>
-		</events>
-		<layout>
-			<updates>
-				<paylater>
-					<file>paylater/paylater.xml</file>
-				</paylater>
-			</updates>
-		</layout>
-	</frontend>
-	<admin>
+        </resources>
+    </global>
+    <frontend>
+        <routers>
+            <paylater>
+                <use>standard</use>
+                <args>
+                    <module>PayLater_PayLater</module>
+                    <frontName>paylater</frontName>
+                </args>
+            </paylater>
+        </routers>
+        <events>
+            <controller_action_layout_render_before_catalog_product_view>
+                <observers>
+                    <paylater_observer>
+                        <class>paylater/event_observer</class>
+                        <method>catalogProductViewBefore</method>
+                    </paylater_observer>
+                </observers>
+            </controller_action_layout_render_before_catalog_product_view>
+            <controller_action_layout_render_before_checkout_onepage_index>
+                <observers>
+                    <paylater_observer>
+                        <class>paylater/event_observer</class>
+                        <method>checkoutOnepageIndexBefore</method>
+                    </paylater_observer>
+                </observers>
+            </controller_action_layout_render_before_checkout_onepage_index>
+            <controller_action_layout_render_before_onestepcheckout_index_index>
+                <observers>
+                    <paylater_observer>
+                        <class>paylater/event_observer</class>
+                        <method>onestepCheckoutIndexBefore</method>
+                    </paylater_observer>
+                </observers>
+            </controller_action_layout_render_before_onestepcheckout_index_index>
+            <checkout_type_onepage_save_order_after>
+                <observers>
+                    <paylater_observer>
+                        <class>paylater/event_observer</class>
+                        <method>saveOrderAfter</method>
+                    </paylater_observer>
+                </observers>
+            </checkout_type_onepage_save_order_after>
+        </events>
+        <layout>
+            <updates>
+                <paylater>
+                    <file>paylater/paylater.xml</file>
+                </paylater>
+            </updates>
+        </layout>
+    </frontend>
+    <admin>
         <routers>
             <paylater>
                 <use>admin</use>
@@ -173,7 +173,7 @@
                     <frontName>paylater</frontName>
                 </args>
             </paylater>
-			<adminhtml>
+            <adminhtml>
                 <use>admin</use>
                 <args>
                     <modules>
@@ -183,81 +183,89 @@
             </adminhtml>
         </routers>
     </admin>
-	<adminhtml>
-		<acl>
-			<resources>
-				<all>
-					<title>Allow Everything</title>
-				</all>
-				<admin>
-					<children>
-						<system>
-							<children>
-								<config>
-									<children>
-										<paylater>
-											<title>PayLater</title>
-											<sort_order>100</sort_order>
-										</paylater>
-									</children>
-								</config>
-							</children>
-						</system>
-					</children>
-				</admin>
-			</resources>
-		</acl>
-		<layout>
-			<updates>
-				<paylater>
-					<file>paylater/paylater.xml</file>
-				</paylater>
-			</updates>
-		</layout>
-	</adminhtml>
-	<default>
-		<payment>
-			<paylater>
-				<active>1</active>
-            	<model>paylater/payment_gateway</model>
-			</paylater>
-		</payment>
-		<paylater>
-			<globals>
-				<run_status>0</run_status>
-				<env>test</env>
-			</globals>
-			<dev>
-				<log_file>paylater_paylater.log</log_file>
-			</dev>
-			<product>
-				<event>mouseover</event>
-			</product>
-			<checkout>
-				<type>onepage</type>
-				<show_out_range_message>1</show_out_range_message>
-			</checkout>
-			<payment>
-				<order_status>pending</order_status>
-				<service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]>
-				</service_unavailable_heading>
-				<service_unavailable_body><![CDATA[We are currently unable to connect to PayLater. Please choose an alternative payment method, or try again later.]]>
-				</service_unavailable_body>
-				<out_range_heading><![CDATA[PayLater payment option is currently unavailable]]>
-				</out_range_heading>
-				<out_range_message><![CDATA[PayLater is only avaiable for orders between %s and %s. Currently your basket total is %s]]>
-				</out_range_message>
-				<error_code_body><![CDATA[Unfortunately, your PayLater application can’t be completed at this time. Please checkout, using an alternative payment method. We apologise for any inconvenience caused.]]>
-				</error_code_body>
-			</payment>
-			<review>
-				<customer_note><![CDATA[By choosing PayLater, you will be redirected to the PayLater website to complete your order.]]></customer_note>
-			</review>
-			<template>
-				<onepage_index>paylater/paylater/checkout/onepage/index.phtml</onepage_index>
-				<onestep_index>paylater/paylater/checkout/onestep/checkout.phtml</onestep_index>
-				<onestep_payment_method>paylater/paylater/checkout/onestep/payment_method.phtml</onestep_payment_method>
-			</template>
-		</paylater>
-	</default>
+    <adminhtml>
+        <acl>
+            <resources>
+                <all>
+                    <title>Allow Everything</title>
+                </all>
+                <admin>
+                    <children>
+                        <system>
+                            <children>
+                                <config>
+                                    <children>
+                                        <paylater>
+                                            <title>PayLater</title>
+                                            <sort_order>100</sort_order>
+                                        </paylater>
+                                    </children>
+                                </config>
+                            </children>
+                        </system>
+                    </children>
+                </admin>
+            </resources>
+        </acl>
+        <layout>
+            <updates>
+                <paylater>
+                    <file>paylater/paylater.xml</file>
+                </paylater>
+            </updates>
+        </layout>
+    </adminhtml>
+    <default>
+        <payment>
+            <paylater>
+                <active>1</active>
+                <model>paylater/payment_gateway</model>
+            </paylater>
+        </payment>
+        <paylater>
+            <globals>
+                <run_status>0</run_status>
+                <env>test</env>
+            </globals>
+            <dev>
+                <log_file>paylater_paylater.log</log_file>
+            </dev>
+            <product>
+                <event>mouseover</event>
+            </product>
+            <checkout>
+                <type>onepage</type>
+                <show_out_range_message>1</show_out_range_message>
+            </checkout>
+            <payment>
+                <order_status>pending</order_status>
+                <service_unavailable_heading>
+                    <![CDATA[PayLater is temporarely unavailable]]>
+                </service_unavailable_heading>
+                <service_unavailable_body>
+                    <![CDATA[We are currently unable to connect to PayLater. Please choose an alternative payment method, or try again later.]]>
+                </service_unavailable_body>
+                <out_range_heading>
+                    <![CDATA[PayLater payment option is currently unavailable]]>
+                </out_range_heading>
+                <out_range_message>
+                    <![CDATA[PayLater is only avaiable for orders between %s and %s. Currently your basket total is %s]]>
+                </out_range_message>
+                <error_code_body>
+                    <![CDATA[Unfortunately, your PayLater application can’t be completed at this time. Please checkout, using an alternative payment method. We apologise for any inconvenience caused.]]>
+                </error_code_body>
+            </payment>
+            <review>
+                <customer_note>
+                    <![CDATA[By choosing PayLater, you will be redirected to the PayLater website to complete your order.]]>
+                </customer_note>
+            </review>
+            <template>
+                <onepage_index>paylater/paylater/checkout/onepage/index.phtml</onepage_index>
+                <onestep_index>paylater/paylater/checkout/onestep/checkout.phtml</onestep_index>
+                <onestep_payment_method>paylater/paylater/checkout/onestep/payment_method.phtml</onestep_payment_method>
+            </template>
+        </paylater>
+    </default>
 </config>
+

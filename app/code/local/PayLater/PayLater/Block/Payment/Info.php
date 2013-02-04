@@ -67,7 +67,7 @@ class PayLater_PayLater_Block_Payment_Info extends Mage_Payment_Block_Info imple
 
 	public function getPayLaterLogoSrc()
 	{
-		return $this->getSkinUrl('paylater/images/paylater-label.png');
+		return $this->getSkinUrl(self::PAYLATER_LOGO_SRC);
 	}
 
 	/**

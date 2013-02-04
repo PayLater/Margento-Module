@@ -61,6 +61,7 @@ interface PayLater_PayLater_Core_Interface
 	const PRICE_JS_BLOCK = 'Mage_Core_Block_Template';
 	const PRICE_JS_BLOCK_NAME = 'paylater.pricejs';
 	const PRICE_JS_TEMPLATE = 'paylater/paylater/pricejs.phtml';
+	const PAYLATER_LOGO_SRC = 'paylater/images/paylater_logo_small.png';
 
 	/**
 	 * ENV Types 

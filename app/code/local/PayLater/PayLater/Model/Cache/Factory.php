@@ -149,7 +149,7 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 	 * 
 	 * @param PayLater_PayLater_Cache_Interface $cacheFactory 
 	 * @return array
-	 * @throws PayLater_PayLater_Exception_InvalidMerchantData
+	 * @throws PayLater_PayLater_Exception_InvalidMerchantData @deprecated
 	 * @throws PayLater_PayLater_Exception_ServiceUnavailable
 	 */
 	public function save()

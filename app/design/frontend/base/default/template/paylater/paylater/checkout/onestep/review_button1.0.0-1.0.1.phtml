@@ -1,0 +1,48 @@
+<?php 
+/**
+ * PayLater extension for Magento
+ *
+ *
+ * NOTICE OF LICENSE
+ *
+ * This source file is subject to the Open Software License (OSL 3.0)
+ * that is bundled with this package in the file LICENSE.txt.
+ * It is also available through the world-wide-web at this URL:
+ * http://opensource.org/licenses/osl-3.0.php
+ *
+ * DISCLAIMER
+ *
+ * Do not edit or add to this file if you wish to upgrade
+ * the PayLater PayLater module to newer versions in the future.
+ * If you wish to customize the PayLater PayLater module for your needs
+ * please refer to http://www.magentocommerce.com for more information.
+ *
+ * @category   PayLater
+ * @package    PayLater_PayLater
+ * @copyright  Copyright (C) 2013 PayLater
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+?>
+<?php if ($this->canShow() && $this->isPayLaterPaymentMethod()): ?>
+	<script type="text/javascript">
+		// paylater-text-info update is located in tax/checkout/grandtotal.phtml
+		var form = new VarienForm('onestepcheckout-form');
+		var payLaterButton = PayLater.GetPaymentButton(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
+		payLaterButton.setAttribute("action", '<?php echo $this->getUrl(PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION, array('_secure' => true))  ?>');
+		$('paylater-button').update(payLaterButton);
+		$('PayLater-button').writeAttribute('value', '<?php echo $this->__('Pay with PayLater') ?>');
+		$('PayLater-button').addClassName('onestepcheckout-place-order');
+		$('PayLater-button').observe('click', function(e){
+			if (!form.validator.validate()){
+				e.preventDefault();
+			}
+		});
+	</script>
+	<div id="paylater-button"></div>
+	<div id="paylater-customer-note">
+		<div id="paylater-text-info"></div>
+		<?php echo $this->getCustomerNote() ?>
+	</div>
+<?php else: ?>
+	<button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="review.save();"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
+<?php endif; ?>

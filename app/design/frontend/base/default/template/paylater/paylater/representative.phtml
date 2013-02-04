@@ -25,38 +25,35 @@
 ?>
 <?php if ($this->canShow()): ?>
 	<div id="representative-holder"></div>
+	<div id="representative-pop"></div>
 	<script type="text/javascript">
-
-		var representative = PayLater.GetPaymentsWidget(<?php echo $this->getProductPrice() ?>, '<?php echo $this->getPayLaterType() ?>');
+		<?php if (Mage::helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
+		var offer = PayLater.getOffer(<?php echo $this->getProductPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>');
+		<?php else: ?>
+		var offer = PayLater.getOffer(<?php echo $this->getProductPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
+		<?php endif; ?>
+		PayLater.GetStyles();
+		var representative = PayLater.GetPriceBox(offer, '<?php echo $this->getPayLaterType() ?>', 'down');
+		var representativePop = PayLater.GetFullInfo(offer, '<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>');
 		$('representative-holder').update(representative);
+		$('representative-pop').update(representativePop);
 		Event.observe(window, 'load', function() {
-			$$('p.apr-link')[0].writeAttribute('id', 'display-handler');
-			$$('div.PayLater-popup')[0].writeAttribute('id', 'paylater-representative-popup');
-			
-	<?php if ($this->isConfigurableProduct()):?>
-			Event.observe($$('span.price')[0], 'change', function (evt){
-				console.log(evt)
-			})
-	<?php endif; ?>
-			
+			$$('p.fullInfo-link')[0].writeAttribute('id', 'display-handler');
 	<?php if ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_HOVER_EVENT): ?>
-				$('display-handler').observe('mouseover', function(){
-					$('paylater-representative-popup').writeAttribute('style', 'display:block;');
-				});
-						
-				$('display-handler').observe('mouseout', function(){
-					$('paylater-representative-popup').writeAttribute('style', 'display:none;');
-				});
-	<?php elseif ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_CLICK_EVENT): ?>
-				$('display-handler').observe('click', function(){
-					if (!$('paylater-representative-popup').visible()) {
-						$('paylater-representative-popup').writeAttribute('style', 'display:block;');
-						$('display-handler').update('<?php echo $this->__('Hide Representative Example') ?>');
-					} else {
-						$('paylater-representative-popup').writeAttribute('style', 'display:none;');
-						$('display-handler').update('<?php echo $this->__('See Representative Example') ?>');
+					document.getElementById('display-handler').onmouseover = function() {
+						document.getElementById("PayLater-fullInfo").style.display="block";
+						document.getElementById("PayLater-greyBackground").style.display="block";
+						return false;
+					};
+					document.getElementById('display-handler').onclick = function() {
+						return false;
 					}
-				});
+	<?php elseif ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_CLICK_EVENT): ?>
+					document.getElementById('display-handler').onclick = function() {
+						document.getElementById("PayLater-fullInfo").style.display="block";
+						document.getElementById("PayLater-greyBackground").style.display="block";
+					};
+					return false;
 
 	<?php endif; ?>
 		})

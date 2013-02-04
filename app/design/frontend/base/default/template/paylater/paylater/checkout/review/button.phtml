@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * PayLater extension for Magento
  *
@@ -23,19 +23,22 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 ?>
-<?php if($this->canShow() && $this->isPayLaterPaymentMethod()): ?>
-<script type="text/javascript">
-	// paylater-text-info update is located in tax/checkout/grandtotal.phtml
-	var payLaterButton = PayLater.GetPaymentButton(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
-	payLaterButton.setAttribute("action", '<?php echo $this->getUrl(PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION, array('_secure' => true))  ?>');
+<?php if ($this->canShow() && $this->isPayLaterPaymentMethod()): ?>
+	<script type="text/javascript">
+		// paylater-text-info update is located in tax/checkout/grandtotal.phtml
+	<?php if ($this->helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
+	var offer = PayLater.getOffer(<?php echo $this->getQuoteGrandTotal() ?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>');
+	<?php else: ?>
+	var offer = PayLater.getOffer(<?php echo $this->getQuoteGrandTotal() ?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
+	<?php endif; ?>
+	var payLaterButton = PayLater.GetPaymentForm(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
 	$('paylater-button').update(payLaterButton);
-	$('PayLater-button').writeAttribute('value', '<?php echo $this->__('Pay with PayLater') ?>');
-</script>
-<div id="paylater-button"></div>
-<div id="paylater-customer-note">
-	<div id="paylater-text-info"></div>
-	<?php echo $this->getCustomerNote() ?>
-</div>
+	</script>
+	<div id="paylater-button"></div>
+	<div id="paylater-customer-note">
+		<div id="paylater-text-info"></div>
+		<?php echo $this->getCustomerNote() ?>
+	</div>
 <?php else: ?>
-<button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="review.save();"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
+	<button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="review.save();"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
 <?php endif; ?>

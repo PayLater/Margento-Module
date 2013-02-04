@@ -54,7 +54,7 @@
 						<run_status translate="label comment">
 							<label>Enabled</label>
 							<comment>
-								<![CDATA[<span class="notice"></span>]]>
+								<![CDATA[<span class="notice">Enable/Disable module output</span>]]>
 							</comment>
 							<sort_order>10</sort_order>
 							<frontend_type>select</frontend_type>
@@ -63,6 +63,17 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 						</run_status>
+						<store translate="label comment">
+							<label>Store Name</label>
+							<sort_order>11</sort_order>
+							<frontend_type>text</frontend_type>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+							<comment>
+								<![CDATA[<span class="notice">This store name (as it should appear on PayLater)</span>]]>
+							</comment>
+						</store>
 						<env translate="label comment">
 							<label>Environment</label>
 							<sort_order>20</sort_order>
@@ -72,6 +83,17 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 						</env>
+						<sort_order translate="label comment">
+							<label>Payment Method Sort Order</label>
+							<sort_order>30</sort_order>
+							<frontend_type>text</frontend_type>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+							<comment>
+								<![CDATA[<span class="notice">After saving, also run "Update Configuration" when editing payment method sort order.</span>]]>
+							</comment>
+						</sort_order>
 					</fields>
 				</globals>
 				<update translate="label">
@@ -146,7 +168,7 @@
 					</fields>
 				</merchant>
 				<product translate="label">
-					<label>Product Page</label>
+					<label>Representative Example</label>
 					<frontend_type>text</frontend_type>
 					<sort_order>250</sort_order>
 					<show_in_default>1</show_in_default>
@@ -165,6 +187,17 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 						</event>
+						<legal translate="label comment">
+							<label>Legal</label>
+							<comment>
+								<![CDATA[<span class="notice">Do not change legal notice unless instructed otherwise by PayLater</span>]]>
+							</comment>
+							<sort_order>20</sort_order>
+							<frontend_type>textarea</frontend_type>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>	
+							<show_in_store>1</show_in_store>
+						</legal>
 					</fields>
 				</product>
 				<checkout translate="label">

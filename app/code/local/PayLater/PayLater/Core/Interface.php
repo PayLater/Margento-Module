@@ -103,8 +103,8 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * PAYLATER_PRICE_JS  
 	 */
-	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/price.js';
-	const PAYLATER_PRICE_JS_TEST = 'https://paylater.s3.amazonaws.com/price.js';
+	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/2.1/price.js';
+	const PAYLATER_PRICE_JS_TEST = 'https://paylater.s3.amazonaws.com/2.1/price.js';
 	/**
 	 * Supported PayLater currencies.
 	 */
@@ -190,6 +190,10 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PARAMS_MAP_ORDERID_KEY = 'merchantorderid';
 	const PAYLATER_PARAMS_MAP_CURRENCY_KEY = 'currency';
 	const PAYLATER_PARAMS_MAP_POSTCODE_KEY = 'postcode';
+	const PAYLATER_PARAMS_MAP_DELIVERYPOSTCODE_KEY = 'deliverypostcode';
+	const PAYLATER_PARAMS_MAP_BILLINGPOSTCODE_KEY = 'billingpostcode';
+	const PAYLATER_PARAMS_MAP_ACTION = 'action';
+	const PAYLATER_PARAMS_MAP_BUTTON = 'button';
 	const PAYLATER_PARAMS_MAP_ITEMS_KEY = 'items';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_KEY = 'id';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_DESCRIPTION_KEY = 'description';

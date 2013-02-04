@@ -26,7 +26,11 @@
 <tr class="paylater-review-row">
 	<td style="<?php echo $this->getParentBlock()->getStyle() ?>" class="a-right" colspan="<?php echo $this->getParentBlock()->getColspan(); ?>">
 		<script type="text/javascript">
-			var offer = PayLater.getOffer(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>);
+		<?php if ($this->helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
+		var offer = PayLater.getOffer(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>');
+		<?php else: ?>
+		var offer = PayLater.getOffer(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
+		<?php endif; ?>
 			if (PayLater.IsAmountSuitable(<?php echo $this->getParentBlock()->getTotal()->getValue() ?>)) {
 				var textInfoTitle = "<span class='break'>Pay just <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today and </span><span class='break'>3 monthly payments of just <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.";
 				var emailInfo = "<p><span class='break'>You paid <span class='relevant amount'>&pound;" + offer.transactionFeePrice + "</span> today and the balance will be spread over </span><span class='break'>3 monthly payments of <span class='relevant amount'>&pound;" + offer.paymentInstallmentAmount + "</span></span>.</p>";

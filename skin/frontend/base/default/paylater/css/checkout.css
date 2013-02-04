@@ -23,7 +23,7 @@
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-#representative-wrap-wrap {
+#representative-wrap-wrap, #representative-pop {
 	position:relative;
 }
 
@@ -59,6 +59,12 @@
 .payler-review-td {
 	border-left: 1px solid #D9DDE3;
 }
+
+.PayLater-representativeExample {
+    left: 0 !important;
+	top: -353px !important;
+}
+
 
  .onestepcheckout-index-index #representative-wrap {
 	left : 0;

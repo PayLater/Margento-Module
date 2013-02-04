@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * PayLater extension for Magento
  *
@@ -25,29 +25,38 @@
 ?>
 <div id="payment_form_paylater">
 	<?php if ($this->canShow()): ?>
+		
 		<div id="representative-wrap-wrap">
 			<div id="representative-wrap"></div>
+			<div id="representative-pop"></div>
 		</div>
 		<script type="text/javascript">
-			//PayLater.GetStyles();
-			var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
-			
+		<?php if ($this->helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
+			var offer = PayLater.getOffer(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>');
+		<?php else: ?>
+			var offer = PayLater.getOffer(<?php echo $this->getGrandTotal()?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
+		<?php endif; ?>
+			PayLater.GetStyles();
+			var logo = PayLater.GetLogo(offer);
+			//var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
+			var representative = PayLater.GetRepresentativeExample(offer);
 			if ($('representative-wrap')) {
-				$('representative-wrap').update(representative);
-				if ($$('div.PayLater-checkout img')) {
+				$('representative-wrap').update(logo);
+				$('representative-pop').update(representative);
+				if ($('PayLater-Logo')) {
 					// wrapping image in label tags (this also deal with summary reload for onestep checkout)
-					$$('div.PayLater-checkout img')[0].wrap('label', {'for' : 'p_method_paylater'})
+					$('PayLater-Logo').wrap('label', {'for' : 'p_method_paylater'})
 				}
 				$('representative-wrap').observe('click', function(){
 					$('p_method_paylater').checked = 'checked';
 					payment.switchMethod('paylater');
 				});
 				$('representative-wrap').observe('mouseover', function(){
-					$$('div.PayLater-popup')[0].writeAttribute('style', 'display:block;margin:0;');
+					$$('div.PayLater-representativeExample')[0].writeAttribute('style', 'display:block;margin:0;');
 				});
-					
+						
 				$('representative-wrap').observe('mouseout', function(){
-					$$('div.PayLater-popup')[0].writeAttribute('style', 'display:none;');
+					$$('div.PayLater-representativeExample')[0].writeAttribute('style', 'display:none;');
 				});
 			}
 		</script>
@@ -55,7 +64,7 @@
 		<script type="text/javascript">
 			$('p_method_paylater').checked = '';
 			$('p_method_paylater').remove();
-			
+				
 		</script>
 		<strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong>
 		<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>

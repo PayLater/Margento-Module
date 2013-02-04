@@ -64,6 +64,12 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 		$quote = Mage::getModel('paylater/checkout_quote');
 		return $quote->getPayLaterPostcode();
 	}
+	
+	protected function _getPostcodes()
+	{
+		$quote = Mage::getModel('paylater/checkout_quote');
+		return array('billing' => $quote->getBillingPostcode(), 'shipping' => $quote->getShippingPostcode());
+	}
 
 	/**
 	 * Returns quote grand total
@@ -105,6 +111,11 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_REFERENCE_KEY] = $this->_getReference();
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_AMOUNT_KEY] = $this->_getAmount();
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_POSTCODE_KEY] = $this->_getPostcode();
+		$postcodes = $this->_getPostcodes();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_DELIVERYPOSTCODE_KEY] = $postcodes['shipping'];
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_BILLINGPOSTCODE_KEY] = $postcodes['billing'];
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_ACTION] = $this->getBeforeEndpointAction();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_BUTTON] = Mage::helper('paylater')->__('Pay with PayLater');
 		return json_encode($this->_paramsMap);
 	}
 
@@ -117,7 +128,7 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	{
 		return $this->_getPaymentMethod();
 	}
-
+	
 	/**
 	 * Returns true is chosen checkout payment method is PayLater
 	 * 
@@ -126,6 +137,11 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	public function isPayLaterPaymentMethod()
 	{
 		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;
+	}
+	
+	public function getBeforeEndpointAction ()
+	{
+		return $this->getUrl(self::PAYLATER_BEFORE_ENDPOINT_ACTION, array('_secure' => true));
 	}
 
 }

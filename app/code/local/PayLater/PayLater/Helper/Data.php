@@ -461,5 +461,17 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return $this->getPayLaterConfigType('checkout');
 	}
+	
+	/**
+	 * 
+	 * Returns representative example legal notice, replacing placeholders with store name and address
+	 * 
+	 * @return string
+	 */
+	public function getRepresentativeLegal()
+	{
+		$legal = $this->getPayLaterConfigLegal('product');
+		return sprintf($legal, $this->getPayLaterConfigStore('globals'), preg_replace("/[\n\r]/", " ", Mage::getStoreConfig('general/store_information/address')));
+	}
 
 }

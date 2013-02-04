@@ -57,6 +57,12 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 		$config->saveConfig('payment/paylater/min_order_total', $orderLowerBound, 'default', 0);
 		$config->saveConfig('payment/paylater/max_order_total', $orderUpperBound, 'default', 0);
 	}
+	
+	protected function _savePayLaterSorting ()
+	{
+		$config = Mage::helper('paylater')->getCoreConfig();
+		$config->saveConfig('payment/paylater/sort_order', Mage::helper('paylater')->getPayLaterConfigSortOrder('globals'), 'default', 0);
+	}
 
 	/**
 	 * @deprecated 
@@ -143,7 +149,7 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 	 * 
 	 * @param PayLater_PayLater_Cache_Interface $cacheFactory 
 	 * @return array
-	 * @throws PayLater_PayLater_Exception_InvalidMerchantData
+	 * @throws PayLater_PayLater_Exception_InvalidMerchantData @deprecated
 	 * @throws PayLater_PayLater_Exception_ServiceUnavailable
 	 */
 	public function save()
@@ -159,6 +165,7 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 				// save the cache
 				$this->getInstance()->save($data, $this->getId(), array('PayLater'));
 				// save payment/paylater config data
+				$this->_savePayLaterSorting();
 				$this->_savePayLaterOrderStatus();
 				/**
 				 * @deprecated handled by checkout controller

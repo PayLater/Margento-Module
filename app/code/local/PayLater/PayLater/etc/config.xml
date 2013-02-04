@@ -220,6 +220,7 @@
             <paylater>
                 <active>1</active>
                 <model>paylater/payment_gateway</model>
+				<sort_order>1</sort_order>
             </paylater>
         </payment>
         <paylater>

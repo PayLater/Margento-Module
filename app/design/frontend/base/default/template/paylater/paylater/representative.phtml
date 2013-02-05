@@ -33,7 +33,7 @@
 		var offer = PayLater.getOffer(<?php echo $this->getProductPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
 		<?php endif; ?>
 		PayLater.GetStyles();
-		var representative = PayLater.GetPriceBox(offer, '<?php echo $this->getPayLaterType() ?>', 'down');
+		var representative = PayLater.GetPriceBox(offer, '<?php echo $this->getPayLaterType() ?>', 'none');
 		var representativePop = PayLater.GetFullInfo(offer, '<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>');
 		$('representative-holder').update(representative);
 		$('representative-pop').update(representativePop);

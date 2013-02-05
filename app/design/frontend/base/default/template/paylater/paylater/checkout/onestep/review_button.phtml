@@ -33,9 +33,7 @@
 			var offer = PayLater.getOffer(<?php echo $this->getQuoteGrandTotal()?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
 		<?php endif; ?>
 		var payLaterButton = PayLater.GetPaymentForm(<?php echo $this->getQuoteGrandTotal() ?>, <?php echo $this->getParams() ?>);
-		payLaterButton.setAttribute("action", '<?php echo $this->getUrl(PayLater_PayLater_Core_Interface::PAYLATER_BEFORE_ENDPOINT_ACTION, array('_secure' => true))  ?>');
 		$('paylater-button').update(payLaterButton);
-		$('PayLater-button').writeAttribute('value', '<?php echo $this->__('Pay with PayLater') ?>');
 		$('PayLater-button').addClassName('onestepcheckout-place-order');
 		$('PayLater-button').observe('click', function(e){
 			if (!form.validator.validate()){

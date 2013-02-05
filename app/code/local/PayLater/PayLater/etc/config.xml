@@ -27,7 +27,7 @@
 <config>
     <modules>
         <PayLater_PayLater>
-            <version>1.0.1</version>
+            <version>1.0.2</version>
         </PayLater_PayLater>
     </modules>
     <paylater>
@@ -220,22 +220,26 @@
             <paylater>
                 <active>1</active>
                 <model>paylater/payment_gateway</model>
-				<sort_order>1</sort_order>
+                <sort_order>1</sort_order>
             </paylater>
         </payment>
         <paylater>
             <globals>
                 <run_status>0</run_status>
-                <store><![CDATA[Current Store]]></store>
+                <store>
+                    <![CDATA[Current Store]]>
+                </store>
                 <env>test</env>
-				<sort_order>1</sort_order>
+                <sort_order>1</sort_order>
             </globals>
             <dev>
                 <log_file>paylater_paylater.log</log_file>
             </dev>
             <product>
                 <event>click</event>
-				<legal><![CDATA[Credit provided subject to status to UK residents aged 18 and over. %s is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. %s.]]></legal>
+                <legal>
+                    <![CDATA[Credit provided subject to status to UK residents aged 18 and over. %s is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. %s.]]>
+                </legal>
             </product>
             <checkout>
                 <type>onepage</type>

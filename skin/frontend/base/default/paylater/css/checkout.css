@@ -67,7 +67,11 @@
 
 
  .onestepcheckout-index-index #representative-wrap {
-	left : 0;
+	left : -3px;
+}
+
+.onestepcheckout-index-index .payment-methods dd {
+	padding-top:5px;
 }
 
 .onestepcheckout-index-index div.checkoutcontainer {

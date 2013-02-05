@@ -475,7 +475,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	public function getRepresentativeLegal()
 	{
 		$legal = $this->getPayLaterConfigLegal('product');
-		return sprintf($legal, $this->getPayLaterConfigStore('globals'), $this->getPayLaterConfigStore('globals'), preg_replace("/[\n\r]/", " ", Mage::getStoreConfig('general/store_information/address')));
+		return preg_replace("/[\n\r\t]/", "", $legal);
 	}
 
 }

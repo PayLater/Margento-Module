@@ -38,8 +38,8 @@
 		$('representative-holder').update(representative);
 		$('representative-pop').update(representativePop);
 		Event.observe(window, 'load', function() {
-			$$('p.fullInfo-link')[0].writeAttribute('id', 'display-handler');
-	<?php if ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_HOVER_EVENT): ?>
+		$$('p.fullInfo-link')[0].writeAttribute('id', 'display-handler');
+			<?php if ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_HOVER_EVENT): ?>
 					document.getElementById('display-handler').onmouseover = function() {
 						document.getElementById("PayLater-fullInfo").style.display="block";
 						document.getElementById("PayLater-greyBackground").style.display="block";
@@ -48,7 +48,7 @@
 					document.getElementById('display-handler').onclick = function() {
 						return false;
 					}
-	<?php elseif ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_CLICK_EVENT): ?>
+			<?php elseif ($this->getEventType() == PayLater_PayLater_Core_Interface::PAYLATER_CLICK_EVENT): ?>
 					document.getElementById('display-handler').onclick = function() {
 						document.getElementById("PayLater-fullInfo").style.display="block";
 						document.getElementById("PayLater-greyBackground").style.display="block";

@@ -238,7 +238,7 @@
             <product>
                 <event>click</event>
                 <legal>
-                    <![CDATA[Credit provided subject to status to UK residents aged 18 and over. %s is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. %s.]]>
+                    <![CDATA[Credit provided subject to status to UK residents aged 18 and over. %s is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. %s, %s.]]>
                 </legal>
             </product>
             <checkout>

@@ -71,7 +71,7 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 							<comment>
-								<![CDATA[<span class="notice">This store name (as it should appear on PayLater)</span>]]>
+								<![CDATA[<span class="notice">This store name (as it should appear on PayLater legal notice)</span>]]>
 							</comment>
 						</store>
 						<env translate="label comment">
@@ -91,7 +91,7 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 							<comment>
-								<![CDATA[<span class="notice">After saving, also run "Update Configuration" when editing payment method sort order.</span>]]>
+								<![CDATA[<span class="notice">After saving, also run "Update Configuration" when editing payment method sort order. Also make sure other enabled payment methods have a sort order value.</span>]]>
 							</comment>
 						</sort_order>
 					</fields>
@@ -190,7 +190,7 @@
 						<legal translate="label comment">
 							<label>Legal</label>
 							<comment>
-								<![CDATA[<span class="notice">Do not change legal notice unless instructed otherwise by PayLater</span>]]>
+								<![CDATA[<span class="notice">Do not change legal notice unless instructed otherwise by PayLater. String contains the following parameters:<br /><ul><li>First %s: current store name</li><li>Second %s: current store name</li><li>Third %s: current store address</li></ul></span>]]>
 							</comment>
 							<sort_order>20</sort_order>
 							<frontend_type>textarea</frontend_type>
@@ -292,7 +292,7 @@
 								<![CDATA[Customer message when PayLater returns Error Codes]]>
 							</comment>
 							<frontend_type>textarea</frontend_type>
-							<sort_order>30</sort_order>
+							<sort_order>40</sort_order>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>

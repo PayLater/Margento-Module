@@ -456,7 +456,11 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;
 	}
-
+	/**
+	 * Returns checkout type (e.g onepage, onestep, etc)
+	 * 
+	 * @return string
+	 */
 	public function getCheckoutType()
 	{
 		return $this->getPayLaterConfigType('checkout');
@@ -471,7 +475,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	public function getRepresentativeLegal()
 	{
 		$legal = $this->getPayLaterConfigLegal('product');
-		return sprintf($legal, $this->getPayLaterConfigStore('globals'), preg_replace("/[\n\r]/", " ", Mage::getStoreConfig('general/store_information/address')));
+		return sprintf($legal, $this->getPayLaterConfigStore('globals'), $this->getPayLaterConfigStore('globals'), preg_replace("/[\n\r]/", " ", Mage::getStoreConfig('general/store_information/address')));
 	}
 
 }

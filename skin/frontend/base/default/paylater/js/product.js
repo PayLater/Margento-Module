@@ -8,10 +8,13 @@ Product.OptionsPrice.prototype.formatPrice = function (price) {
 		var representativePop = PayLater.GetFullInfo(offer, representativeLegal);
 		if ($('representative-pop')) {
 			$('representative-pop').update(representativePop);
-			document.getElementById('PayLater-greyBackground').onclick = function () {
+			if ($('PayLater-greyBackground')) {
+				document.getElementById('PayLater-greyBackground').onclick = function () {
 				     document.getElementById('PayLater-fullInfo').style.display = "none";
 				     document.getElementById('PayLater-greyBackground').style.display = "none";
-			 };
+			 	};
+			}
+			
 			if (document.getElementById('PayLater-fullInfo')) {
 				document.getElementById('Popup-inner-1-link').onclick = function (e) {
 					document.getElementById('Popup-inner-1').style.display = "none";

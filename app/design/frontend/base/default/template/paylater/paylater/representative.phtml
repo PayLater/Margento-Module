@@ -25,6 +25,9 @@
 ?>
 <?php if ($this->canShow()): ?>
 	<div id="representative-holder"></div>
+	<div id="representative-outrange-notice" style="display:none">
+		<div class="PayLater-priceBox arrow-none type-product"><p class="priceBox-text" style="width:220px;"><span class="break"><?php echo $this->helper('paylater')->__('<span class="relevant">PayLater</span> is only available for products with a price between &pound;' . Mage::getStoreConfig('paylater/paylater/min_order_total') . ' and &pound;' .  Mage::getStoreConfig('paylater/paylater/paylater/max_order_total')) ?></span></p><div class="PayLater-logo"></div><div style="clear:both"></div></div>
+	</div>
 	<div id="representative-pop"></div>
 	<script type="text/javascript">
 		<?php if (Mage::helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
@@ -32,11 +35,14 @@
 		<?php else: ?>
 		var offer = PayLater.getOffer(<?php echo $this->getProductPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
 		<?php endif; ?>
+		var payLaterLogo = PayLater.GetLogo(offer);
+		//$('representative-outrange-notice-logo').update(payLaterLogo);
 		PayLater.GetStyles();
 		var representativeLegal = '<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>';
 		var representative = PayLater.GetPriceBox(offer, '<?php echo $this->getPayLaterType() ?>', 'none');
 		var representativePop = PayLater.GetFullInfo(offer, '<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>');
-		
+		var offerLowerBound = <?php echo Mage::getStoreConfig('paylater/paylater/min_order_total') ?>;
+		var offerUpperBound = <?php echo Mage::getStoreConfig('paylater/paylater/paylater/max_order_total') ?>;
 		$('representative-holder').update(representative);
 		$('representative-pop').update(representativePop);
 		Event.observe(window, 'load', function() {

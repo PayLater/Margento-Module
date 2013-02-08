@@ -54,8 +54,8 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 	protected function _savePayLaterRange($orderLowerBound, $orderUpperBound)
 	{
 		$config = Mage::helper('paylater')->getCoreConfig();
-		$config->saveConfig('payment/paylater/min_order_total', $orderLowerBound, 'default', 0);
-		$config->saveConfig('payment/paylater/max_order_total', $orderUpperBound, 'default', 0);
+		$config->saveConfig('paylater/paylater/min_order_total', $orderLowerBound, 'default', Mage::helper('paylater')->getStoreId());
+		$config->saveConfig('paylater/paylater/paylater/max_order_total', $orderUpperBound, 'default', Mage::helper('paylater')->getStoreId());
 	}
 	
 	protected function _savePayLaterSorting ()
@@ -167,14 +167,10 @@ class PayLater_PayLater_Model_Cache_Factory implements PayLater_PayLater_Core_In
 				// save payment/paylater config data
 				$this->_savePayLaterSorting();
 				$this->_savePayLaterOrderStatus();
+				$this->_savePayLaterRange($data[self::ORDER_LOWER_BOUND], $data[self::ORDER_UPPER_BOUND]);
 				/**
 				 * @deprecated handled by checkout controller
 				 * $this->_savePayLaterAction();
-				 */
-				/**
-				 * @deprecated we wanna show PayLater even when not within range
-				 * $this->_savePayLaterRange($data[self::ORDER_LOWER_BOUND], $data[self::ORDER_UPPER_BOUND]);
-				 * 
 				 */
 			}
 			return $this->getInstance()->load($this->getId());

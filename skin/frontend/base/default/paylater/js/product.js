@@ -5,6 +5,15 @@ Product.OptionsPrice.prototype.formatPrice = function (price) {
 		} else {
 			offer = PayLater.getOffer(price, offer.merchant);
 		}
+		if (price > offerUpperBound) {
+			$('representative-holder').hide();
+			$('representative-pop').update('');
+			$('representative-outrange-notice').show();
+			return formatCurrency(price, this.priceFormat);
+		} else {
+			$('representative-holder').show();
+			$('representative-outrange-notice').hide();
+		}
 		var representativePop = PayLater.GetFullInfo(offer, representativeLegal);
 		if ($('representative-pop')) {
 			$('representative-pop').update(representativePop);
@@ -31,4 +40,5 @@ Product.OptionsPrice.prototype.formatPrice = function (price) {
 		}
 		return formatCurrency(price, this.priceFormat);
 	}
+	return formatCurrency(price, this.priceFormat);
 }

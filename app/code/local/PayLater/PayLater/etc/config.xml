@@ -27,7 +27,7 @@
 <config>
     <modules>
         <PayLater_PayLater>
-            <version>1.0.7</version>
+            <version>1.0.8</version>
         </PayLater_PayLater>
     </modules>
     <paylater>
@@ -214,6 +214,16 @@
                 </paylater>
             </updates>
         </layout>
+        <events>
+            <admin_system_config_changed_section_paylater>
+                <observers>
+                    <bind_locale>
+                        <class>paylater/event_observer</class>
+                        <method>adminSystemConfigChanged</method>
+                    </bind_locale>
+                </observers>
+            </admin_system_config_changed_section_paylater>
+        </events>
     </adminhtml>
     <default>
         <payment>

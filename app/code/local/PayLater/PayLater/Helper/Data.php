@@ -456,6 +456,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return $this->_getPaymentMethod() == self::PAYLATER_PAYMENT_METHOD ? TRUE : FALSE;
 	}
+
 	/**
 	 * Returns checkout type (e.g onepage, onestep, etc)
 	 * 
@@ -465,7 +466,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	{
 		return $this->getPayLaterConfigType('checkout');
 	}
-	
+
 	/**
 	 * 
 	 * Returns representative example legal notice, replacing placeholders with store name and address
@@ -478,4 +479,15 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		return preg_replace("/[\n\r\t]/", "", $legal);
 	}
 
+	public function getStoreByCode($storeCode)
+	{
+		$stores = array_keys(Mage::app()->getStores());
+		foreach ($stores as $id) {
+			$store = Mage::app()->getStore($id);
+			if ($store->getCode() == $storeCode) {
+				return $store;
+			}
+		}
+		return false;
+	}
 }

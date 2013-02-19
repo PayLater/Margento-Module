@@ -112,4 +112,24 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		}
 	}
 
+	public function adminSystemConfigChanged(Varien_Event_Observer $observer)
+	{
+		try {
+			$config = Mage::helper('paylater')->getCoreConfig();
+			$storeCode = $observer->getStore();
+			if (!$storeCode) {
+				$storeCode = 'default';
+				$storeId = Mage_Core_Model_App::ADMIN_STORE_ID;
+			} else {
+				$storeId = Mage::helper('paylater')->getStoreByCode($storeCode)->getId();
+			}
+			if ((int) Mage::helper('paylater')->getPayLaterConfigRunStatus('globals') === 0) {
+				$config->saveConfig('payment/paylater/active', 0, $storeCode, $storeId);
+			} else {
+				$config->saveConfig('payment/paylater/active', 1, $storeCode, $storeId);
+			}
+		} catch (Exception $e) {
+			Mage::helper('paylater')->log(Mage::helper('paylater')->__($e->getMessage()), __METHOD__, Zend_Log::ERR);
+		}
+	}
 }

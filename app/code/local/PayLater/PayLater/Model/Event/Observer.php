@@ -118,7 +118,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 			$config = Mage::helper('paylater')->getCoreConfig();
 			$storeCode = $observer->getStore();
 			if (!$storeCode) {
-				$storeCode = 'default';
+				$storeCode = Mage_Core_Model_App::DISTRO_STORE_CODE;
 				$storeId = Mage_Core_Model_App::ADMIN_STORE_ID;
 			} else {
 				$storeId = Mage::helper('paylater')->getStoreByCode($storeCode)->getId();

@@ -67,8 +67,11 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	 * @param string $key
 	 * @return mixed 
 	 */
-	protected function _getModuleConfig($node, $key)
+	protected function _getModuleConfig($node, $key, $storeCode = false)
 	{
+		if ($storeCode) {
+			return Mage::getStoreConfig($this->getModuleName() . '/' . $node . '/' . $key, $storeCode);
+		}
 		return Mage::getStoreConfig($this->getModuleName() . '/' . $node . '/' . $key, $this->getStoreId());
 	}
 
@@ -111,6 +114,9 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		if (preg_match('/getPayLaterConfig\w/', $name)) {
 			$name = str_replace('getPayLaterConfig', '', $name);
 			$inflectedName = $this->getInflector()->underscore($name);
+			if (array_key_exists(1, $arguments) && $arguments[1] !== false) {
+				return $this->_getModuleConfig($arguments[0], $inflectedName, $arguments[1]);
+			}
 			return $this->_getModuleConfig($arguments[0], $inflectedName);
 		}
 	}

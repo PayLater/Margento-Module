@@ -123,7 +123,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 			} else {
 				$storeId = Mage::helper('paylater')->getStoreByCode($storeCode)->getId();
 			}
-			if ((int) Mage::helper('paylater')->getPayLaterConfigRunStatus('globals') === 0) {
+			if ((int) Mage::helper('paylater')->getPayLaterConfigRunStatus('globals', $storeCode) === 0) {
 				$config->saveConfig('payment/paylater/active', 0, $storeCode, $storeId);
 			} else {
 				$config->saveConfig('payment/paylater/active', 1, $storeCode, $storeId);

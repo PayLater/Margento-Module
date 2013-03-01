@@ -484,7 +484,13 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		$legal = $this->getPayLaterConfigLegal('product');
 		return preg_replace("/[\n\r\t]/", "", $legal);
 	}
-
+	
+	/**
+	 * Returns store object by code, or false otherwise
+	 * 
+	 * @param string $storeCode
+	 * @return store/boolean
+	 */
 	public function getStoreByCode($storeCode)
 	{
 		$stores = array_keys(Mage::app()->getStores());
@@ -495,5 +501,14 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 			}
 		}
 		return false;
+	}
+	
+	public function canAccessGateway ()
+	{
+		$request = Mage::app()->getRequest();
+		$explodedReferer = explode(DS, $request->getServer('HTTP_REFERER'));
+		$mageHome = Mage::getBaseUrl();
+		$refererDomain = array_key_exists(2, $explodedReferer) ? $explodedReferer[2] : false;
+		return preg_match("~$refererDomain~", $mageHome);
 	}
 }

@@ -204,6 +204,7 @@ interface PayLater_PayLater_Core_Interface
 	 * Gateway page title 
 	 */
 	const PAYLATER_GATEWAY_TITLE = 'Contacting PayLater. Please wait...';
+	const PAYLATER_GATEWAY_WRONG_WAY_ERROR = 'It looks like you didn\'t complete the PayLater application process, please try again or use an alternative payment method';
 	//error codes
 	const ERROR_SEPARATOR = ',';
 	const ERROR_CODES = '101,102,103,104,105,106,107,108,109,110,211,212,213,214,215,216,217,218,219,322,432,433,434,435,436,500,501,600';

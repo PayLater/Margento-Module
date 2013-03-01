@@ -245,7 +245,7 @@
             </dev>
             <product>
                 <event>click</event>
-                <legal>Credit provided subject to status to UK residents aged 18 and over. [store name] is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. [store name], [store address].</legal>
+                <legal><![CDATA[Credit provided subject to status to UK residents aged 18 and over. [store name] is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. [store name], [store address].]]></legal>
             </product>
             <checkout>
                 <type>onepage</type>
@@ -253,19 +253,19 @@
             </checkout>
             <payment>
                 <order_status>pending</order_status>
-                <service_unavailable_heading>PayLater is temporarely unavailable</service_unavailable_heading>
-                <service_unavailable_body>We are currently unable to connect to PayLater. Please choose an alternative payment method, or try again later.</service_unavailable_body>
-                <out_range_heading>PayLater payment option is currently unavailable</out_range_heading>
-                <out_range_message>PayLater is only avaiable for orders between %s and %s. Currently your basket total is %s</out_range_message>
-                <error_code_body>Unfortunately, your PayLater application can’t be completed at this time. Please checkout, using an alternative payment method. We apologise for any inconvenience caused.</error_code_body>
+                <service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]></service_unavailable_heading>
+                <service_unavailable_body><![CDATA[We are currently unable to connect to PayLater. Please choose an alternative payment method, or try again later.]]></service_unavailable_body>
+                <out_range_heading><![CDATA[PayLater payment option is currently unavailable]]></out_range_heading>
+                <out_range_message><![CDATA[PayLater is only avaiable for orders between %s and %s. Currently your basket total is %s]]></out_range_message>
+                <error_code_body><![CDATA[Unfortunately, your PayLater application can’t be completed at this time. Please checkout, using an alternative payment method. We apologise for any inconvenience caused.]]></error_code_body>
             </payment>
             <review>
-                <customer_note>By choosing PayLater, you will be redirected to the PayLater website to complete your order.</customer_note>
+                <customer_note><![CDATA[By choosing PayLater, you will be redirected to the PayLater website to complete your order.]]></customer_note>
             </review>
             <template>
-                <onepage_index>paylater/paylater/checkout/onepage/index.phtml</onepage_index>
-                <onestep_index>paylater/paylater/checkout/onestep/checkout.phtml</onestep_index>
-                <onestep_payment_method>paylater/paylater/checkout/onestep/payment_method.phtml</onestep_payment_method>
+                <onepage_index><![CDATA[paylater/paylater/checkout/onepage/index.phtml]]></onepage_index>
+                <onestep_index><![CDATA[paylater/paylater/checkout/onestep/checkout.phtml]]></onestep_index>
+                <onestep_payment_method><![CDATA[paylater/paylater/checkout/onestep/payment_method.phtml]]></onestep_payment_method>
             </template>
         </paylater>
     </default>

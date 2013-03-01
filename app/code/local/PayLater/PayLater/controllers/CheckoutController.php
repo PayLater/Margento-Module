@@ -111,12 +111,16 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$order->savePayLaterOffer($offer);
 	}
 
-	protected function _redirectError($errorCode)
+	protected function _redirectError($errorCode, $error = false)
 	{
 		$helper = Mage::helper('paylater');
 		$session = Mage::getSingleton('checkout/session');
 		if ($errorCode && $errorCode > 0) {
-			$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
+			if ($error) {
+				$session->addError($helper->__($error));
+			} else {
+				$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
+			}
 			$helper->log($helper->getErrorMessageByCode($errorCode), __METHOD__, Zend_Log::ERR);
 			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
 			if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONEPAGE) {
@@ -162,12 +166,21 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			// stops sending order email for order in saveOrder
 			if ($onepage->saveOrder()) {
 				try {
+					if (!$helper->canAccessGateway()) {
+						$session = Mage::getSingleton('checkout/session')->addError($helper->__(self::PAYLATER_GATEWAY_WRONG_WAY_ERROR));
+						$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
+						$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+						return;
+					}
 					// Order was saved without sending any customer email.
 					// @see Observer->saveOrderAfter
 					$orderId = $this->_setPayLaterOrderStateAndStatus(self::PAYLATER_ORPHANED_ORDER_STATUS, self::PAYLATER_ORPHANED_ORDER_STATUS);
 					$this->_setOrderPayLaterOffer($orderId);
 					$paylaterData[self::PAYLATER_PARAMS_MAP_ORDERID_KEY] = $orderId;
 					if ($helper->isEndpointAvailable(60)) {
+						$this->getResponse()->setHeader('Cache-Control', 'no-cache, no-store');
+						$this->getResponse()->setHeader('Pragma', 'no-cache');
+						$this->getResponse()->setHeader('Expires', '0');
 						$this->loadLayout();
 						$this->getLayout()->getBlock('head')->setTitle($this->__(self::PAYLATER_GATEWAY_TITLE));
 						$this->renderLayout();
@@ -176,7 +189,6 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						$helper->log($helper->__('PayLater could not connect to endpoint at gateway stage'), __METHOD__, Zend_Log::ERR);
 						$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 					}
-					
 				} catch (PayLater_PayLater_Exception_InvalidHttpClientResponse $e) {
 					/**
 					 * @deprecated catch 

@@ -31,9 +31,9 @@
 	<div id="representative-pop"></div>
 	<script type="text/javascript">
 		<?php if (Mage::helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
-		var offer = PayLater.getOffer(<?php echo $this->getProductPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>');
+		var offer = PayLater.getOffer(<?php echo $this->getProductFinalPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>');
 		<?php else: ?>
-		var offer = PayLater.getOffer(<?php echo $this->getProductPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
+		var offer = PayLater.getOffer(<?php echo $this->getProductFinalPrice() ?>, '<?php echo Mage::helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
 		<?php endif; ?>
 		var payLaterLogo = PayLater.GetLogo(offer);
 		//$('representative-outrange-notice-logo').update(payLaterLogo);

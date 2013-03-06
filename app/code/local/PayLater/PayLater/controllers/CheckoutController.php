@@ -111,7 +111,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$order->savePayLaterOffer($offer);
 	}
 
-	protected function _redirectError($errorCode, $error = false)
+	protected function _redirectError($errorCode, $error = false, $setFailedState = true)
 	{
 		$helper = Mage::helper('paylater');
 		$session = Mage::getSingleton('checkout/session');
@@ -122,12 +122,25 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 				$session->addError($helper->__($helper->getPayLaterConfigErrorCodeBody('payment')));
 			}
 			$helper->log($helper->getErrorMessageByCode($errorCode), __METHOD__, Zend_Log::ERR);
-			$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
+			if ($setFailedState === true) {
+				$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
+			}
 			if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONEPAGE) {
 				$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 			} else if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONESTEP) {
 				$this->_redirect(self::PAYLATER_ONESTEP_POST_RETURN_ERROR_LINK, array('_secure' => true));
 			}
+		}
+	}
+
+	protected function _redirectGatewayError($error)
+	{
+		$helper = Mage::helper('paylater');
+		Mage::getSingleton('checkout/session')->addError($helper->__($error));
+		if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONEPAGE) {
+			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+		} else if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONESTEP) {
+			$this->_redirect(self::PAYLATER_ONESTEP_POST_RETURN_ERROR_LINK, array('_secure' => true));
 		}
 	}
 
@@ -169,7 +182,6 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					if (!$helper->canAccessGateway()) {
 						$session = Mage::getSingleton('checkout/session')->addError($helper->__(self::PAYLATER_GATEWAY_WRONG_WAY_ERROR));
 						$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
-						$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 						return;
 					}
 					// Order was saved without sending any customer email.
@@ -187,7 +199,8 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						$helper->log('Saved order with id ' . $orderId, __METHOD__);
 					} else {
 						$helper->log($helper->__('PayLater could not connect to endpoint at gateway stage'), __METHOD__, Zend_Log::ERR);
-						$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+						$this->_redirectGatewayError('PayLater could not connect to endpoint at gateway stage');
+						return;
 					}
 				} catch (PayLater_PayLater_Exception_InvalidHttpClientResponse $e) {
 					/**
@@ -196,21 +209,20 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					 * Nowhere is thrown a PayLater_PayLater_Exception_InvalidHttpClientResponse
 					 */
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+					$this->_redirectGatewayError($e->getMessage());
 					return;
 				} catch (Mage_Core_Exception $e) {
 					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+					$this->_redirectGatewayError($e->getMessage());
 					return;
 				} catch (Exception $e) {
-					$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-					$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+					$this->_redirectGatewayError($e->getMessage());
 					return;
 				}
 			}
 		} catch (Mage_Core_Exception $e) {
 			$helper->log($e->getMessage(), __METHOD__, Zend_Log::ERR);
-			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
+			$this->_redirectGatewayError($e->getMessage());
 			return;
 		}
 	}

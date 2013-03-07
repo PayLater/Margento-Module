@@ -182,6 +182,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					if (!$helper->canAccessGateway()) {
 						$session = Mage::getSingleton('checkout/session')->addError($helper->__(self::PAYLATER_GATEWAY_WRONG_WAY_ERROR));
 						$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
+						$this->_redirectGatewayError('Invalid domain detected');
 						return;
 					}
 					// Order was saved without sending any customer email.

@@ -1,4 +1,14 @@
 Product.OptionsPrice.prototype.formatPrice = function (price) {
+	var formattedCurrency = formatCurrency(price, this.priceFormat);
+	this.setPayLaterOffer(price);
+	return formattedCurrency;
+}
+
+Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
+	if ($(this.containers[0]) && typeof $$('p.special-price')[0] != 'undefined') {
+		var specialPrice = $(this.containers[0]).innerHTML.trim();
+		price = parseFloat(specialPrice.replace(/[^0-9-.]/g, ''));
+	}
 	if (typeof PayLater != 'undefined') {
 		if (PayLater.isTestMode) {
 			offer = PayLater.getOffer(price, offer.merchant, 'test');
@@ -9,7 +19,7 @@ Product.OptionsPrice.prototype.formatPrice = function (price) {
 			$('representative-holder').hide();
 			$('representative-pop').update('');
 			$('representative-outrange-notice').show();
-			return formatCurrency(price, this.priceFormat);
+			return;
 		} else {
 			$('representative-holder').show();
 			$('representative-outrange-notice').hide();
@@ -38,7 +48,6 @@ Product.OptionsPrice.prototype.formatPrice = function (price) {
 				};
 			}
 		}
-		return formatCurrency(price, this.priceFormat);
 	}
-	return formatCurrency(price, this.priceFormat);
 }
+

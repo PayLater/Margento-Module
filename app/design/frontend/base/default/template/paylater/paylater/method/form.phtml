@@ -38,7 +38,6 @@
 		<?php endif; ?>
 			PayLater.GetStyles();
 			var logo = PayLater.GetLogo(offer);
-			//var representative = PayLater.GetPaymentsWidget(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->getPayLaterType() ?>');
 			var representative = PayLater.GetRepresentativeExample(offer);
 			if ($('representative-wrap')) {
 				$('representative-wrap').update(logo);

@@ -5,7 +5,7 @@ Product.OptionsPrice.prototype.formatPrice = function (price) {
 }
 
 Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
-	if ($(this.containers[0]) && typeof $$('p.special-price')[0] != 'undefined') {
+	if ($(this.containers[0]) && typeof $$('div.product-essential p.special-price')[0] != 'undefined') {
 		var specialPrice = $(this.containers[0]).innerHTML.trim();
 		price = parseFloat(specialPrice.replace(/[^0-9-.]/g, ''));
 	}

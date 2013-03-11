@@ -239,6 +239,7 @@
                 <store>Current Store</store>
                 <env>test</env>
                 <sort_order>1</sort_order>
+				<gateway_domain_verification>0</gateway_domain_verification>
             </globals>
             <dev>
                 <log_file>paylater_paylater.log</log_file>

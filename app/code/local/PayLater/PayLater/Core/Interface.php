@@ -307,6 +307,8 @@ interface PayLater_PayLater_Core_Interface
 	 *  PayLater Checkout Messages
 	 */
 	const PAYLATER_CHECKOUT_ONEPAGE_MESSAGES_BLOCK = 'PayLater_PayLater_Block_Checkout_Onepage_Messages';
+	const PAYLATER_GATEWAY_MISSING_DATA_ERROR = 'PayLater gateway required values are missing. Check logs.';
+	const PAYLATER_GATEWAY_CONNECT_ERROR = 'PayLater could not connect to endpoint at gateway stage';
 	/**
 	 * Checkout type
 	 * 

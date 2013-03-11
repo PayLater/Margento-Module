@@ -34,6 +34,8 @@
 class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Action implements PayLater_PayLater_Core_Interface
 {
 
+	protected $_requiredGatewayPostKeys = array ('reference', 'currency', 'amount', 'postcode', 'billingpostcode');
+	
 	/**
 	 *
 	 * @return PayLater_PayLater_Model_Checkout_Onepage 
@@ -137,6 +139,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 	{
 		$helper = Mage::helper('paylater');
 		Mage::getSingleton('checkout/session')->addError($helper->__($error));
+		$helper->log('PayLater gateway error: ' . $error, __METHOD__);
 		if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONEPAGE) {
 			$this->_redirect(self::PAYLATER_POST_RETURN_ERROR_LINK, array('_secure' => true));
 		} else if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONESTEP) {
@@ -160,6 +163,22 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$quote = Mage::getModel('paylater/checkout_quote');
 		return $quote->getPayLaterOfferArray();
 	}
+	
+	protected function _verifyGatewayPost ($post)
+	{
+		$helper = Mage::helper('paylater');
+		foreach ($this->_requiredGatewayPostKeys as $key) {
+			if (!array_key_exists($key, $post)) {
+				$helper->log('PayLater gateway post key missing: ' . $key, __METHOD__);
+				return false;
+			}
+			if (!$post[$key] || strlen(trim($post[$key])) == 0) {
+				$helper->log('PayLater gateway post key-value not set: ' . $key, __METHOD__);
+				return false;
+			}
+		}
+		return true;
+	}
 
 	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
@@ -175,15 +194,21 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$quote->collectTotals()->save();
 		$paylaterData = $this->getRequest()->getPost();
 		$helper = Mage::helper('paylater');
+		if (! $this->_verifyGatewayPost($paylaterData)) {
+			$this->_redirectGatewayError($helper->__(self::PAYLATER_GATEWAY_MISSING_DATA_ERROR));
+			return;
+		}
 		try {
 			// stops sending order email for order in saveOrder
 			if ($onepage->saveOrder()) {
 				try {
-					if (!$helper->canAccessGateway()) {
-						$session = Mage::getSingleton('checkout/session')->addError($helper->__(self::PAYLATER_GATEWAY_WRONG_WAY_ERROR));
-						$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
-						$this->_redirectGatewayError('Invalid domain detected');
-						return;
+					if ($helper->getPayLaterConfigGatewayDomainVerification('globals')) {
+						if (!$helper->canAccessGateway()) {
+							$session = Mage::getSingleton('checkout/session')->addError($helper->__(self::PAYLATER_GATEWAY_WRONG_WAY_ERROR));
+							$this->_setPayLaterOrderStateAndStatus(self::PAYLATER_FAILED_ORDER_STATE, self::PAYLATER_FAILED_ORDER_STATUS);
+							$this->_redirectGatewayError('Invalid domain detected');
+							return;
+						}
 					}
 					// Order was saved without sending any customer email.
 					// @see Observer->saveOrderAfter
@@ -199,8 +224,8 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						$this->renderLayout();
 						$helper->log('Saved order with id ' . $orderId, __METHOD__);
 					} else {
-						$helper->log($helper->__('PayLater could not connect to endpoint at gateway stage'), __METHOD__, Zend_Log::ERR);
-						$this->_redirectGatewayError('PayLater could not connect to endpoint at gateway stage');
+						$helper->log($helper->__(self::PAYLATER_GATEWAY_CONNECT_ERROR), __METHOD__, Zend_Log::ERR);
+						$this->_redirectGatewayError(self::PAYLATER_GATEWAY_CONNECT_ERROR);
 						return;
 					}
 				} catch (PayLater_PayLater_Exception_InvalidHttpClientResponse $e) {

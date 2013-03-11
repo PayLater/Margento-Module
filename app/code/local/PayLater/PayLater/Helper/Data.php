@@ -175,7 +175,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 
 	/**
 	 * Returns TRUE if store currency is allowed
-	 * @return type 
+	 * @return bool 
 	 */
 	public function isAllowedCurrency($currency = false)
 	{
@@ -184,7 +184,7 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		}
 		return array_key_exists($currency, $this->_allowedCurrencies);
 	}
-
+	
 	/**
 	 * Returns helper's module name in format modulename
 	 * 

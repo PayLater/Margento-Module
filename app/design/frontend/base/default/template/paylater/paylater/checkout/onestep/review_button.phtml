@@ -24,6 +24,10 @@
  */
 ?>
 <?php if ($this->canShow() && $this->isPayLaterPaymentMethod()): ?>
+	<?php 
+		// deal with possible postcode-lookup add-ons
+		$isCraftyClicks = ($this->helper('paylater')->getPayLaterConfigPostcodeLookupAddon('checkout') == PayLater_PayLater_Core_Interface::PAYLATER_ONESTEP_CRAFTY_CLICKS) ? true : false;
+	?>
 	<script type="text/javascript">
 		// paylater-text-info update is located in tax/checkout/grandtotal.phtml
 		var form = new VarienForm('onestepcheckout-form');
@@ -38,14 +42,21 @@
 		$('PayLater-button').observe('click', function(e){
 			if (!form.validator.validate()){
 				e.preventDefault();
+			}else {
+				<?php if ($isCraftyClicks): ?>
+				e.preventDefault();
+				url_save_billing = '<?php echo $this->getUrl('onestepcheckout/ajax/save_billing', array('_secure'=>true)); ?>';
+				$$('billing:postcode').invoke('observe', 'blur', do_save_billing(url_save_billing));
+				<?php endif; ?>
 			}
 		});
 	</script>
-	<div id="paylater-button"></div>
 	<div id="paylater-customer-note">
 		<div id="paylater-text-info"></div>
 		<?php echo $this->getCustomerNote() ?>
 	</div>
+	<div class="clearer"></div>
+	<div id="paylater-button"></div>
 <?php else: ?>
 	<button type="submit" title="<?php echo $this->__('Place Order') ?>" class="button btn-checkout" onclick="review.save();"><span><span><?php echo $this->__('Place Order') ?></span></span></button>
 <?php endif; ?>

@@ -315,5 +315,9 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_CHECKOUT_TYPE_ONEPAGE = 'onepage';
 	const PAYLATER_CHECKOUT_TYPE_ONESTEP = 'onestep';
-
+	/**
+	 * Postcode look-up add-on
+	 */
+	const PAYLATER_ONESTEP_CRAFTY_CLICKS_LABEL = 'Crafty Clicks';
+	const PAYLATER_ONESTEP_CRAFTY_CLICKS = 'crafty-clicks';
 }

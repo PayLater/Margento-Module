@@ -27,7 +27,7 @@
 <config>
     <modules>
         <PayLater_PayLater>
-            <version>1.0.12</version>
+            <version>1.1.0</version>
         </PayLater_PayLater>
     </modules>
     <paylater>
@@ -251,6 +251,7 @@
             <checkout>
                 <type>onepage</type>
                 <show_out_range_message>1</show_out_range_message>
+				<postcode_lookup_addon></postcode_lookup_addon>
             </checkout>
             <payment>
                 <order_status>pending</order_status>

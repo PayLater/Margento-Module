@@ -51,6 +51,7 @@
 			<action method="addCss">
 				<stylesheet>paylater/css/checkout.css</stylesheet>
 			</action> 
+			<action method="addItem"><type>skin_js</type><script>paylater/js/simulate.js</script></action>
 		</reference>
 	</onestepcheckout_index_index>
 

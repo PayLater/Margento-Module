@@ -200,6 +200,8 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH = '2000';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY = 'quantity';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY = 'price';
+        const PAYLATER_POLLING_TIMEOUT = 15;
+        const PAYLATER_POLLING_INTERVAL = 2;
 	/**
 	 * Gateway page title 
 	 */
@@ -245,6 +247,8 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_SUMMARY_RESPONSE_AMOUNT_NODE = 'Amount';
 	const PAYLATER_SUMMARY_RESPONSE_POSTCODE_NODE = 'PostCode';
 	const PAYLATER_API_ACCEPTED_RESPONSE = 'accepted';
+        const PAYLATER_API_DECLINED_RESPONSE = 'declined';
+        const PAYLATER_API_CANCELED_RESPONSE = 'canceled';
 	/**
 	 * New order email templates 
 	 */

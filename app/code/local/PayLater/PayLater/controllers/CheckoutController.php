@@ -270,8 +270,23 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 				try {
 					$order = Mage::getModel('paylater/sales_order', array($orderId));
 					$apiRequest = Mage::getModel('paylater/api_request');
-					$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
-					$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
+                                        $apiRequest->setHeaders()->setMethod()->setRawData($orderId);
+                                        
+                                        // Poll PayLater for X seconds expecting a response with status
+                                        $future = time() + self::PAYLATER_POLLING_TIMEOUT;
+                                        $count = 1;
+                                        while (time() <= $future) {
+                                            $helper->log("Polling... $count", __METHOD__,Zend_Log::DEBUG);
+                                            $apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
+                                            $helper->log("Response: ".$apiResponse->getStatus(), __METHOD__,Zend_Log::DEBUG);
+                                            
+                                            // Break as soon as we have a useful status
+                                            if($apiResponse->isSuccessful() && $apiResponse->hasStatus()){
+                                                break;
+                                            }
+                                            sleep(self::PAYLATER_POLLING_INTERVAL);
+                                            $count++;
+                                        }
 
 					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
 						$order->setStateAndStatus();

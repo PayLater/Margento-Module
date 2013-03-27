@@ -51,6 +51,15 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	 * @var SimpleXMLElement 
 	 */
 	protected $_responseXml;
+        
+        /**
+         * Possible valid statuses
+         */
+        protected $_statuses = array(
+            self::PAYLATER_API_ACCEPTED_RESPONSE,
+            self::PAYLATER_API_DECLINED_RESPONSE,
+            self::PAYLATER_API_CANCELED_RESPONSE
+        );
 
 	/**
 	 * Protected request getter
@@ -96,6 +105,19 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	{
 		return $this->_response;
 	}
+        
+        /**
+         * Response has a valid status
+         * @return boolean
+         */
+        public function hasStatus()
+        {
+            if ($this->getStatus() && in_array($this->getStatus(), $this->_statuses)){
+                return True;
+            }
+            
+            return False;
+        }
 
 	/**
 	 * 

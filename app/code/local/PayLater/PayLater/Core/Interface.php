@@ -180,6 +180,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_ORPHANED_ORDER_STATE = 'paylater_orphaned';
 	const PAYLATER_FAILED_ORDER_STATUS = 'paylater_failed';
 	const PAYLATER_FAILED_ORDER_STATE = 'paylater_failed';
+	const PAYLATER_DECLINED_ORDER_STATUS = 'paylater_declined';
 	/**
 	 * PayLater endpoint post keys and values 
 	 */
@@ -200,8 +201,8 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PARAMS_MAP_ITEM_MAX_DESCRIPTION_LENGTH = '2000';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_QTY_KEY = 'quantity';
 	const PAYLATER_PARAMS_MAP_ITEM_ID_PRICE_KEY = 'price';
-        const PAYLATER_POLLING_TIMEOUT = 15;
-        const PAYLATER_POLLING_INTERVAL = 2;
+	const PAYLATER_POLLING_TIMEOUT = 10;
+	const PAYLATER_POLLING_INTERVAL = 2;
 	/**
 	 * Gateway page title 
 	 */
@@ -247,8 +248,9 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_SUMMARY_RESPONSE_AMOUNT_NODE = 'Amount';
 	const PAYLATER_SUMMARY_RESPONSE_POSTCODE_NODE = 'PostCode';
 	const PAYLATER_API_ACCEPTED_RESPONSE = 'accepted';
-        const PAYLATER_API_DECLINED_RESPONSE = 'declined';
-        const PAYLATER_API_CANCELED_RESPONSE = 'canceled';
+	const PAYLATER_API_DECLINED_RESPONSE = 'declined';
+	const PAYLATER_API_CANCELED_RESPONSE = 'canceled';
+	const PAYLATER_API_PENDING_RESPONSE = 'pending';
 	/**
 	 * New order email templates 
 	 */
@@ -324,4 +326,5 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_ONESTEP_CRAFTY_CLICKS_LABEL = 'Crafty Clicks';
 	const PAYLATER_ONESTEP_CRAFTY_CLICKS = 'crafty-clicks';
+
 }

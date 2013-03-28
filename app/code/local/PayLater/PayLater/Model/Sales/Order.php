@@ -173,14 +173,62 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_getInstance();
 	}
+	
+	public function setStateAndStatus($paylaterStatus = self::PAYLATER_API_ACCEPTED_RESPONSE)
+	{
+		switch ($paylaterStatus) {
+			case self::PAYLATER_API_ACCEPTED_RESPONSE:
+				$this->setNewStateAndStatus();
+				break;
+			
+			case self::PAYLATER_API_DECLINED_RESPONSE:
+				$this->setDeclinedStateAndStatus();
+				break;
+			
+			case self::PAYLATER_API_CANCELED_RESPONSE:
+				$this->setCanceledStateAndStatus();
+				break;
+			
+			case self::PAYLATER_API_PENDING_RESPONSE:
+				// Leave in orphaned state
+				break;
+			
+			case '':
+				// If no reply leave in orphaned state
+				break;
+			
+			default:
+				Mage::helper('paylater')->log("Unknown PayLater response '$paylaterStatus'", __METHOD__, Zend_Log::ERR);
+				$this->setFailedStateAndStatus();
+				break;
+		}
+	}
 
 	/**
 	 *  Sets new order state and status
 	 */
-	public function setStateAndStatus()
+	public function setNewStateAndStatus()
 	{
 		$this->_getInstance()->setState(Mage_Sales_Model_Order::STATE_NEW);
 		$this->_getInstance()->setStatus(Mage::helper('paylater')->getPayLaterConfigOrderStatus('payment'));
+	}
+	
+	public function setCanceledStateAndStatus()
+	{
+		$this->_getInstance()->setState(Mage_Sales_Model_Order::STATE_CANCELED);
+		$this->_getInstance()->setStatus(Mage_Sales_Model_Order::STATE_CANCELED);
+	}
+        
+	public function setFailedStateAndStatus()
+	{
+		$this->_getInstance()->setState(self::PAYLATER_FAILED_ORDER_STATE);
+		$this->_getInstance()->setStatus(self::PAYLATER_FAILED_ORDER_STATUS);
+	}
+
+	public function setDeclinedStateAndStatus()
+	{
+		$this->_getInstance()->setState(Mage_Sales_Model_Order::STATE_CANCELED);
+		$this->_getInstance()->setStatus(self::PAYLATER_DECLINED_ORDER_STATUS);
 	}
 
 	/**

@@ -132,4 +132,62 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 			Mage::helper('paylater')->log(Mage::helper('paylater')->__($e->getMessage()), __METHOD__, Zend_Log::ERR);
 		}
 	}
+
+	/**
+	 * Poll recent orphaned transactions against PayLater
+	 */
+	public function orphanedOrderPolling()
+	{
+		$helper = Mage::helper('paylater');
+		$now = time();
+		$from = date("Y-m-d H:i:s", strtotime("-4 hours", $now));
+		$to = date("Y-m-d H:i:s", strtotime("-1 hours", $now));
+
+		$helper->log("Started polling cron... Searching From: $from To: $to", __METHOD__, Zend_Log::DEBUG);
+
+		$orders = Mage::getModel('sales/order')->getCollection()
+				->addAttributeToFilter('state', self::PAYLATER_ORPHANED_ORDER_STATE)
+				->addAttributeToFilter('created_at', array('from' => $from, 'to' => $to));
+
+		$helper->log("Found '" . count($orders) . "' orphaned transactions", __METHOD__, Zend_Log::DEBUG);
+
+		foreach ($orders as $order) {
+			$orderId = $order->getIncrementId();
+			$helper->log("Polling... " . $orderId, __METHOD__, Zend_Log::DEBUG);
+
+			$paylater_order = Mage::getModel('paylater/sales_order', array($orderId));
+			$apiRequest = Mage::getModel('paylater/api_request');
+
+			$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
+			$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
+			$helper->log("\tResponse: " . $apiResponse->getStatus(), __METHOD__, Zend_Log::DEBUG);
+
+			if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($paylater_order)) {
+				$paylater_order->setStateAndStatus();
+				$paylater_order->savePayLaterOrderStatus($apiResponse->getStatus());
+				$paylater_order->save();
+				if ($paylater_order->invoice()) {
+					$paylater_order->sendEmail();
+				}
+				$paylater_order->setInactiveQuote();
+				
+				// Attempt to clear checkout session to be safe
+				try {
+					$additional = unserialize($order->getPaylaterAdditional());
+					$session = Mage::getModel('checkout/session')->setSessionId($additional['checkout_session_id'])->clear();
+					$helper->log("\tSuccessfully cleared session", __METHOD__, Zend_Log::DEBUG);
+				} catch (Exception $e) {
+					$helper->log("\tLost track of session", __METHOD__, Zend_Log::ERR);
+				}
+
+				Mage::dispatchEvent('checkout_onepage_controller_success_action', array('order_ids' => array($orderId)));
+			} else {
+				$paylater_order->savePayLaterOrderStatus($apiResponse->getStatus());
+				$paylater_order->setStateAndStatus($apiResponse->getStatus());
+				$paylater_order->save();
+			}
+			Mage::dispatchEvent('paylater_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
+		}
+	}
+
 }

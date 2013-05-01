@@ -41,7 +41,7 @@ class PayLater_PayLater_Model_Catalog_Product implements PayLater_PayLater_Core_
 
 	protected function _getPrice()
 	{
-		return $this->_getInRegistry()->getPrice();
+		return Mage::helper('tax')->getPrice($this->_getInRegistry(), $this->_getInRegistry()->getFinalPrice());
 	}
 
 	public function isWithinPayLaterRange($paylaterData)

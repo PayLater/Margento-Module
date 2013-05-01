@@ -27,7 +27,7 @@
 <config>
     <modules>
         <PayLater_PayLater>
-            <version>1.2.0</version>
+            <version>1.2.1</version>
         </PayLater_PayLater>
     </modules>
     <paylater>

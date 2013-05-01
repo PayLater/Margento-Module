@@ -53,7 +53,7 @@ class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_B
 	public function getProductFinalPrice()
 	{
 		$currentProduct = Mage::registry('product');
-		return $currentProduct->getFinalPrice();
+		return $this->helper('tax')->getPrice($currentProduct, $currentProduct->getFinalPrice());
 	}
 	
 	public function isConfigurableProduct()

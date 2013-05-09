@@ -103,8 +103,8 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * PAYLATER_PRICE_JS  
 	 */
-	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/2.1/price.js';
-	const PAYLATER_PRICE_JS_TEST = 'https://paylater.s3.amazonaws.com/2.1/price.js';
+	const PAYLATER_PRICE_JS = 'https://paylater.s3.amazonaws.com/2.2/price.js';
+	const PAYLATER_PRICE_JS_TEST = 'https://paylater.s3.amazonaws.com/2.2/price.js';
 	/**
 	 * Supported PayLater currencies.
 	 */

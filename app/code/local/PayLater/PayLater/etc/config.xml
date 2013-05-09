@@ -27,7 +27,7 @@
 <config>
     <modules>
         <PayLater_PayLater>
-            <version>1.1.0</version>
+            <version>1.3.0</version>
         </PayLater_PayLater>
     </modules>
     <paylater>
@@ -271,5 +271,17 @@
             </template>
         </paylater>
     </default>
+    <crontab>
+        <jobs>
+            <paylater_orphaned_order_polling>
+                <schedule>
+                    <cron_expr>15 * * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>paylater/event_observer::orphanedOrderPolling</model>
+                </run>
+            </paylater_orphaned_order_polling>
+        </jobs>
+    </crontab>
 </config>
 

@@ -34,8 +34,8 @@
 class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Action implements PayLater_PayLater_Core_Interface
 {
 
-	protected $_requiredGatewayPostKeys = array ('reference', 'currency', 'amount', 'postcode', 'billingpostcode');
-	
+	protected $_requiredGatewayPostKeys = array('reference', 'currency', 'amount', 'postcode', 'billingpostcode');
+
 	/**
 	 *
 	 * @return PayLater_PayLater_Model_Checkout_Onepage 
@@ -163,8 +163,8 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$quote = Mage::getModel('paylater/checkout_quote');
 		return $quote->getPayLaterOfferArray();
 	}
-	
-	protected function _verifyGatewayPost ($post)
+
+	protected function _verifyGatewayPost($post)
 	{
 		$helper = Mage::helper('paylater');
 		foreach ($this->_requiredGatewayPostKeys as $key) {
@@ -194,7 +194,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$quote->collectTotals()->save();
 		$paylaterData = $this->getRequest()->getPost();
 		$helper = Mage::helper('paylater');
-		if (! $this->_verifyGatewayPost($paylaterData)) {
+		if (!$this->_verifyGatewayPost($paylaterData)) {
 			$this->_redirectGatewayError($helper->__(self::PAYLATER_GATEWAY_MISSING_DATA_ERROR));
 			return;
 		}
@@ -213,6 +213,18 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					// Order was saved without sending any customer email.
 					// @see Observer->saveOrderAfter
 					$orderId = $this->_setPayLaterOrderStateAndStatus(self::PAYLATER_ORPHANED_ORDER_STATUS, self::PAYLATER_ORPHANED_ORDER_STATUS);
+
+					try {
+						// Preserve checkout session ID incase user never comes back to merchant site with successful application
+						// Used in cronjob
+						Mage::getModel('sales/order')->loadByIncrementId($orderId)->setPaylaterAdditional(serialize(
+										array(
+											'checkout_session_id' => Mage::getSingleton('checkout/session')->getSessionId()
+										)
+								))->save();
+					} catch (Exception $e) {
+						$helper->log("Unable to save session to order '$orderId'", __METHOD__, Zend_Log::ERR);
+					}
 					$this->_setOrderPayLaterOffer($orderId);
 					$paylaterData[self::PAYLATER_PARAMS_MAP_ORDERID_KEY] = $orderId;
 					if ($helper->isEndpointAvailable(60)) {
@@ -271,7 +283,22 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					$order = Mage::getModel('paylater/sales_order', array($orderId));
 					$apiRequest = Mage::getModel('paylater/api_request');
 					$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
-					$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
+
+					// Poll PayLater for X seconds expecting a response with status
+					$future = time() + self::PAYLATER_POLLING_TIMEOUT;
+					$count = 1;
+					while (time() <= $future) {
+						$helper->log("Polling... $count", __METHOD__, Zend_Log::DEBUG);
+						$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
+						$helper->log("\tResponse: " . $apiResponse->getStatus(), __METHOD__, Zend_Log::DEBUG);
+
+						// Break as soon as we have a useful status
+						if ($apiResponse->isSuccessful() && $apiResponse->hasStatus()) {
+							break;
+						}
+						sleep(self::PAYLATER_POLLING_INTERVAL);
+						$count++;
+					}
 
 					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
 						$order->setStateAndStatus();
@@ -281,11 +308,14 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 							$order->sendEmail();
 						}
 						$order->setInactiveQuote();
+						Mage::dispatchEvent('paylater_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
 						$this->_toOnepageSuccess();
 						return;
 					} else {
 						$order->savePayLaterOrderStatus($apiResponse->getStatus());
+						$order->setStateAndStatus($apiResponse->getStatus());
 						$order->save();
+						Mage::dispatchEvent('paylater_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
 						$this->_redirectError(self::ERROR_CODE_GENERIC);
 						return;
 					}

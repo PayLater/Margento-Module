@@ -53,6 +53,16 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	protected $_responseXml;
 
 	/**
+	 * Possible valid statuses
+	 */
+	protected $_statuses = array(
+		self::PAYLATER_API_ACCEPTED_RESPONSE,
+		self::PAYLATER_API_DECLINED_RESPONSE,
+		self::PAYLATER_API_CANCELED_RESPONSE,
+		self::PAYLATER_API_PENDING_RESPONSE
+	);
+
+	/**
 	 * Protected request getter
 	 * 
 	 * @return Zend_Http_Client 
@@ -98,6 +108,19 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	}
 
 	/**
+	 * Response has a valid status
+	 * @return boolean
+	 */
+	public function hasStatus()
+	{
+		if ($this->getStatus() && in_array($this->getStatus(), $this->_statuses)) {
+			return True;
+		}
+
+		return False;
+	}
+
+	/**
 	 * 
 	 * @return SimpleXMLElement 
 	 */
@@ -130,7 +153,7 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 		return $this->_response->isSuccessful();
 	}
 
-	public function doesAmountMatch(Mage_Sales_Model_Order $order)
+	public function doesAmountMatch(PayLater_PayLater_Model_Sales_Order $order)
 	{
 		return $this->getAmount() == $order->getInstance()->getTotalDue();
 	}

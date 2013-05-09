@@ -232,8 +232,8 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 						if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
 							$$('div.onestepcheckout-place-order-wrapper')[0].hide();
 						}
-						
-						new Ajax.Request(url.split('/')[0] + '/paylater/onestep/review', {
+
+						new Ajax.Request(url.split('/')[0] + '//' + window.location.host + '/paylater/onestep/review', {
 							method: 'post',
 							onSuccess: function(transport)    {
 								if(transport.status == 200)    {
@@ -344,12 +344,13 @@ function get_separate_save_methods_function(url, update_payments)
 								}
 							}
 						}
-					
+						
 						if (globalPaymentMethod == 'paylater') {
+
 							if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
 									$$('div.onestepcheckout-place-order-wrapper')[0].hide();
 							}
-							new Ajax.Request(url.split('/')[0] + '/paylater/onestep/review', {
+							new Ajax.Request(url.split('/')[0] + '//' + window.location.host + '/paylater/onestep/review', {
 								method: 'post',
 								onSuccess: function(transport)    {
 									if(transport.status == 200)    {

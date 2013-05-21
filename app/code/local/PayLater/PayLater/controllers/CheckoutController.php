@@ -285,9 +285,9 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					$apiRequest->setHeaders()->setMethod()->setRawData($orderId);
 
 					// Poll PayLater for X seconds expecting a response with status
-					$future = time() + self::PAYLATER_POLLING_TIMEOUT;
+					$future = Mage::getModel('core/date')->timestamp(time()) + self::PAYLATER_POLLING_TIMEOUT;
 					$count = 1;
-					while (time() <= $future) {
+					while (Mage::getModel('core/date')->timestamp(time()) <= $future) {
 						$helper->log("Polling... $count", __METHOD__, Zend_Log::DEBUG);
 						$apiResponse = Mage::getModel('paylater/api_response', array($apiRequest));
 						$helper->log("\tResponse: " . $apiResponse->getStatus(), __METHOD__, Zend_Log::DEBUG);

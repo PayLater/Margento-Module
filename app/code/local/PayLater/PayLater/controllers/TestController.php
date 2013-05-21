@@ -70,5 +70,11 @@ class PayLater_PayLater_TestController extends Mage_Core_Controller_Front_Action
 		var_dump('Can Helper log ' . $helper->canLog());
 		$helper->log('Log test', __METHOD__);
 	}
+	
+	public function cronTestAction()
+	{
+		$observer = Mage::getModel('paylater/event_observer');
+		$observer->orphanedOrderPolling();
+	}
 
 }

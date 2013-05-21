@@ -139,7 +139,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	public function orphanedOrderPolling()
 	{
 		$helper = Mage::helper('paylater');
-		$now = time();
+		$now =  Mage::getModel('core/date')->timestamp(time());
 		$from = date("Y-m-d H:i:s", strtotime("-4 hours", $now));
 		$to = date("Y-m-d H:i:s", strtotime("-1 hours", $now));
 

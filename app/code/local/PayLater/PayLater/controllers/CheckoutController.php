@@ -179,6 +179,24 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		}
 		return true;
 	}
+	
+	/**
+	 * Verifies stream context to avoid MitM attacks in LIVE environment.
+	 * 
+	 * @param Zend_Http_Client $apiRequest
+	 * @param PayLater_PayLater_Helper_Data $helper
+	 * @return boolean
+	 */
+	protected function _verifyStreamContext ($apiRequest, $helper)
+	{
+		$streamContext = stream_context_get_options($apiRequest->getAdapter()->getStreamContext());	
+		$helper->log("Stream Context Options: " . var_export($streamContext, true), __METHOD__, Zend_Log::DEBUG);
+		
+		if (!array_key_exists('ssl', $streamContext) && !array_key_exists('allow_self_signed', $streamContext['ssl']) && $streamContext['ssl']['allow_self_signed'] != false) {
+			return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Saves order and sets its status and state to PayLater Orphaned 
@@ -299,7 +317,14 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						sleep(self::PAYLATER_POLLING_INTERVAL);
 						$count++;
 					}
-
+					
+					// stop order's saving if in LIVE env and could not verify stream context
+					if (!$helper->isTestEnvironment() && !$this->_verifyStreamContext($apiRequest, $helper)) {
+						$helper->log('Stream Context Verification Failed', __METHOD__, Zend_Log::ERR);
+						$this->_redirectError(self::ERROR_CODE_GENERIC);
+						return;
+					}
+					
 					if ($apiResponse->isSuccessful() && $apiResponse->getStatus() == self::PAYLATER_API_ACCEPTED_RESPONSE && $apiResponse->doesAmountMatch($order)) {
 						$order->setStateAndStatus();
 						$order->savePayLaterOrderStatus($apiResponse->getStatus());

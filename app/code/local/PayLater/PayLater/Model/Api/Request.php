@@ -39,7 +39,7 @@ class PayLater_PayLater_Model_Api_Request implements PayLater_PayLater_Core_Inte
 	 * @var \Zend_Http_Client 
 	 */
 	protected $_client;
-
+	
 	/**
 	 *
 	 * @var boolean 
@@ -57,6 +57,24 @@ class PayLater_PayLater_Model_Api_Request implements PayLater_PayLater_Core_Inte
 	 * @var string 
 	 */
 	protected $_rawData;
+	
+	/**
+	 *
+	 * @var string 
+	 */
+	protected $_setStreamContextFlag = true;
+	
+	protected $_adapter;
+	protected $_adapterOptions;
+	
+	protected function _setAdapterSocket (Zend_Http_Client $client)
+	{
+		if ($this->_setStreamContextFlag === true) {
+			$this->_adapter = new Zend_Http_Client_Adapter_Socket();
+			$client->setAdapter($this->_adapter);
+			$this->_adapter->setStreamContext($this->_adapterOptions);
+		}
+	}
 
 	/**
 	 * 
@@ -79,6 +97,7 @@ class PayLater_PayLater_Model_Api_Request implements PayLater_PayLater_Core_Inte
 			} else {
 				$this->_client = new Zend_Http_Client(self::PAYLATER_API_QUERIES_LIVE);
 			}
+			$this->_setAdapterSocket($this->_client);
 		}
 		return $this->_client;
 	}
@@ -117,6 +136,18 @@ class PayLater_PayLater_Model_Api_Request implements PayLater_PayLater_Core_Inte
 		$this->_config = array(
 			'maxredirects' => self::PAYLATER_API_REQUEST_MAXREDIRECTS,
 			'timeout' => self::PAYLATER_API_REQUEST_TIMEOUT
+		);
+		
+		$this->_adapterOptions = array(
+			'ssl' => array(
+				// Verify server side certificate,
+				// do not accept invalid or self-signed SSL certificates
+				'verify_peer' => true,
+				'allow_self_signed' => false,
+				// Capture the peer's certificate
+				'capture_peer_cert' => true,
+				'cafile' => Mage::getBaseDir() . '/app/code/local/PayLater/PayLater/etc/cacert.pem'
+			)
 		);
 	}
 
@@ -168,5 +199,34 @@ class PayLater_PayLater_Model_Api_Request implements PayLater_PayLater_Core_Inte
 	{
 		return $this->_rawData;
 	}
+	
+	public function getSetStreamContextFlag()
+	{
+		return $this->_setStreamContextFlag;
+	}
 
+	public function setSetStreamContextFlag($setStreamContextFlag)
+	{
+		$this->_setStreamContextFlag = $setStreamContextFlag;
+	}
+	
+	public function getAdapterOptions()
+	{
+		return $this->_adapterOptions;
+	}
+
+	public function setAdapterOptions($adapterOptions)
+	{
+		$this->_adapterOptions = $adapterOptions;
+	}
+	
+	public function getAdapter()
+	{
+		return $this->_adapter;
+	}
+
+	public function setAdapter($adapter)
+	{
+		$this->_adapter = $adapter;
+	}
 }

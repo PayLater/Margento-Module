@@ -62,6 +62,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
+							<validate>validate-digits</validate>
 						</run_status>
 						<store translate="label comment">
 							<label>Store Name</label>
@@ -73,6 +74,7 @@
 							<comment>
 								<![CDATA[<span class="notice">This store name (as it should appear on PayLater legal notice)</span>]]>
 							</comment>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</store>
 						<env translate="label comment">
 							<label>Environment</label>
@@ -90,9 +92,11 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 							<comment>
 								<![CDATA[<span class="notice">After saving, also run "Update Configuration" when editing payment method sort order. Also make sure other enabled payment methods have a sort order value.</span>]]>
 							</comment>
+							<validate>validate-digits</validate>
 						</sort_order>
 						<gateway_domain_verification translate="label comment">
 							<label>Verify Domain on Gateway</label>
@@ -161,9 +165,10 @@
 							<sort_order>10</sort_order>
 							<frontend_type>text</frontend_type>
 							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>	
-							<show_in_store>1</show_in_store>
-							<validate>required-entry</validate>
+							<show_in_website>0</show_in_website>	
+							<show_in_store>0</show_in_store>
+							<validate>required-entry validate-digits</validate>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</reference>
 						<guid translate="label comment">
 							<label>Merchant GUID</label>
@@ -173,9 +178,10 @@
 							<sort_order>20</sort_order>
 							<frontend_type>text</frontend_type>
 							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>	
-							<show_in_store>1</show_in_store>
+							<show_in_website>0</show_in_website>	
+							<show_in_store>0</show_in_store>
 							<validate>required-entry change-to-uppercase</validate>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</guid>
 					</fields>
 				</merchant>
@@ -202,13 +208,14 @@
 						<legal translate="label comment">
 							<label>Legal</label>
 							<comment>
-								<![CDATA[<span class="notice">Do not change legal notice unless instructed otherwise by PayLater. String contains the following parameters:<br /><ul><li>First %s: current store name</li><li>Second %s: current store name</li><li>Third %s: current store address</li></ul></span>]]>
+								<![CDATA[<span class="notice">Do not change legal notice unless instructed otherwise by PayLater. Simply replace [store_name] and [store_address] with your store name and address.</span>]]>
 							</comment>
 							<sort_order>20</sort_order>
 							<frontend_type>textarea</frontend_type>
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</legal>
 					</fields>
 				</product>
@@ -282,6 +289,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</out_range_heading>
 						<out_range_message translate="label comment">
 							<label>Out of Range Body</label>
@@ -293,6 +301,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</out_range_message>
 						<service_unavailable_heading translate="label">
 							<label>Service Unavailable Heading</label>
@@ -301,6 +310,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</service_unavailable_heading>
 						<service_unavailable_body translate="label">
 							<label>Service Unavailable Body</label>
@@ -309,6 +319,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</service_unavailable_body>
 						<error_code_body translate="label comment">
 							<label>Customer Error Codes Message</label>
@@ -320,6 +331,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</error_code_body>
 					</fields>
 				</payment>
@@ -338,6 +350,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</customer_note>
 					</fields>
 				</review>
@@ -360,6 +373,7 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 							<validate>required-entry</validate>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</onepage_index>
 						<onestep_index translate="label comment">
 							<label>OneStep Checkout Template File</label>
@@ -372,6 +386,7 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 							<validate>required-entry</validate>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</onestep_index>
 						<onestep_payment_method translate="label comment">
 							<label>OneStep Checkout Payment Method File</label>
@@ -384,6 +399,7 @@
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 							<validate>required-entry</validate>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</onestep_payment_method>
 					</fields>
 				</template>
@@ -417,6 +433,7 @@
 							<show_in_default>1</show_in_default>
 							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
 						</log_file>
 					</fields>
 				</dev>

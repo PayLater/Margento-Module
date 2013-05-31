@@ -519,9 +519,9 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 	public function canAccessGateway ()
 	{
 		$request = Mage::app()->getRequest();
-		$explodedReferer = explode(DS, $request->getServer('HTTP_REFERER'));
-		$mageHome = Mage::getBaseUrl();
-		$refererDomain = array_key_exists(2, $explodedReferer) ? $explodedReferer[2] : false;
+		$explodedReferer = parse_url($request->getServer('HTTP_REFERER'));
+		$mageHome = Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB);
+		$refererDomain =  $explodedReferer['scheme'] . '://' . $explodedReferer['host'];
 		return preg_match("~$refererDomain~", $mageHome);
 	}
 }

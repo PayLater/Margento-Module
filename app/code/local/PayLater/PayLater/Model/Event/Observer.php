@@ -82,6 +82,17 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		$onepage->setMessagesBlock($messages);
 		$onepage->setTemplate(Mage::helper('paylater')->getPayLaterConfigOnepageIndex('template'));
 	}
+	
+	public function checkoutCartIndexBefore (Varien_Event_Observer $observer)
+	{
+		$payLater = Mage::helper('paylater');
+		if ($payLater->getPayLaterConfigEnabled('cart')) {
+			$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
+			$layout = Mage::helper('paylater/layout');
+			$coreLayout = $layout->getCoreLayout();
+			$coreLayout->getBlock('checkout.cart')->setTemplate('paylater/paylater/checkout/cart/cart.phtml');
+		}
+	}
 
 	public function onestepCheckoutIndexBefore(Varien_Event_Observer $observer)
 	{

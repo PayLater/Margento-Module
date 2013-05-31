@@ -34,6 +34,8 @@
 class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_Block_Template implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_ShowableInterface
 {
 
+	protected $_quote;
+	
 	protected $_paramsMap = array(
 		self::PAYLATER_PARAMS_MAP_REFERENCE_KEY => '',
 		self::PAYLATER_PARAMS_MAP_AMOUNT_KEY => '',
@@ -42,6 +44,12 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 		self::PAYLATER_PARAMS_MAP_POSTCODE_KEY => '',
 		self::PAYLATER_PARAMS_MAP_ITEMS_KEY => array()
 	);
+	
+	protected function _construct()
+	{
+		parent::_construct();
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+	}
 
 	protected function _getReference()
 	{
@@ -50,8 +58,47 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 
 	protected function _getAmount()
 	{
-		$quote = Mage::getModel('paylater/checkout_quote');
-		return $quote->getGrandTotal();
+		if (isset($this->_quote)) {
+			return $this->_quote->getGrandTotal();
+		}
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+		return $this->_quote->getGrandTotal();
+	}
+	
+	protected function _getBillingEmail()
+	{
+		if (isset($this->_quote)) {
+			return $this->_quote->getBillingCustomerEmail();
+		}
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+		return $this->_quote->getBillingCustomerEmail();
+	}
+	
+	protected function _getBillingFirstname()
+	{
+		if (isset($this->_quote)) {
+			return $this->_quote->getBillingFirstname();
+		}
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+		return $this->_quote->getBillingFirstname();
+	}
+	
+	protected function _getBillingLastname()
+	{
+		if (isset($this->_quote)) {
+			return $this->_quote->getBillingLastname();
+		}
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+		return $this->_quote->getBillingLastname();
+	}
+	
+	protected function _getBillingPhone()
+	{
+		if (isset($this->_quote)) {
+			return $this->_quote->getBillingPhone();
+		}
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+		return $this->_quote->getBillingPhone();
 	}
 
 	protected function _getPaymentMethod()
@@ -61,14 +108,14 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 
 	protected function _getPostcode()
 	{
-		$quote = Mage::getModel('paylater/checkout_quote');
-		return $quote->getPayLaterPostcode();
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+		return $this->_quote->getPayLaterPostcode();
 	}
 	
 	protected function _getPostcodes()
 	{
-		$quote = Mage::getModel('paylater/checkout_quote');
-		return array('billing' => $quote->getBillingPostcode(), 'shipping' => $quote->getShippingPostcode());
+		$this->_quote = Mage::getModel('paylater/checkout_quote');
+		return array('billing' => $this->_quote->getBillingPostcode(), 'shipping' => $this->_quote->getShippingPostcode());
 	}
 
 	/**
@@ -111,6 +158,10 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_REFERENCE_KEY] = $this->_getReference();
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_AMOUNT_KEY] = $this->_getAmount();
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_POSTCODE_KEY] = $this->_getPostcode();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_EMAIL] = $this->_getBillingEmail();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_FIRSTNAME] = $this->_getBillingFirstname();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_LASTNAME] = $this->_getBillingLastname();
+		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_PHONE] = $this->_getBillingPhone();
 		$postcodes = $this->_getPostcodes();
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_DELIVERYPOSTCODE_KEY] = $postcodes['shipping'];
 		$this->_paramsMap[self::PAYLATER_PARAMS_MAP_BILLINGPOSTCODE_KEY] = $postcodes['billing'];
@@ -142,6 +193,46 @@ class PayLater_PayLater_Block_Checkout_Onepage_Review_Button extends Mage_Core_B
 	public function getBeforeEndpointAction ()
 	{
 		return $this->getUrl(self::PAYLATER_BEFORE_ENDPOINT_ACTION, array('_secure' => true));
+	}
+	
+	/**
+	 * Returns quote's customer email
+	 * 
+	 * @return string
+	 */
+	public function getBillingEmail ()
+	{
+		return $this->_getBillingEmail();
+	}
+	
+	/**
+	 * Returns quote billing customer firstname
+	 * 
+	 * @return string
+	 */
+	public function getBillingFirstname ()
+	{
+		return $this->_getBillingFirstname();
+	}
+	
+	/**
+	 * Returns quote billing customer lastname
+	 * 
+	 * @return string
+	 */
+	public function getBillingLastname ()
+	{
+		return $this->_getBillingLastname();
+	}
+	
+	/**
+	 * Returns quote billing customer lastname
+	 * 
+	 * @return string
+	 */
+	public function getBillingPhone ()
+	{
+		return $this->_getBillingPhone();
 	}
 
 }

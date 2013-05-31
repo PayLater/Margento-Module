@@ -131,6 +131,14 @@
                     </paylater_observer>
                 </observers>
             </controller_action_layout_render_before_catalog_product_view>
+			<controller_action_layout_render_before_checkout_cart_index>
+                <observers>
+                    <paylater_observer>
+                        <class>paylater/event_observer</class>
+                        <method>checkoutCartIndexBefore</method>
+                    </paylater_observer>
+                </observers>
+            </controller_action_layout_render_before_checkout_cart_index>
             <controller_action_layout_render_before_checkout_onepage_index>
                 <observers>
                     <paylater_observer>
@@ -248,6 +256,10 @@
                 <event>click</event>
                 <legal><![CDATA[Credit provided subject to status to UK residents aged 18 and over. [store name] is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. [store name], [store address].]]></legal>
             </product>
+			<cart>
+				<enabled>1</enabled>
+				<template>paylater/paylater/checkout/cart/cart.phtml</template>
+			</cart>
             <checkout>
                 <type>onepage</type>
                 <show_out_range_message>1</show_out_range_message>

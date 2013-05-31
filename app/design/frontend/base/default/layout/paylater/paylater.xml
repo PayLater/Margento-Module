@@ -46,6 +46,17 @@
 		</reference>
 	</checkout_onepage_index>
 
+	<checkout_cart_index>
+		<reference name="head">
+			<action method="addCss">
+				<stylesheet>paylater/css/checkout.css</stylesheet>
+			</action> 
+		</reference>
+		<reference name="checkout.cart">
+			<block type="paylater/checkout_cart_representative" name="paylater.cart.representative" template="paylater/paylater/checkout/cart/representative.phtml"/>
+		</reference>
+	</checkout_cart_index>
+
 	<onestepcheckout_index_index>
 		<reference name="head">
 			<action method="addCss">

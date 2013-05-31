@@ -63,6 +63,26 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	{
 		return $this->_getInSession()->getReservedOrderId();
 	}
+	
+	protected function _getBillingEmail()
+	{
+		return $this->_getInSession()->getBillingAddress()->getEmail();
+	}
+	
+	protected function _getBillingFirstname()
+	{
+		return $this->_getInSession()->getBillingAddress()->getFirstname();
+	}
+	
+	protected function _getBillingLastname()
+	{
+		return $this->_getInSession()->getBillingAddress()->getLastname();
+	}
+	
+	protected function _getBillingPhone()
+	{
+		return $this->_getInSession()->getBillingAddress()->getTelephone();
+	}
 
 	protected function _getBilling()
 	{
@@ -164,6 +184,46 @@ class PayLater_PayLater_Model_Checkout_Quote implements PayLater_PayLater_Core_I
 	public function getShippingAddress()
 	{
 		return $this->_getShipping();
+	}
+	
+	/**
+	 * Gets customer billing email address
+	 * 
+	 * @return string
+	 */
+	public function getBillingCustomerEmail()
+	{
+		return $this->_getBillingEmail();
+	}
+	
+	/**
+	 * Gets customer billing firstname
+	 * 
+	 * @return string
+	 */
+	public function getBillingFirstname()
+	{
+		return $this->_getBillingFirstname();
+	}
+	
+	/**
+	 * Gets customer billing lastname
+	 * 
+	 * @return string
+	 */
+	public function getBillingLastname()
+	{
+		return $this->_getBillingLastname();
+	}
+	
+	/**
+	 * Gets customer billing phone
+	 * 
+	 * @return string
+	 */
+	public function getBillingPhone()
+	{
+		return $this->_getBillingPhone();
 	}
 
 	/**

@@ -72,9 +72,14 @@ class PayLater_PayLater_Block_Checkout_Gateway extends Mage_Core_Block_Template 
 		return array(
 			self::PAYLATER_PARAMS_MAP_REFERENCE_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_REFERENCE_KEY],
 			self::PAYLATER_PARAMS_MAP_AMOUNT_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_AMOUNT_KEY],
+			self::PAYLATER_PARAMS_MAP_EMAIL => $paylaterData[self::PAYLATER_PARAMS_MAP_EMAIL],
+			self::PAYLATER_PARAMS_MAP_FIRSTNAME => $paylaterData[self::PAYLATER_PARAMS_MAP_FIRSTNAME],
+			self::PAYLATER_PARAMS_MAP_LASTNAME => $paylaterData[self::PAYLATER_PARAMS_MAP_LASTNAME],
+			self::PAYLATER_PARAMS_MAP_PHONE => $paylaterData[self::PAYLATER_PARAMS_MAP_PHONE],
 			self::PAYLATER_PARAMS_MAP_ORDERID_KEY => $quote->getReservedOrderId(),
 			self::PAYLATER_PARAMS_MAP_CURRENCY_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_CURRENCY_KEY],
 			self::PAYLATER_PARAMS_MAP_POSTCODE_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_POSTCODE_KEY],
+			self::PAYLATER_PARAMS_MAP_DELIVERYPOSTCODE_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_DELIVERYPOSTCODE_KEY],
 			self::PAYLATER_PARAMS_MAP_BILLINGPOSTCODE_KEY => $paylaterData[self::PAYLATER_PARAMS_MAP_BILLINGPOSTCODE_KEY],
 			self::PAYLATER_PARAMS_MAP_RETURN_LINK_KEY => $this->getUrl(self::PAYLATER_PARAMS_MAP_RETURN_LINK, array('_secure' => true)),
 			'item' => $this->_collectAllItems()

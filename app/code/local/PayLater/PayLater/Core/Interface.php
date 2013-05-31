@@ -193,6 +193,10 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_PARAMS_MAP_POSTCODE_KEY = 'postcode';
 	const PAYLATER_PARAMS_MAP_DELIVERYPOSTCODE_KEY = 'deliverypostcode';
 	const PAYLATER_PARAMS_MAP_BILLINGPOSTCODE_KEY = 'billingpostcode';
+	const PAYLATER_PARAMS_MAP_FIRSTNAME = 'firstname';
+	const PAYLATER_PARAMS_MAP_LASTNAME = 'lastname';
+	const PAYLATER_PARAMS_MAP_EMAIL = 'email';
+	const PAYLATER_PARAMS_MAP_PHONE = 'mobilephone';
 	const PAYLATER_PARAMS_MAP_ACTION = 'action';
 	const PAYLATER_PARAMS_MAP_BUTTON = 'button';
 	const PAYLATER_PARAMS_MAP_ITEMS_KEY = 'items';

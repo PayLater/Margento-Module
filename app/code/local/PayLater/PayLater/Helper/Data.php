@@ -365,6 +365,19 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 
 		return false;
 	}
+	
+	/**
+	 * Returns true if PayLater can show on a cart product and verified the
+	 * price is within PayLater range.
+	 * 
+	 * Returns false otherwise.
+	 * 
+	 * @return boolean 
+	 */
+	public function canShowOnCart()
+	{
+		return $this->canShowAtCheckout();
+	}
 
 	/**
 	 * Returns true if PayLater can show at checkout and verified the

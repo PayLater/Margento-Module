@@ -46,7 +46,7 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 	{
 		$session = Mage::getSingleton('adminhtml/session');
 		$refundModel = $this->_getRefundModel();
-		$filename = $refundModel->getCsvExportFilename();
+		$filename = $refundModel->getCsvExportFilename($type);
 		try {
 			$this->_prepareDownloadResponse( $filename, $refundModel->getCsvFile($type), 'text/csv');
 		} catch (Exception $e) {

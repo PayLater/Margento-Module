@@ -203,10 +203,10 @@ class PayLater_PayLater_Model_Refund extends Mage_Core_Model_Abstract implements
         );
     }
 	
-	public function getCsvExportFilename ()
+	public function getCsvExportFilename ($type)
 	{
 		$now = Mage::getModel('core/date')->timestamp(time());
-		return "PayLaterRefund_" . date('Y-m-d_H-i-s', $now) . ".csv";
+		return "PayLaterRefund_" . ucfirst($type) . '_' . date('Y-m-d_H-i-s', $now) . ".csv";
 	}
 
 	/**

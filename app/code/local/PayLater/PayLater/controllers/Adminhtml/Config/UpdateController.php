@@ -37,25 +37,24 @@
  */
 class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml_Controller_Action
 {
-
-	protected function _sendCsv($file_path)
+	protected function _getRefundModel ()
 	{
-		if (!is_file($file_path) || !is_readable($file_path)) {
-			Mage::throwException("PayLater CSV '$file_path' unavailable");
-		}
-		$this->getResponse()
-				->setHttpResponseCode(200)
-				->setHeader('Content-Disposition', 'attachment' . '; filename="' . urlencode(basename($file_path)) . '"')
-				->setHeader('Pragma', 'public', true)
-				->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
-				->setHeader('Content-type: application/octet-stream')
-				->setHeader('Content-Length', filesize($file_path));
-				
-		$this->getResponse()->clearBody();
-		$this->getResponse()->sendHeaders();
-		readfile($file_path);
+		return Mage::getModel('paylater/refund');
 	}
-
+	
+	protected function _downloadCsv ($type) 
+	{
+		$session = Mage::getSingleton('adminhtml/session');
+		$refundModel = $this->_getRefundModel();
+		$filename = $refundModel->getCsvExportFilename();
+		try {
+			$this->_prepareDownloadResponse( $filename, $refundModel->getCsvFile($type), 'text/csv');
+		} catch (Exception $e) {
+			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
+			$this->_redirectReferer();
+		}
+	}
+	
 	public function indexAction()
 	{
 		$session = Mage::getSingleton('adminhtml/session');
@@ -83,28 +82,12 @@ class PayLater_PayLater_Adminhtml_Config_UpdateController extends Mage_Adminhtml
 
 	public function refundAction()
 	{
-		$session = Mage::getSingleton('adminhtml/session');
-		$file_path = Mage::getModel('paylater/refund')->generateRefundsCsv();
-		try {
-			$this->_sendCsv($file_path);
-			unlink($file_path);
-		} catch (Exception $e) {
-			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
-			$this->_redirectReferer();
-		}
+		$this->_downloadCsv('unexported');
 	}
 	
 	public function refundAllAction()
 	{
-		$session = Mage::getSingleton('adminhtml/session');
-		$file_path = Mage::getModel('paylater/refund')->generateAllRefundsCsv();
-		try {
-			$this->_sendCsv($file_path);
-			unlink($file_path);
-		} catch (Exception $e) {
-			$session->addError(Mage::helper('paylater')->__($e->getMessage()));
-			$this->_redirectReferer();
-		}
+		$this->_downloadCsv('all');
 	}
 
 }

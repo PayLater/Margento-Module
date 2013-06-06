@@ -31,14 +31,71 @@
  * @subpackage Model
  * @author     GPMD <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Model_Refund extends Mage_Core_Model_Abstract
+class PayLater_PayLater_Model_Refund extends Mage_Core_Model_Abstract implements PayLater_PayLater_Core_Interface
 {
+	/**
+     * Iterate collection and call callback method per item
+     * For callback method first argument always is item object
+     *
+     * @param string $callback
+     * @param array $args additional arguments for callback method
+     * @param string $type unexported | all
+     */
+    protected function _exportIterateCollection($callback, array $args, $type)
+    {
+		if ($type == "unexported") {
+			$originalCollection = $this->getUnexportedCollection();
+		} else if ($type == 'all') {
+			$originalCollection = $this->getAllRefundsCollection();
+		} else {
+			// fallbak: if type is not known or have a typo, get all refunds collection
+			$originalCollection = $this->getAllRefundsCollection();
+		}
+		
+        $count = null;
+        $page  = 1;
+        $lPage = null;
+        $break = false;
 
-	public function _construct()
-	{
-		$this->_init('paylater/refund');
-	}
+        while ($break !== true) {
+            $collection = clone $originalCollection;
+            $collection->setPageSize(self::PAYLATER_REFUNDS_PAGE_SIZE);
+            $collection->setCurPage($page);
+            $collection->load();
+            if (is_null($count)) {
+                $count = $collection->getSize();
+                $lPage = $collection->getLastPageNumber();
+            }
+            if ($lPage == $page) {
+                $break = true;
+            }
+            $page ++;
 
+            foreach ($collection as $item) {
+                call_user_func_array(array($this, $callback), array_merge(array($item), $args));
+            }
+        }
+    }
+	
+	/**
+     * Write item data to csv export file
+     *
+     * @param Varien_Object $item
+     * @param Varien_Io_File $adapter
+     */
+    protected function _exportCsvItem(Varien_Object $item, Varien_Io_File $adapter)
+    {
+        $row = $item->getData();
+		if (is_array($row) && array_key_exists('refund_id', $row) && array_key_exists('export_date', $row)) {
+			unset($row['refund_id']);
+			unset($row['export_date']);
+		}
+        $adapter->streamWriteCsv($row);
+		$now = Mage::getModel('core/date')->timestamp(time());
+		$item->setData('export_date', date('Y-m-d H:i:s', $now));
+		$item->save();
+    }
+	
 	/**
 	 *
 	 * @param type $type
@@ -51,152 +108,7 @@ class PayLater_PayLater_Model_Refund extends Mage_Core_Model_Abstract
 		}
 		return FALSE;
 	}
-
-	/**
-	 * Generate a CSV of unexported refund records
-	 * 
-	 * @return string|boolean
-	 */
-	public function generateRefundsCsv()
-	{
-		$records = $this->getResourceCollection()->getUnexportedRecords();
-		$this->_helper()->log("Starting CSV Export of " . count($records) . " refunds", __METHOD__);
-		$csv = new Varien_File_Csv();
-		$tmp_file = Mage::getBaseDir() . "/var/cache/PayLaterRefund_" . date('Y-m-d_H-i-s') . ".csv";
-		$rows = array();
-
-		// Adding header row
-		$header = array();
-		$header['RefundDate'] = 'RefundDate';
-		$header['MerchantReference'] = 'MerchantReference';
-		$header['OrderID'] = 'OrderID';
-		$header['Currency'] = 'Currency';
-		$header['RefundValue'] = 'RefundValue';
-		$header['ReasonCode'] = 'ReasonCode';
-		$rows[] = $header;
-
-
-		foreach ($records as $record) {
-			$row = array();
-			$record->load($record->getId());
-
-			$this->_helper()->log("Exporting refund " . $record->getId(), __METHOD__, Zend_Log::DEBUG);
-			$row['RefundDate'] = $record->getData('refund_date');
-			$row['MerchantReference'] = $record->getData('merchant_reference');
-			$row['OrderID'] = $record->getData('order_id');
-			$row['Currency'] = $record->getData('currency');
-			$row['RefundValue'] = $record->getData('refund_value');
-			$row['ReasonCode'] = $record->getData('reason_code');
-			$rows[] = $row;
-		}
-		if ($csv->saveData($tmp_file, $rows)) {
-			$records->walk('markAsExported');
-			$this->_helper()->log("Finished CSV export to " . $tmp_file, __METHOD__);
-			return $tmp_file;
-		}
-
-		return FALSE;
-	}
 	
-	/**
-	 * Generate a CSV of unexported refund records
-	 * 
-	 * @return string|boolean
-	 */
-	public function generateAllRefundsCsv()
-	{
-		$records = $this->getResourceCollection();
-		$this->_helper()->log("Starting CSV Export of " . count($records) . " refunds", __METHOD__);
-		$csv = new Varien_File_Csv();
-		$tmp_file = Mage::getBaseDir() . "/var/cache/PayLaterAllRefunds_" . date('Y-m-d_H-i-s') . ".csv";
-		$rows = array();
-
-		// Adding header row
-		$header = array();
-		$header['RefundDate'] = 'RefundDate';
-		$header['MerchantReference'] = 'MerchantReference';
-		$header['OrderID'] = 'OrderID';
-		$header['Currency'] = 'Currency';
-		$header['RefundValue'] = 'RefundValue';
-		$header['ReasonCode'] = 'ReasonCode';
-		$rows[] = $header;
-
-
-		foreach ($records as $record) {
-			$row = array();
-			$record->load($record->getId());
-
-			$this->_helper()->log("Exporting refund " . $record->getId(), __METHOD__, Zend_Log::DEBUG);
-			$row['RefundDate'] = $record->getData('refund_date');
-			$row['MerchantReference'] = $record->getData('merchant_reference');
-			$row['OrderID'] = $record->getData('order_id');
-			$row['Currency'] = $record->getData('currency');
-			$row['RefundValue'] = $record->getData('refund_value');
-			$row['ReasonCode'] = $record->getData('reason_code');
-			$rows[] = $row;
-		}
-		if ($csv->saveData($tmp_file, $rows)) {
-			$this->_helper()->log("Finished All CSVs export to " . $tmp_file, __METHOD__);
-			return $tmp_file;
-		}
-
-		return FALSE;
-	}
-
-	/**
-	 * Mark record as exported with current date
-	 * 
-	 * @return bool
-	 */
-	public function markAsExported()
-	{
-		$this->setData('export_date', date('Y-m-d H:i:s'));
-		if ($this->save()) {
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
-	/**
-	 * 
-	 * @return bool
-	 */
-	public function hasRecordsToExport()
-	{
-		return $this->getResourceCollection()->hasRecordsToExport();
-	}
-
-	/**
-	 * Create database record for creditmemo
-	 * 
-	 * @return bool
-	 */
-	public function createRefundRecord($amount)
-	{
-		$data = Mage::app()->getRequest()->getParams();
-		$order = $this->_getOrderFromRequest($data);
-		$reason_code = $this->_getReasonCodeFromRequest($data);
-		$merchant_reference = $this->_helper()->getPayLaterConfigReference('merchant');
-		if (!$merchant_reference) {
-			Mage::throwException("Merchant reference is not set, unable to create PayLater refund.");
-		}
-		$currency_code = $this->_getISOCurrencyCode($order);
-
-		$this->setData('merchant_reference', $merchant_reference);
-		$this->setData('order_id', $order->getIncrementId());
-		$this->setData('currency', $currency_code);
-		$this->setData('refund_value', $amount);
-		$this->setData('reason_code', $reason_code);
-
-		if ($this->save()) {
-			$this->_helper()->log("Created Refund record '{$this->getId()}' for Order '{$order->getIncrementId()}'", __METHOD__);
-			return TRUE;
-		}
-
-		return FALSE;
-	}
-
 	/**
 	 * 
 	 * @param array $data
@@ -249,5 +161,225 @@ class PayLater_PayLater_Model_Refund extends Mage_Core_Model_Abstract
 		}
 		return $currency_code;
 	}
+	
+	public function _construct()
+	{
+		$this->_init('paylater/refund');
+	}
 
+	
+	
+    /**
+	 * 
+     * Retrieve a file container array as CSV
+     *
+     * Return array with keys type and value
+	 * 
+	 * @param string $type (unexported|all)
+	 * @return array
+	 */
+    public function getCsvFile($type)
+    {
+        $io = new Varien_Io_File();
+        $path = Mage::getBaseDir('var') . DS . 'export' . DS;
+        $name = md5(microtime());
+        $file = $path . DS . $name . '.csv';
+
+        $io->setAllowCreateFolders(true);
+        $io->open(array('path' => $path));
+        $io->streamOpen($file, 'w+');
+        $io->streamLock(true);
+        $io->streamWriteCsv($this->getCsvRefundHeaders());
+		
+		$this->_exportIterateCollection('_exportCsvItem', array($io), $type);
+
+        $io->streamUnlock();
+        $io->streamClose();
+
+        return array(
+            'type'  => 'filename',
+            'value' => $file,
+            'rm'    => true // can delete file after use
+        );
+    }
+	
+	public function getCsvExportFilename ()
+	{
+		$now = Mage::getModel('core/date')->timestamp(time());
+		return "PayLaterRefund_" . date('Y-m-d_H-i-s', $now) . ".csv";
+	}
+
+	/**
+	 * Generate a CSV of unexported refund records
+	 * 
+	 * @return string|boolean
+	 * @deprecated since version 1.3.2
+	 */
+	public function generateRefundsCsv()
+	{
+		$records = $this->getResourceCollection()->getUnexportedRecords();
+		$this->_helper()->log("Starting CSV Export of " . count($records) . " refunds", __METHOD__);
+		$csv = new Varien_File_Csv();
+		$tmp_file = Mage::getBaseDir() . "/var/cache/PayLaterRefund_" . date('Y-m-d_H-i-s') . ".csv";
+		$rows = array();
+
+		// Adding header row
+		$header = array();
+		$header['MerchantReference'] = 'MerchantReference';
+		$header['OrderID'] = 'OrderID';
+		$header['Currency'] = 'Currency';
+		$header['RefundValue'] = 'RefundValue';
+		$header['ReasonCode'] = 'ReasonCode';
+		$header['RefundDate'] = 'RefundDate';
+		$rows[] = $header;
+
+
+		foreach ($records as $record) {
+			$row = array();
+			$record->load($record->getId());
+
+			$this->_helper()->log("Exporting refund " . $record->getId(), __METHOD__, Zend_Log::DEBUG);
+			$row['RefundDate'] = $record->getData('refund_date');
+			$row['MerchantReference'] = $record->getData('merchant_reference');
+			$row['OrderID'] = $record->getData('order_id');
+			$row['Currency'] = $record->getData('currency');
+			$row['RefundValue'] = $record->getData('refund_value');
+			$row['ReasonCode'] = $record->getData('reason_code');
+			$rows[] = $row;
+		}
+		if ($csv->saveData($tmp_file, $rows)) {
+			$records->walk('markAsExported');
+			$this->_helper()->log("Finished CSV export to " . $tmp_file, __METHOD__);
+			return $tmp_file;
+		}
+
+		return FALSE;
+	}
+	
+	/**
+	 * Generate a CSV of unexported refund records
+	 * @deprecated since version 1.3.2
+	 * @return string|boolean
+	 */
+	public function generateAllRefundsCsv()
+	{
+		$records = $this->getResourceCollection();
+		$this->_helper()->log("Starting CSV Export of " . count($records) . " refunds", __METHOD__);
+		//$csv = new Varien_File_Csv();
+		$tmpfile = "PayLaterAllRefunds_" . date('Y-m-d_H-i-s') . ".csv";
+		$rows = array();
+
+		// Adding header row
+		$header = array();
+		$header['RefundDate'] = 'RefundDate';
+		$header['MerchantReference'] = 'MerchantReference';
+		$header['OrderID'] = 'OrderID';
+		$header['Currency'] = 'Currency';
+		$header['RefundValue'] = 'RefundValue';
+		$header['ReasonCode'] = 'ReasonCode';
+		$rows[] = $header;
+
+
+		foreach ($records as $record) {
+			$row = array();
+			$record->load($record->getId());
+
+			$this->_helper()->log("Exporting refund " . $record->getId(), __METHOD__, Zend_Log::DEBUG);
+			$row['RefundDate'] = $record->getData('refund_date');
+			$row['MerchantReference'] = $record->getData('merchant_reference');
+			$row['OrderID'] = $record->getData('order_id');
+			$row['Currency'] = $record->getData('currency');
+			$row['RefundValue'] = $record->getData('refund_value');
+			$row['ReasonCode'] = $record->getData('reason_code');
+			$rows[] = $row;
+		}
+		
+		if (count($rows) > 0) {
+			return array ('filename' => $tmpfile, 'headers' => $rows);
+		}
+
+		return FALSE;
+	}
+	
+	/**
+	 * Returns CSV export headers array
+	 * 
+	 * @return array
+	 */
+	public function getCsvRefundHeaders ()
+	{
+		$headers = array();
+		$headers[] = 'MerchantReference';
+		$headers[] = 'OrderID';
+		$headers[] = 'Currency';
+		$headers[] = 'RefundValue';
+		$headers[] = 'ReasonCode';
+		$headers[] = 'RefundDate';
+		return $headers;
+	}
+	
+	public function getAllRefundsCollection ()
+	{
+		return $this->getResourceCollection();
+	}
+	
+	public function getUnexportedCollection ()
+	{
+		return $this->getResourceCollection()->getUnexportedRecords();
+	}
+
+	/**
+	 * Mark record as exported with current date
+	 * 
+	 * @deprecated since version 1.3.2 logic now in _exportCsvItem
+	 * @return bool
+	 */
+	public function markAsExported()
+	{
+		$this->setData('export_date', date('Y-m-d H:i:s'));
+		if ($this->save()) {
+			return TRUE;
+		}
+
+		return FALSE;
+	}
+
+	/**
+	 * 
+	 * @return bool
+	 */
+	public function hasRecordsToExport()
+	{
+		return $this->getResourceCollection()->hasRecordsToExport();
+	}
+
+	/**
+	 * Create database record for creditmemo
+	 * 
+	 * @return bool
+	 */
+	public function createRefundRecord($amount)
+	{
+		$data = Mage::app()->getRequest()->getParams();
+		$order = $this->_getOrderFromRequest($data);
+		$reason_code = $this->_getReasonCodeFromRequest($data);
+		$merchant_reference = $this->_helper()->getPayLaterConfigReference('merchant');
+		if (!$merchant_reference) {
+			Mage::throwException("Merchant reference is not set, unable to create PayLater refund.");
+		}
+		$currency_code = $this->_getISOCurrencyCode($order);
+
+		$this->setData('merchant_reference', $merchant_reference);
+		$this->setData('order_id', $order->getIncrementId());
+		$this->setData('currency', $currency_code);
+		$this->setData('refund_value', $amount);
+		$this->setData('reason_code', $reason_code);
+
+		if ($this->save()) {
+			$this->_helper()->log("Created Refund record '{$this->getId()}' for Order '{$order->getIncrementId()}'", __METHOD__);
+			return TRUE;
+		}
+
+		return FALSE;
+	}
 }

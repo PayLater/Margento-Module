@@ -282,6 +282,7 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * Refund reason codes
 	 */
+	const PAYLATER_REFUNDS_PAGE_SIZE = 10000;
 	const REASON_CODES_SEPARATOR = ',';
 	const REASON_CODES = 'MR01,MR02,MR03,MR04,MR05,MR06,MR07,MR08,MR09,MR10,MR11,MR12,MR13,MR14';
 	const REASON_MR01_REASON = 'Partial Refund - Damaged Goods';

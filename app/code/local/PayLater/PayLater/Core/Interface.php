@@ -53,6 +53,8 @@ interface PayLater_PayLater_Core_Interface
 	 * Templates 
 	 */
 	const SYSTEM_CONFIG_INFO_TEMPLATE = 'paylater/paylater/system/config/fieldset/info.phtml';
+	const SYSTEM_CONFIG_WIDGET_JS_TEMPLATE = 'paylater/paylater/system/config/fieldset/widget/js.phtml';
+	const SYSTEM_CONFIG_WIDGET_CONFIG_PANEL_TEMPLATE = 'paylater/paylater/system/config/fieldset/widget/config/panel.phtml';
 	const SERVICE_UNAVAILABLE_TEMPLATE = 'paylater/paylater/service/unavailable.phtml';
 	const PAYMENT_METHOD_FORM_TEMPLATE = 'paylater/paylater/method/form.phtml';
 	const PAYMENT_METHOD_INFO_TEMPLATE = 'paylater/paylater/method/info.phtml';
@@ -331,5 +333,12 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_ONESTEP_CRAFTY_CLICKS_LABEL = 'Crafty Clicks';
 	const PAYLATER_ONESTEP_CRAFTY_CLICKS = 'crafty-clicks';
+	
+	/**
+	 * Widgets Types
+	 */
+	const PAYLATER_WIDGETS_TYPE_PRODUCT = 'product';
+	const PAYLATER_WIDGETS_TYPE_CART = 'cart';
+	const PAYLATER_WIDGETS_TYPE_CHECKOUT = 'checkout';
 
 }

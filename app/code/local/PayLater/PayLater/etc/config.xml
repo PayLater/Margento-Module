@@ -265,6 +265,9 @@
                 <show_out_range_message>1</show_out_range_message>
 				<postcode_lookup_addon></postcode_lookup_addon>
             </checkout>
+			<widgets>
+				<debug>0</debug>
+			</widgets>
             <payment>
                 <order_status>pending</order_status>
                 <service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]></service_unavailable_heading>

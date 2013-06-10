@@ -21,10 +21,36 @@
  * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-Validation.add('change-to-uppercase', '', function(v) {
-	if(v.length){
-		$('paylater_merchant_guid').value = v.toUpperCase();
-		return true;
+bindEvent = function(element, type, handler) {
+	if (element.addEventListener) {
+		return element.addEventListener(type, handler, false);
+	} else {
+		return element.attachEvent('on' + type, handler);
 	}
-	return true;
-});
+};
+
+loadScript = function(src, callback) {
+	var s, t;
+
+	s = document.createElement('script');
+	s.type = 'text/javascript';
+	s.async = 'true';
+	s.src = src;
+	s.onload = s.onreadystatechange = function() {
+		var e, rs;
+
+		rs = this.readyState;
+		if (rs && rs !== 'complete' && rs !== 'loaded') {
+
+		} else {
+			try {
+				return callback();
+			} catch (_error) {
+				e = _error;
+				console.log(e.name + ": " + e.message);
+			}
+		}
+	};
+	t = document.getElementsByTagName('head')[0];
+	t.appendChild(s);
+};

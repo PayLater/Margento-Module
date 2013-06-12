@@ -1,3 +1,5 @@
+<?php
+
 /**
  * PayLater extension for Magento
  *
@@ -8,46 +10,35 @@
  * that is bundled with this package in the file LICENSE.txt.
  * It is also available through the world-wide-web at this URL:
  * http://opensource.org/licenses/osl-3.0.php
- *
+ * 
  * DISCLAIMER
  *
  * Do not edit or add to this file if you wish to upgrade
  * the PayLater PayLater module to newer versions in the future.
  * If you wish to customize the PayLater PayLater module for your needs
- * please refer to http://www.magentocommerce.com for more information.
+ * please contact PayLater.
  *
  * @category   PayLater
  * @package    PayLater_PayLater
  * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ */
 
-ul.tabs a.paylater-label span, ul.tabs a.paylater-label:hover span {
-	background:url("../images/paylater_logo_small_20.png") no-repeat scroll 0 0 transparent;
-	background-position: 0 50%; 
-	overflow:hidden;
-	text-indent: -999999px;
-	margin-left: 18px;
-}
+/**
+ *
+ * @category   PayLater
+ * @package    PayLater_PayLater
+ * @subpackage Model
+ * @author     GPMD <dev@gpmd.co.uk>
+ */
+class PayLater_PayLater_Model_Source_Selection extends Mage_Core_Model_Abstract implements PayLater_PayLater_Core_Interface
+{
 
-#paylater-logo {
-	margin-right: 20px;
-}
+	public function toOptionArray()
+	{
+		return array(
+			
+		);
+	}
 
-.float-left {
-	float:left;
-}
-
-.paylater-config-panel-wrapper {
-	margin-top:20px;
-}
-
-.paylater-widgets-input {
-	width: 274px;
-}
-.paylater-widgets-label {
-	display: inline-block;
-	width: 30%;
-	padding-right: 15px;
-	padding-top: 1px;
 }

@@ -1,0 +1,36 @@
+{
+    "example-widget-1": {
+        "background": "#fff",
+        "border-width": "1px",
+        "border-color": "#40aaea",
+        "h-font-color": "#317cc4",
+        "h-font-family": "Droid Sans,arial,sans-serif",
+        "h-font-weight": "bold",
+        "h-font-size": "17px",
+        "s-font-color": "#959595",
+        "s-font-family": "Droid Sans,arial,sans-serif",
+        "s-font-weight": "normal",
+        "s-font-size": "13px",
+        "icon": "blue",
+        "width": "210px",
+        "show-breakdown": false
+    },
+    "example-widget-2": {
+        "background": "#fff",
+        "border-width": "1px",
+        "border-color": "#40aaea",
+        "h-font-color": "#317cc4",
+        "h-font-family": "Droid Sans,arial,sans-serif",
+        "h-font-weight": "bold",
+        "h-font-size": "17px",
+        "s-font-color": "#959595",
+        "s-font-family": "Droid Sans,arial,sans-serif",
+        "s-font-weight": "normal",
+        "s-font-size": "13px",
+        "price-font-color": "#959595",
+        "price-font-family": "Droid Sans,arial,sans-serif",
+        "price-font-weight": "normal",
+        "price-font-size": "13px",
+        "width": "210px"
+    }
+}

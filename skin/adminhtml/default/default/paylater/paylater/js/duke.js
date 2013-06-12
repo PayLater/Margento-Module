@@ -20,34 +20,37 @@
  * @package    PayLater_PayLater
  * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
-*/
+ */
+bindEvent = function(element, type, handler) {
+	if (element.addEventListener) {
+		return element.addEventListener(type, handler, false);
+	} else {
+		return element.attachEvent('on' + type, handler);
+	}
+};
 
-ul.tabs a.paylater-label span, ul.tabs a.paylater-label:hover span {
-	background:url("../images/paylater_logo_small_20.png") no-repeat scroll 0 0 transparent;
-	background-position: 0 50%; 
-	overflow:hidden;
-	text-indent: -999999px;
-	margin-left: 18px;
-}
+loadScript = function(src, callback) {
+	var s, t;
 
-#paylater-logo {
-	margin-right: 20px;
-}
+	s = document.createElement('script');
+	s.type = 'text/javascript';
+	s.async = 'true';
+	s.src = src;
+	s.onload = s.onreadystatechange = function() {
+		var e, rs;
 
-.float-left {
-	float:left;
-}
+		rs = this.readyState;
+		if (rs && rs !== 'complete' && rs !== 'loaded') {
 
-.paylater-config-panel-wrapper {
-	margin-top:20px;
-}
-
-.paylater-widgets-input {
-	width: 274px;
-}
-.paylater-widgets-label {
-	display: inline-block;
-	width: 30%;
-	padding-right: 15px;
-	padding-top: 1px;
-}
+		} else {
+			try {
+				return callback();
+			} catch (_error) {
+				e = _error;
+				console.log(e.name + ": " + e.message);
+			}
+		}
+	};
+	t = document.getElementsByTagName('head')[0];
+	t.appendChild(s);
+};

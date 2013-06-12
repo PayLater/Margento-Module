@@ -85,8 +85,11 @@ class PayLater_PayLater_Block_Adminhtml_System_Config_Fieldset_Widget_Js extends
 		 return $this->getSkinUrl('paylater/paylater/js/widgets.json');
 	}
 	
-	public function isWidgetConfigured ($type)
+	public function getStoreConfiguredWidget ($type)
 	{
-		return strlen(trim(Mage::getStoreConfig('paylater/widgets/' . $type . '_config', $this->_getScopeStoreId()))) > 0 ? 'true' : 'false';
+		$widgetConfig = Mage::getStoreConfig('paylater/widgets/' . $type . '_config', $this->_getScopeStoreId());
+		// revert first to PHP array
+		$decodedWidgetConfig = json_decode($widgetConfig);
+		return strlen(trim($widgetConfig)) > 0 ? json_encode($decodedWidgetConfig) : 'false';
 	}
 }

@@ -211,7 +211,7 @@
 						<use_on_product translate="label comment">
 							<label>Use PayLater Widget On Product</label>
 							<comment>
-								<![CDATA[<span>If Set to 'Yes', configured Product PayLater Widget will be used on product pages.</span>]]>
+								<![CDATA[<span>If Set to 'Yes', configured 'Product PayLater Widget' is used on product pages.</span>]]>
 							</comment>
 							<sort_order>10</sort_order>
 							<frontend_type>select</frontend_type>
@@ -223,7 +223,7 @@
 						<use_on_checkout translate="label comment">
 							<label>Use PayLater Widget On Checkout</label>
 							<comment>
-								<![CDATA[<span>If Set to 'Yes', configured Checkout PayLater Widget will be used at checkout.</span>]]>
+								<![CDATA[<span>If Set to 'Yes', configured 'Checkout PayLater Widget' is used at checkout.</span>]]>
 							</comment>
 							<sort_order>11</sort_order>
 							<frontend_type>select</frontend_type>
@@ -235,7 +235,7 @@
 						<show_on_cart translate="label comment">
 							<label>Show PayLater On Shopping Cart</label>
 							<comment>
-								<![CDATA[<span>If Set to 'Yes', Cart PayLater Widget is added to shopping cart.</span>]]>
+								<![CDATA[<span>If Set to 'Yes', configured 'Cart PayLater Widget' is added to shopping cart.</span>]]>
 							</comment>
 							<sort_order>12</sort_order>
 							<frontend_type>select</frontend_type>

@@ -1,8 +1,10 @@
 <tr data-bind="visible: showConfigPanel" id="row_paylater_widgets_config_panel">
 	<td colspan="3">
-		<h3>Widget Configuration (<span data-bind="text: widgetSelection"></span>)</h3>
-		<div data-bind="foreach: configPanelFields" id="paylater_widgets_config_panel" class="paylater-config-panel">
-			<div><label data-bind="text: key"></label><input type="text" data-bind="value: value" /></div>
+		<div class="paylater-config-panel-wrapper">
+			<h3>Widget Configuration (<span data-bind="text: widgetSelection"></span>)</h3>
+			<div data-bind="foreach: configPanelFields" id="paylater_widgets_config_panel" class="paylater-config-panel">
+				<div><label data-bind="text: key" class="paylater-widgets-label"></label><input type="text" data-bind="value: value" class="paylater-widgets-input input-text" /></div>
+			</div>
 		</div>
 	</td>
 </tr>

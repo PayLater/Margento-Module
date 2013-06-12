@@ -54,11 +54,15 @@ PayLaterWidgetsModel.prototype = {
 			this.hideConfigTextareaRows();
 		}
 		this.getFieldsetTableElement();
+		this.shouldShowDebugRow = ko.observable(false);
 		this.widgetsJSON = ko.observable();
+		
+		this.setTypeOptions();
 		this.setWidgetOptions();
 		
 		this.selectedWidget = ko.observable();
 		this.widgetSelection = ko.observable();
+		
 		this.showConfigPanel = ko.computed(function(){
 			return o.selectedWidget() && o.widgetSelection();
 		});
@@ -110,6 +114,13 @@ PayLaterWidgetsModel.prototype = {
 			}
 			return target;
 		};
+	},
+	setTypeOptions: function () {
+		var o = this;
+		this.typeOptions = ko.computed(function(){
+			var opt = ['Product', 'Cart', 'Checkout'];
+			return opt;
+		});
 	},
 	setWidgetOptions: function () {
 		var o = this;

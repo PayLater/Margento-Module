@@ -37,22 +37,7 @@ class PayLater_PayLater_Model_Source_Type extends Mage_Core_Model_Abstract imple
 	public function toOptionArray()
 	{
 		return array(
-			array(
-				'value' => '',
-				'label' => Mage::helper('paylater')->__('Select a Widget Type')
-			),
-			array(
-				'value' => self::PAYLATER_WIDGETS_TYPE_PRODUCT,
-				'label' => Mage::helper('paylater')->__('Product Widget')
-			),
-			array(
-				'value' => self::PAYLATER_WIDGETS_TYPE_CART,
-				'label' => Mage::helper('paylater')->__('Cart Widget')
-			),
-			array(
-				'value' => self::PAYLATER_WIDGETS_TYPE_CHECKOUT,
-				'label' => Mage::helper('paylater')->__('Checkout Widget')
-			)
+			
 		);
 	}
 

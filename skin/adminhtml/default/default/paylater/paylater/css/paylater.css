@@ -20,7 +20,7 @@
  * @package    PayLater_PayLater
  * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- */
+*/
 
 ul.tabs a.paylater-label span, ul.tabs a.paylater-label:hover span {
 	background:url("../images/paylater_logo_small_20.png") no-repeat scroll 0 0 transparent;
@@ -36,4 +36,18 @@ ul.tabs a.paylater-label span, ul.tabs a.paylater-label:hover span {
 
 .float-left {
 	float:left;
+}
+
+.paylater-config-panel-wrapper {
+	margin-top:20px;
+}
+
+.paylater-widgets-input {
+	width: 274px;
+}
+.paylater-widgets-label {
+	display: inline-block;
+	width: 30%;
+	padding-right: 15px;
+	padding-top: 1px;
 }

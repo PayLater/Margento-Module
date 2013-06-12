@@ -40,17 +40,6 @@ function PayLaterWidget (name, fields) {
 	this.fields = ko.observableArray(_fields);
 }
 
-function PayLaterSystemWidget (name, fields) {
-	var self = this;
-	this.name = name;
-	var _fields = [];
-	for (k in fields) {
-		_fields.push(new PayLaterWidgetField(k, fields[k]));
-	}
-	this.fields = ko.observableArray(_fields);
-}
-
-
 var PayLaterWidgetsModel = Class.create();
 PayLaterWidgetsModel.prototype = {
 	initialize: function(jsonSourceUrl, systemProductWidgetJSON, systemCartWidgetJSON, systemCheckoutWidgetJSON){
@@ -69,8 +58,10 @@ PayLaterWidgetsModel.prototype = {
 		this.setWidgetOptions();
 		
 		this.selectedWidget = ko.observable();
-		
 		this.widgetSelection = ko.observable();
+		this.showConfigPanel = ko.computed(function(){
+			return o.selectedWidget() && o.widgetSelection();
+		});
 		
 		this.isProductType = ko.computed(function(){
 			return (o.widgetSelection() == 'product');
@@ -84,17 +75,12 @@ PayLaterWidgetsModel.prototype = {
 			return (o.widgetSelection() == 'checkout');
 		});
 		
-		// getting default JSON
+		// getting default widget JSON
 		this.getDefaultJSON();
-		this.currentProductWidget = ko.observable().extend({
-			logChange: "currentProductWidget"
-		});
-		this.currentCheckoutWidget = ko.observable().extend({
-			logChange: "currentCheckoutWidget"
-		});
-		this.currentCartWidget = ko.observable().extend({
-			logChange: "currentCartWidget"
-		});
+		
+		this.currentProductWidget = ko.observable();
+		this.currentCheckoutWidget = ko.observable();
+		this.currentCartWidget = ko.observable();
 		
 		this.configPanelFields = ko.computed(function(){
 			if(o.widgets().length > 0 && o.widgetSelection() && typeof o.selectedWidget() != 'undefined'){
@@ -102,21 +88,11 @@ PayLaterWidgetsModel.prototype = {
 				var defaultSelectedWidget = o.getSelectedWidget();
 			
 				if (o.isProductType()) {
-					o.currentProductWidget(defaultSelectedWidget);
-					return defaultSelectedWidget.fields();
+					return o.setProductWidget(defaultSelectedWidget, systemProductWidgetJSON);
 				} else if (o.isCartType()) {
-					if (systemCartWidgetJSON) {
-						var formattedWidget = o.formatSystemWidget(systemCartWidgetJSON);
-						var parsed = ko.utils.parseJson(formattedWidget);
-						o.prepareSystemWidgetObject(parsed);
-						return o.currentCartWidget().fields();
-					} else {
-						o.currentCartWidget(defaultSelectedWidget);
-						return defaultSelectedWidget.fields();
-					}
+					return o.setCartWidget(defaultSelectedWidget, systemCartWidgetJSON);
 				} else if (o.isCheckoutType()) {
-					o.currentCheckoutWidget(defaultSelectedWidget);
-					return defaultSelectedWidget.fields();
+					return o.setCheckoutWidget(defaultSelectedWidget, systemCheckoutWidgetJSON);
 				} else {
 					return defaultSelectedWidget.fields();
 				}
@@ -142,7 +118,6 @@ PayLaterWidgetsModel.prototype = {
 			var parsed = ko.utils.parseJson(o.widgetsJSON());
 			for(var k in parsed){
 				opt.push(k);
-				console.log(parsed[k]);
 				o.widgets.push(new PayLaterWidget(k, parsed[k]));
 			};
 			return opt;
@@ -207,13 +182,74 @@ PayLaterWidgetsModel.prototype = {
 			var _wFields = {};
 			for (var ii in parsed[i]) {
 				if (typeof parsed[i][ii].key != 'undefined') {
-					console.log(parsed[i][ii].key);
 					var fKey = parsed[i][ii].key;
 					var fValue = parsed[i][ii].value;
 					_wFields[fKey] = fValue;
 				}
 			}
 		}
-		o.currentCartWidget(new PayLaterSystemWidget(_wName, _wFields));
+		o.currentCartWidget(new PayLaterWidget(_wName, _wFields));
+	},
+	
+	isSelectedWidgetAlreadyConfigured: function (configuredName) {
+		return this.selectedWidget() == configuredName;
+	},
+	
+	setProductWidget: function(defaultSelectedWidget, systemProductWidgetJSON) {
+		var o = this;
+		
+		if (systemProductWidgetJSON) {
+			var formattedWidget = o.formatSystemWidget(systemProductWidgetJSON);
+			var parsed = ko.utils.parseJson(formattedWidget);
+			o.prepareSystemWidgetObject(parsed);
+
+			if(typeof o.currentProductWidget() != 'undefined' && o.isSelectedWidgetAlreadyConfigured(o.currentProductWidget().name)) {
+				return o.currentProductWidget().fields();
+			} else {
+				o.currentProductWidget(defaultSelectedWidget);
+				return defaultSelectedWidget.fields();
+			}
+		} else {
+			o.currentProductWidget(defaultSelectedWidget);
+			return defaultSelectedWidget.fields();
+		}
+	},
+	setCartWidget: function(defaultSelectedWidget, systemCartWidgetJSON) {
+		var o = this;
+		
+		if (systemCartWidgetJSON) {
+			var formattedWidget = o.formatSystemWidget(systemCartWidgetJSON);
+			var parsed = ko.utils.parseJson(formattedWidget);
+			o.prepareSystemWidgetObject(parsed);
+
+			if(typeof o.currentCartWidget() != 'undefined' && o.isSelectedWidgetAlreadyConfigured(o.currentCartWidget().name)) {
+				return o.currentCartWidget().fields();
+			} else {
+				o.currentCartWidget(defaultSelectedWidget);
+				return defaultSelectedWidget.fields();
+			}
+		} else {
+			o.currentCartWidget(defaultSelectedWidget);
+			return defaultSelectedWidget.fields();
+		}
+	},
+	setCheckoutWidget: function(defaultSelectedWidget, systemCheckoutWidgetJSON) {
+		var o = this;
+		
+		if (systemCheckoutWidgetJSON) {
+			var formattedWidget = o.formatSystemWidget(systemCheckoutWidgetJSON);
+			var parsed = ko.utils.parseJson(formattedWidget);
+			o.prepareSystemWidgetObject(parsed);
+
+			if(typeof o.currentCheckoutWidget() != 'undefined' && o.isSelectedWidgetAlreadyConfigured(o.currentCheckoutWidget().name)) {
+				return o.currentCheckoutWidget().fields();
+			} else {
+				o.currentCheckoutWidget(defaultSelectedWidget);
+				return defaultSelectedWidget.fields();
+			}
+		} else {
+			o.currentCheckoutWidget(defaultSelectedWidget);
+			return defaultSelectedWidget.fields();
+		}
 	}
 }

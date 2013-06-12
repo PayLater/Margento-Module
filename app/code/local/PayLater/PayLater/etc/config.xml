@@ -267,6 +267,9 @@
             </checkout>
 			<widgets>
 				<debug>0</debug>
+				<use_on_product>0</use_on_product>
+				<use_on_checkout>0</use_on_checkout>
+				<show_on_cart>0</show_on_cart>
 			</widgets>
             <payment>
                 <order_status>pending</order_status>

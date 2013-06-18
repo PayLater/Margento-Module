@@ -83,3 +83,8 @@
     margin-top: 80px;
 	width: 280px;
 }
+
+.paylater-widget-wrapper {
+	margin-top: 0;
+	margin-bottom: 20px;
+}

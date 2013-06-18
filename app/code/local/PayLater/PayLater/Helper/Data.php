@@ -524,4 +524,9 @@ class PayLater_PayLater_Helper_Data extends Mage_Core_Helper_Data implements Pay
 		$refererDomain =  $explodedReferer['scheme'] . '://' . $explodedReferer['host'];
 		return preg_match("~$refererDomain~", $mageHome);
 	}
+	
+	public function isCurrentlySecure ()
+	{
+		return Mage::app()->getStore()->isCurrentlySecure();
+	}
 }

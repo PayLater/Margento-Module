@@ -337,8 +337,8 @@ interface PayLater_PayLater_Core_Interface
 	/**
 	 * Widgets Types
 	 */
-	const PAYLATER_WIDGETS_TYPE_PRODUCT = 'product';
-	const PAYLATER_WIDGETS_TYPE_CART = 'cart';
-	const PAYLATER_WIDGETS_TYPE_CHECKOUT = 'checkout';
-
+	const PAYLATER_WIDGET_JS_BLOCK = 'Mage_Core_Block_Template';
+	const PAYLATER_WIDGET_JS_BLOCK_NAME = 'paylater.widgetjs';
+	const PAYLATER_WIDGET_JS_URL = '%s://paylater.s3.amazonaws.com/3.0/js/paylater-widget.min.js';
+	const PAYLATER_WIDGET_JS_TEMPLATE = 'paylater/paylater/widgetjs.phtml';
 }

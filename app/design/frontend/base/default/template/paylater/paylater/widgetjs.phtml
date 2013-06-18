@@ -1,0 +1,2 @@
+<?php $protocol = Mage::helper('paylater')->isCurrentlySecure() ? 'https' : 'http' ?>
+<script type="text/javascript" src="<?php echo sprintf(PayLater_PayLater_Core_Interface::PAYLATER_WIDGET_JS_URL, $protocol) ?>"></script><?php echo PHP_EOL ?>

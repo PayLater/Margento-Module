@@ -55,6 +55,20 @@ class PayLater_PayLater_Helper_Layout extends Mage_Core_Helper_Data implements P
 		$headBlock = $layout->getBlock('head');
 		$headBlock->append($priceJs);
 	}
+	
+	
+	/**
+	 * Sets widget.phtml view in 'head' block
+	 */
+	public function setWidgetJs()
+	{
+		$layout = $this->_getCoreLayout();
+		$widgetJs = $layout->createBlock(
+				self::PAYLATER_WIDGET_JS_BLOCK, self::PAYLATER_WIDGET_JS_BLOCK_NAME, array('template' => self::PAYLATER_WIDGET_JS_TEMPLATE)
+		);
+		$headBlock = $layout->getBlock('head');
+		$headBlock->append($widgetJs);
+	}
 
 	/**
 	 * Sets js.phtml view in 'head' block for onestep checkout

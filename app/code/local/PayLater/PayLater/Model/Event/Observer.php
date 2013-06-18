@@ -34,8 +34,18 @@
 class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_Interface
 {
 
+	/**
+	 * 
+	 * @param string $type
+	 * @return boolean
+	 * 
+	 */
 	protected function _setPriceJs($type)
 	{
+		//return $this->_setWidgetJs($type);
+		/**
+		 * @deprecated since version 2.0.0
+		 */
 		$payLater = Mage::helper('paylater');
 		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
 		$cache = Mage::getModel('paylater/cache_factory');
@@ -65,6 +75,38 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		}
 		return false;
 	}
+	
+	protected function _setWidgetJs($type)
+	{
+		$payLater = Mage::helper('paylater');
+		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
+		$cache = Mage::getModel('paylater/cache_factory');
+		$payLaterData = $payLater->loadCacheData($cache);
+		if ($type == self::PAYLATER_TYPE_PRODUCT) {
+			if ($isEnabled) {
+				if (is_array($payLaterData)) {
+					$currentProduct = Mage::getModel('paylater/catalog_product');
+					if ($currentProduct->isWithinPayLaterRange($payLaterData)) {
+						$layout = Mage::helper('paylater/layout');
+						$layout->setWidgetJs();
+						return true;
+					}
+				}
+			}
+		} elseif ($type == self::PAYLATER_TYPE_CHECKOUT) {
+			if ($isEnabled) {
+				if (is_array($payLaterData)) {
+					$quote = Mage::getModel('paylater/checkout_quote');
+					if ($quote->isWithinPayLaterRange($payLaterData)) {
+						$layout = Mage::helper('paylater/layout');
+						$layout->setWidgetJs();
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
 
 	public function catalogProductViewBefore(Varien_Event_Observer $observer)
 	{
@@ -87,7 +129,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	{
 		$payLater = Mage::helper('paylater');
 		if ($payLater->getPayLaterConfigEnabled('cart')) {
-			$this->_setPriceJs(self::PAYLATER_TYPE_CHECKOUT);
+			$this->_setWidgetJs(self::PAYLATER_TYPE_CHECKOUT);
 			$layout = Mage::helper('paylater/layout');
 			$coreLayout = $layout->getCoreLayout();
 			$coreLayout->getBlock('checkout.cart')->setTemplate('paylater/paylater/checkout/cart/cart.phtml');

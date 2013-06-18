@@ -68,15 +68,15 @@ PayLaterWidgetsModel.prototype = {
 		});
 		
 		this.isProductType = ko.computed(function(){
-			return (o.widgetSelection() == 'product');
+			return (o.widgetSelection() == 'Product');
 		});
 		
 		this.isCartType = ko.computed(function(){
-			return (o.widgetSelection() == 'cart');
+			return (o.widgetSelection() == 'Cart');
 		});
 		
 		this.isCheckoutType = ko.computed(function(){
-			return (o.widgetSelection() == 'checkout');
+			return (o.widgetSelection() == 'Checkout');
 		});
 		
 		// getting default widget JSON

@@ -42,38 +42,38 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	 */
 	protected function _setPriceJs($type)
 	{
-		//return $this->_setWidgetJs($type);
+		return $this->_setWidgetJs($type);
 		/**
 		 * @deprecated since version 2.0.0
 		 */
-		$payLater = Mage::helper('paylater');
-		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
-		$cache = Mage::getModel('paylater/cache_factory');
-		$payLaterData = $payLater->loadCacheData($cache);
-		if ($type == self::PAYLATER_TYPE_PRODUCT) {
-			if ($isEnabled) {
-				if (is_array($payLaterData)) {
-					$currentProduct = Mage::getModel('paylater/catalog_product');
-					if ($currentProduct->isWithinPayLaterRange($payLaterData)) {
-						$layout = Mage::helper('paylater/layout');
-						$layout->setPriceJs();
-						return true;
-					}
-				}
-			}
-		} elseif ($type == self::PAYLATER_TYPE_CHECKOUT) {
-			if ($isEnabled) {
-				if (is_array($payLaterData)) {
-					$quote = Mage::getModel('paylater/checkout_quote');
-					if ($quote->isWithinPayLaterRange($payLaterData)) {
-						$layout = Mage::helper('paylater/layout');
-						$layout->setPriceJs();
-						return true;
-					}
-				}
-			}
-		}
-		return false;
+//		$payLater = Mage::helper('paylater');
+//		$isEnabled = $payLater->getPayLaterConfigRunStatus('globals');
+//		$cache = Mage::getModel('paylater/cache_factory');
+//		$payLaterData = $payLater->loadCacheData($cache);
+//		if ($type == self::PAYLATER_TYPE_PRODUCT) {
+//			if ($isEnabled) {
+//				if (is_array($payLaterData)) {
+//					$currentProduct = Mage::getModel('paylater/catalog_product');
+//					if ($currentProduct->isWithinPayLaterRange($payLaterData)) {
+//						$layout = Mage::helper('paylater/layout');
+//						$layout->setPriceJs();
+//						return true;
+//					}
+//				}
+//			}
+//		} elseif ($type == self::PAYLATER_TYPE_CHECKOUT) {
+//			if ($isEnabled) {
+//				if (is_array($payLaterData)) {
+//					$quote = Mage::getModel('paylater/checkout_quote');
+//					if ($quote->isWithinPayLaterRange($payLaterData)) {
+//						$layout = Mage::helper('paylater/layout');
+//						$layout->setPriceJs();
+//						return true;
+//					}
+//				}
+//			}
+//		}
+//		return false;
 	}
 	
 	protected function _setWidgetJs($type)

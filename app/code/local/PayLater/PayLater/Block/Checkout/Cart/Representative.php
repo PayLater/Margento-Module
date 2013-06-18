@@ -113,7 +113,7 @@ class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout
 	public function canShow() 
 	{
 		$helper = Mage::helper('paylater');
-		return $helper->canShowOnCart() && $helper->isAllowedCurrency();
+		return $helper->getPayLaterConfigShowOnCart('widgets') && $helper->canShowOnCart() && $helper->isAllowedCurrency();
 	}
 	
 	public function getAmount ()

@@ -4,6 +4,6 @@
 <div class="paylater-widget-wrapper">
 	<div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="<?php echo $this->getWidgetName() ?>" 
 		<?php echo $this->doesWidgetHaveBreakdown() ? sprintf('%sdata-pl-showbreakdown="%s"', ' ',$this->getWidgetShowBreakdown()) : ' '; ?>
-		<?php echo $this->doesWidgetHaveParameters() ? sprintf('%sdata-pl-params="%s"', ' ', $this->getWidgetParamsAsString()) : ' '; ?>></div>
+		<?php echo $this->doesWidgetHaveParameters() ? sprintf('%sdata-pl-params="%s"', ' ', $this->getWidgetParamsAsString()) : ' '; ?> data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
 </div>
 <?php endif; ?>

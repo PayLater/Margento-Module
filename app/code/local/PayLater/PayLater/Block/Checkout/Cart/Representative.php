@@ -48,7 +48,11 @@ class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout
 		$this->_quote = Mage::getModel('paylater/checkout_quote');
 		return $this->_quote->getGrandTotal();
 	}
-	
+
+    public function hasWidgetBeenConfigured ()
+    {
+        return strlen(trim($this->getConfiguredWidgetJSON()));
+    }
 	
 	public function getConfiguredWidgetJSON ()
 	{

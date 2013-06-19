@@ -35,7 +35,7 @@
  */
 interface PayLater_PayLater_Core_WidgetInterface
 {
-
+    public function hasWidgetBeenConfigured();
 	public function getConfiguredWidgetJSON();
 	public function getConfiguredWidget();
 	public function getWidgetName();

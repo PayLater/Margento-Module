@@ -24,48 +24,43 @@
  */
 ?>
 <div id="payment_form_paylater">
-	<?php if ($this->canShow()): ?>
-		
-		<div id="representative-wrap-wrap">
-			<div id="representative-wrap"></div>
-			<div id="representative-pop"></div>
-		</div>
-		<script type="text/javascript">
-		<?php if ($this->helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
-			var offer = PayLater.getOffer(<?php echo $this->getGrandTotal() ?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>');
-		<?php else: ?>
-			var offer = PayLater.getOffer(<?php echo $this->getGrandTotal()?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>', 'test');
-		<?php endif; ?>
-			PayLater.GetStyles();
-			var logo = PayLater.GetLogo(offer);
-			var representative = PayLater.GetRepresentativeExample(offer);
-			if ($('representative-wrap')) {
-				$('representative-wrap').update(logo);
-				$('representative-pop').update(representative);
-				if ($('PayLater-Logo')) {
-					// wrapping image in label tags (this also deal with summary reload for onestep checkout)
-					$('PayLater-Logo').wrap('label', {'for' : 'p_method_paylater'})
-				}
-				$('representative-wrap').observe('click', function(){
-					$('p_method_paylater').checked = 'checked';
-					payment.switchMethod('paylater');
-				});
-				$('representative-wrap').observe('mouseover', function(){
-					$$('div.PayLater-representativeExample')[0].writeAttribute('style', 'display:block;margin:0;');
-				});
-						
-				$('representative-wrap').observe('mouseout', function(){
-					$$('div.PayLater-representativeExample')[0].writeAttribute('style', 'display:none;');
-				});
-			}
-		</script>
-	<?php elseif ($this->helper('paylater')->isPayLaterPaymentMethod() && $this->helper('paylater')->isAllowedCurrency()): ?>
-		<script type="text/javascript">
-			$('p_method_paylater').checked = '';
-			$('p_method_paylater').remove();
-				
-		</script>
-		<strong class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong>
-		<p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>
-	<?php endif; ?>
+    <?php if ($this->canShow()): ?>
+        <script type="text/javascript">
+            function uncheckPayLaterOption() {
+                $('p_method_paylater').checked = '';
+            }
+            function removePayLaterOption() {
+                $('p_method_paylater').remove();
+            }
+            function uncheckAndRemovePayLaterOption() {
+                uncheckPayLaterOption();
+                removePayLaterOption();
+            }
+        </script>
+    <?php $this->getConfiguredWidget() ?>
+    <?php if ($this->hasWidgetBeenConfigured()): ?>
+        <script type="text/javascript">
+            uncheckPayLaterOption();
+        </script>
+        <div class="paylater-widget-wrapper">
+            <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>"
+                 data-pl-widget="<?php echo $this->getWidgetName() ?>"
+                <?php echo $this->doesWidgetHaveBreakdown() ? sprintf('%sdata-pl-showbreakdown="%s"', ' ', $this->getWidgetShowBreakdown()) : ' '; ?>
+                <?php echo $this->doesWidgetHaveParameters() ? sprintf('%sdata-pl-params="%s"', ' ', $this->getWidgetParamsAsString()) : ' '; ?>
+                 data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
+        </div>
+    <?php else: ?>
+    <?php echo $this->helper('paylater')->__('PayLater Checkout Widget has not been configured yet.') ?>
+        <script type="text/javascript">
+            uncheckAndRemovePayLaterOption();
+        </script>
+    <?php endif; ?>
+    <?php elseif ($this->helper('paylater')->isPayLaterPaymentMethod() && $this->helper('paylater')->isAllowedCurrency()): ?>
+        <script type="text/javascript">
+            uncheckAndRemovePayLaterOption();
+        </script>
+        <strong
+            class="paylater-unavailable"><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableHeading('payment')) ?></strong>
+        <p><?php echo $this->__($this->helper('paylater')->getPayLaterConfigServiceUnavailableBody('payment')) ?></p>
+    <?php endif; ?>
 </div>

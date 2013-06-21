@@ -25,6 +25,7 @@
 ?>
 <script type="text/javascript" src="<?php echo $this->getKnockoutJsSrc() ?>"></script>
 <script type="text/javascript" src="<?php echo $this->getDukeJsSrc() ?>"></script>
+<script type="text/javascript" src="<?php echo $this->getSimulateSrc() ?>"></script>
 <script type="text/javascript">
 	PAYLATER_WIDGETS_DEBUG = <?php echo Mage::helper('paylater')->getPayLaterConfigDebug('widgets') ? 'true' : 'false' ?> ;
 	bindEvent(window, 'load', function() {
@@ -37,12 +38,14 @@
 				$('paylater_widgets_checkout_config').setAttribute('data-bind', 'value: ko.toJSON(currentCheckoutWidget, null, 2)');
 				$('paylater_widgets_selection').setAttribute('data-bind', 'disable: checkInherits, options: widgetOptions, value: selectedWidget, optionsCaption: "<?php echo Mage::helper('paylater')->__('Select a Widget') ?>"');
 				$('row_paylater_widgets_selection').setAttribute('data-bind', 'visible: widgetSelection');
-                $('paylater_widgets_types_inherit') ? $('paylater_widgets_types_inherit').setAttribute('data-bind', 'checked: checkInherits, visible: checkInherits') : '';
-                $('paylater_widgets_product_config_inherit') ? $('paylater_widgets_product_config_inherit').setAttribute('data-bind', 'checked: checkInherits, visible: checkInherits') : '';
-                $('paylater_widgets_selection_inherit') ? $('paylater_widgets_selection_inherit').setAttribute('data-bind', 'checked: checkInherits, visible: checkInherits') : '';
-                $('paylater_widgets_cart_config_inherit') ? $('paylater_widgets_cart_config_inherit').setAttribute('data-bind', 'checked: checkInherits, visible: checkInherits') : '';
-                $('paylater_widgets_checkout_config_inherit') ? $('paylater_widgets_checkout_config_inherit').setAttribute('data-bind', 'checked: checkInherits, visible: checkInherits') : '';
-				ko.applyBindings(new PayLaterWidgetsModel('<?php echo json_encode(json_decode(file_get_contents($this->getWidgetsJSON()))) ?>', <?php echo $this->getStoreConfiguredWidget('product') ?>, <?php echo json_encode(json_decode($this->getStoreConfiguredWidget('cart'))) ?>, <?php echo $this->getStoreConfiguredWidget('checkout') ?>));
+                <?php if(!$this->isDefaultStore()): ?>
+                    $('paylater_widgets_types_inherit').setAttribute('data-bind', 'checked: checkInherits');
+                    $('paylater_widgets_product_config_inherit').simulate('click');
+                    $('paylater_widgets_cart_config_inherit').simulate('click');
+                    $('paylater_widgets_checkout_config_inherit').simulate('click');
+                    $('paylater_widgets_selection_inherit').setAttribute('data-bind', 'checked: checkInherits');
+                <?php endif ?>
+                ko.applyBindings(new PayLaterWidgetsModel('<?php echo json_encode(json_decode(file_get_contents($this->getWidgetsJSON()))) ?>', <?php echo $this->getStoreConfiguredWidget('product') ?>, <?php echo json_encode(json_decode($this->getStoreConfiguredWidget('cart'))) ?>, <?php echo $this->getStoreConfiguredWidget('checkout') ?>));
 			});
 		} catch (e) {
 			if (PAYLATER_WIDGETS_DEBUG) {

@@ -50,6 +50,7 @@ PayLaterWidgetsModel.prototype = {
 		this.jsonSource = ko.utils.parseJson(jsonSource);
 
         this.checkInherits = ko.observable(false);
+        this.shouldShowDebugRow = ko.observable(false);
 
         this.systemProductWidgetJSON =  systemProductWidgetJSON;
         this.systemCartWidgetJSON =  systemCartWidgetJSON;
@@ -65,8 +66,6 @@ PayLaterWidgetsModel.prototype = {
 
         this.selectedWidget = ko.observable();
         this.widgetSelection = ko.observable();
-
-        this.shouldShowDebugRow = ko.observable(true);
 
 		if(!PAYLATER_WIDGETS_DEBUG){
 			this._hideConfigTextareaRows();
@@ -94,6 +93,7 @@ PayLaterWidgetsModel.prototype = {
 
 
 		this.configPanelFields = ko.computed(function(){
+            o.checkInherits(false);
             if(!o.widgetSelection() && typeof o.selectedWidget() == 'undefined'){
                 o._initTextareas();
             }

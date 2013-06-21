@@ -30,7 +30,7 @@
 	bindEvent(window, 'load', function() {
 		try {
 			loadScript("<?php echo $this->getWidgetsJsSrc() ?>", function() {
-				//$('row_paylater_widgets_debug').setAttribute('data-bind', 'visible: shouldShowDebugRow');
+				$('row_paylater_widgets_debug').setAttribute('data-bind', 'visible: shouldShowDebugRow');
 				$('paylater_widgets_types').setAttribute('data-bind', 'options: typeOptions, disable: checkInherits,value: widgetSelection, optionsCaption: "<?php echo Mage::helper('paylater')->__('Select a Widget Type') ?>"');
 				$('paylater_widgets_cart_config').setAttribute('data-bind', 'value: ko.toJSON(currentCartWidget, null, 2)');
 				$('paylater_widgets_product_config').setAttribute('data-bind', 'value: ko.toJSON(currentProductWidget, null, 2)');

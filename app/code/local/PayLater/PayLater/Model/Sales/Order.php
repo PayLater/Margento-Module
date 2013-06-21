@@ -191,18 +191,21 @@ class PayLater_PayLater_Model_Sales_Order implements PayLater_PayLater_Core_Inte
 			
 			case self::PAYLATER_API_PENDING_RESPONSE:
 				// Leave in orphaned state
-				break;
-			
-			case '':
-				// If no reply leave in orphaned state
+                $this->setOrphanedStateAndStatus();
 				break;
 			
 			default:
 				Mage::helper('paylater')->log("Unknown PayLater response '$paylaterStatus'", __METHOD__, Zend_Log::ERR);
-				$this->setFailedStateAndStatus();
+                $this->setOrphanedStateAndStatus();
 				break;
 		}
 	}
+
+    public function setOrphanedStateAndStatus ()
+    {
+        $this->_getInstance()->setState(self::PAYLATER_ORPHANED_ORDER_STATE);
+        $this->_getInstance()->setStatus(self::PAYLATER_ORPHANED_ORDER_STATUS);
+    }
 
 	/**
 	 *  Sets new order state and status

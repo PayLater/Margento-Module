@@ -175,6 +175,12 @@ interface PayLater_PayLater_Core_Interface
 	 */
 	const PAYLATER_POST_RETURN_ERROR_LINK = 'checkout/onepage';
 	const PAYLATER_ONESTEP_POST_RETURN_ERROR_LINK = 'onestepcheckout/';
+
+    /**
+     * PayLater return link
+     */
+    const PAYLATER_ONEPAGE_UNKNOWN_STATUS_LINK = 'paylater/checkout/success';
+    const PAYLATER_ONESTEP_UNKNOWN_STATUS_LINK = 'paylater/checkout/success';
 	/**
 	 * Orders states and statuses 
 	 */

@@ -45,7 +45,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		return Mage::getModel('paylater/checkout_onepage')->getSingleton();
 	}
 
-	/**
+    /**
 	 * @deprecated
 	 * 
 	 * @return array 
@@ -113,7 +113,7 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		$order->savePayLaterOffer($offer);
 	}
 
-	protected function _redirectError($errorCode, $error = false, $setFailedState = true)
+	protected function _redirectError($errorCode, $error = false, $setFailedState = false)
 	{
 		$helper = Mage::helper('paylater');
 		$session = Mage::getSingleton('checkout/session');
@@ -134,6 +134,22 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 			}
 		}
 	}
+
+    /**
+     * Redirects empty status response from PayLater to temporary success page.
+     * @param $note
+     */
+    protected function _redirectEmptyStatus()
+    {
+        $helper = Mage::helper('paylater');
+        $session = Mage::getSingleton('checkout/session');
+        $helper->log($helper->__('Redirecting empty status response'), __METHOD__, Zend_Log::ERR);
+        if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONEPAGE) {
+            $this->_redirect(self::PAYLATER_ONEPAGE_UNKNOWN_STATUS_LINK, array('_secure' => true));
+        } else if ($helper->getCheckoutType() == self::PAYLATER_CHECKOUT_TYPE_ONESTEP) {
+            $this->_redirect(self::PAYLATER_ONESTEP_UNKNOWN_STATUS_LINK, array('_secure' => true));
+        }
+    }
 
 	protected function _redirectGatewayError($error)
 	{
@@ -336,9 +352,17 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						Mage::dispatchEvent('paylater_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
 						$this->_toOnepageSuccess();
 						return;
-					} else {
-						$order->savePayLaterOrderStatus($apiResponse->getStatus());
+					} else if (!trim($apiResponse->getStatus())) {
+                        $order->setStateAndStatus(trim($apiResponse->getStatus()));
+                        $order->savePayLaterOrderStatus(self::PAYLATER_API_PENDING_RESPONSE);
+                        $order->save();
+                        Mage::dispatchEvent('paylater_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
+                        Mage::dispatchEvent('empty_paylater_status_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
+                        $this->_redirectError(self::ERROR_CODE_GENERIC);
+                        return;
+                    } else {
 						$order->setStateAndStatus($apiResponse->getStatus());
+                        $order->savePayLaterOrderStatus($apiResponse->getStatus());
 						$order->save();
 						Mage::dispatchEvent('paylater_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
 						$this->_redirectError(self::ERROR_CODE_GENERIC);
@@ -377,5 +401,35 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		}
 		$this->getResponse()->setBody(self::PAYLATER_SAVE_OFFER_FAILURE);
 	}
+
+    /**
+     * Temporary success action for PayLater empty status response.
+     *
+     * Clears checkout session namespace before dispatching output
+     *
+     * @deprecated
+     */
+    public function successAction ()
+    {
+        $session = $this->_getOnepage()->getCheckout();
+        if (!$session->getLastSuccessQuoteId()) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
+        $lastQuoteId = $session->getLastQuoteId();
+        $lastOrderId = $session->getLastOrderId();
+        $lastRecurringProfiles = $session->getLastRecurringProfileIds();
+        if (!$lastQuoteId || (!$lastOrderId && empty($lastRecurringProfiles))) {
+            $this->_redirect('checkout/cart');
+            return;
+        }
+
+        $session->clear();
+        $this->loadLayout();
+        $this->_initLayoutMessages('checkout/session');
+        Mage::dispatchEvent('paylater_checkout_controller_success_action', array('order_ids' => array($lastOrderId)));
+        $this->renderLayout();
+    }
 
 }

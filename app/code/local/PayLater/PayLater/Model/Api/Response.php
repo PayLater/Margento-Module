@@ -131,7 +131,7 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 
 	public function getStatus()
 	{
-		return trim(mb_convert_case($this->_getResponseXml()->{self::PAYLATER_SUMMARY_RESPONSE_NODE}->{self::PAYLATER_SUMMARY_RESPONSE_STATUS_NODE}, MB_CASE_LOWER));
+        return trim(mb_convert_case($this->_getResponseXml()->{self::PAYLATER_SUMMARY_RESPONSE_NODE}->{self::PAYLATER_SUMMARY_RESPONSE_STATUS_NODE}, MB_CASE_LOWER));
 	}
 
 	public function getAmount()

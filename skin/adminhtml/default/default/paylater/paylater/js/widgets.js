@@ -66,6 +66,7 @@ PayLaterWidgetsModel.prototype = {
 
         this.selectedWidget = ko.observable();
         this.widgetSelection = ko.observable();
+        this.widgetImage = ko.observable();
 
 		if(!PAYLATER_WIDGETS_DEBUG){
 			this._hideConfigTextareaRows();
@@ -156,12 +157,22 @@ PayLaterWidgetsModel.prototype = {
         }
     },
 
+    _prepareDefaultWidgetFields: function (fields) {
+        var _wf = {};
+        for (ii in fields) {
+            if (ii != 'widget-image') {
+                _wf[ii] = fields[ii];
+            }
+        }
+        return _wf;
+    },
+
     _prepareWidgetFields: function (fields) {
         var _fields = {};
         for (var i in fields) {
-           if (typeof fields[i].key != 'undefined') {
-               _fields[fields[i].key] = fields[i].value;
-           }
+            if (typeof fields[i].key != 'undefined') {
+                _fields[fields[i].key] = fields[i].value;
+            }
         }
         return _fields;
     },
@@ -226,7 +237,8 @@ PayLaterWidgetsModel.prototype = {
     _getDefaultWidgetByName: function (name) {
         for (var i in this.jsonSource) {
            if (i == name) {
-               return new PayLaterWidget(i, this.jsonSource[i]);
+               var _wf = this._prepareDefaultWidgetFields(this.jsonSource[i]);
+               return new PayLaterWidget(i, _wf);
            }
         }
     },
@@ -277,21 +289,27 @@ PayLaterWidgetsModel.prototype = {
 	_getSelectedWidget: function () {
 		var o = this;
         if (o.widgetSelection() == 'Product' && o.systemProductWidgetJSON && o.systemProductWidgetJSON.name == o.selectedWidget()) {
+            o.widgetImage(o.jsonSource[o.selectedWidget()]['widget-image']);
             return o._getSystemWidget('Product');
         }
         if (o.widgetSelection() == 'Cart' && o.systemCartWidgetJSON && o.systemCartWidgetJSON.name == o.selectedWidget()) {
+            o.widgetImage(o.jsonSource[o.selectedWidget()]['widget-image']);
             return o._getSystemWidget('Cart');
         }
         if (o.widgetSelection() == 'Checkout' && o.systemCheckoutWidgetJSON && o.systemCheckoutWidgetJSON.name == o.selectedWidget()) {
+            o.widgetImage(o.jsonSource[o.selectedWidget()]['widget-image']);
             return o._getSystemWidget('Checkout');
         }
 		var _w;
 		for (var i in o.jsonSource) {
 			if ( i == o.selectedWidget()) {
-				_w = new PayLaterWidget(i, o.jsonSource[i]);
+                o.widgetImage(o.jsonSource[i]['widget-image']);
+                var _wf = o._prepareDefaultWidgetFields(o.jsonSource[i]);
+				_w = new PayLaterWidget(i, _wf);
 				break;
 			}
 		}
+
 		return _w;
 	},
 	

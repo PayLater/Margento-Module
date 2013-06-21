@@ -62,11 +62,7 @@ class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout
 	
 	public function getConfiguredWidget ()
 	{
-		if (isset($this->_widgetJson)) {
-			$this->_widgetConfig = (array) json_decode($this->_widgetJson);
-		} else {
-			$this->_widgetConfig = (array) json_decode($this->getConfiguredWidgetJSON());
-		}
+        $this->_widgetConfig = (array) json_decode($this->getConfiguredWidgetJSON());
 		try {
 			$this->_widgetName = $this->_widgetConfig['name'];
 			foreach ($this->_widgetConfig['fields'] as $field) {

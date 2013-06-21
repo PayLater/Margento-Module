@@ -105,11 +105,7 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
 
     public function getConfiguredWidget ()
     {
-        if (isset($this->_widgetJson)) {
-            $this->_widgetConfig = (array) json_decode($this->_widgetJson);
-        } else {
-            $this->_widgetConfig = (array) json_decode($this->getConfiguredWidgetJSON());
-        }
+        $this->_widgetConfig = (array) json_decode($this->getConfiguredWidgetJSON());
         try {
             $this->_widgetName = $this->_widgetConfig['name'];
             foreach ($this->_widgetConfig['fields'] as $field) {

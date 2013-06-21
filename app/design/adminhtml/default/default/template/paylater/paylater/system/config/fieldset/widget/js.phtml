@@ -40,10 +40,16 @@
 				$('row_paylater_widgets_selection').setAttribute('data-bind', 'visible: widgetSelection');
                 <?php if(!$this->isDefaultStore()): ?>
                     $('paylater_widgets_types_inherit').setAttribute('data-bind', 'checked: checkInherits');
-                    $('paylater_widgets_product_config_inherit').simulate('click');
-                    $('paylater_widgets_cart_config_inherit').simulate('click');
-                    $('paylater_widgets_checkout_config_inherit').simulate('click');
                     $('paylater_widgets_selection_inherit').setAttribute('data-bind', 'checked: checkInherits');
+                    if ($('paylater_widgets_product_config_inherit').checked) {
+                        $('paylater_widgets_product_config_inherit').simulate('click');
+                    }
+                    if ($('paylater_widgets_cart_config_inherit').checked) {
+                        $('paylater_widgets_cart_config_inherit').simulate('click');
+                    }
+                    if ($('paylater_widgets_checkout_config_inherit').checked) {
+                        $('paylater_widgets_checkout_config_inherit').simulate('click');
+                    }
                 <?php endif ?>
                 ko.applyBindings(new PayLaterWidgetsModel('<?php echo json_encode(json_decode(file_get_contents($this->getWidgetsJSON()))) ?>', <?php echo $this->getStoreConfiguredWidget('product') ?>, <?php echo json_encode(json_decode($this->getStoreConfiguredWidget('cart'))) ?>, <?php echo $this->getStoreConfiguredWidget('checkout') ?>));
 			});

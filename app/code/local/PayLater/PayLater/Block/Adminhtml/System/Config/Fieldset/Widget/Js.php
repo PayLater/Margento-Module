@@ -74,6 +74,11 @@ class PayLater_PayLater_Block_Adminhtml_System_Config_Fieldset_Widget_Js extends
 	{
 		 return $this->getSkinUrl('paylater/paylater/js/duke.js');
 	}
+
+    public function getSimulateSrc ()
+    {
+        return $this->getSkinUrl('paylater/paylater/js/simulate.js');
+    }
 	
 	public function getWidgetsJsSrc ()
 	{
@@ -92,4 +97,9 @@ class PayLater_PayLater_Block_Adminhtml_System_Config_Fieldset_Widget_Js extends
 		$decodedWidgetConfig = json_decode($widgetConfig);
 		return strlen(trim($widgetConfig)) > 0 ? json_encode($decodedWidgetConfig) : 'false';
 	}
+
+    public function isDefaultStore ()
+    {
+        return $this->_getScopeStoreId() == 0;
+    }
 }

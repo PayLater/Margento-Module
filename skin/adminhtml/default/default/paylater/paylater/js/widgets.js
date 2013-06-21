@@ -110,27 +110,27 @@ PayLaterWidgetsModel.prototype = {
                         if (typeof _nw == 'object') {
                             return _nw;
                         }
-                        return o._setProductWidget(o.defaultProductWidget(), false);
+                        return o._setProductWidget(o.defaultProductWidget());
                     }
-					return o._setProductWidget(selectedWidget, false);
+					return o._setProductWidget(selectedWidget);
 				} else if (o.isCartType()) {
                     if (!o.systemCartWidgetJSON) {
                         var _nw = o._switchDefaultWidget(selectedWidget);
                         if (typeof _nw== 'object') {
                             return _nw;
                         }
-                        return o._setCartWidget(o.defaultCartWidget(), false);
+                        return o._setCartWidget(o.defaultCartWidget());
                     }
-					return o._setCartWidget(selectedWidget, false);
+					return o._setCartWidget(selectedWidget);
 				} else if (o.isCheckoutType()) {
                     if (!o.systemCheckoutWidgetJSON) {
                         var _nw = o._switchDefaultWidget(selectedWidget);
                         if (typeof _nw == 'object') {
                             return _nw;
                         }
-                        return o._setCheckoutWidget(o.defaultCheckoutWidget(), false);
+                        return o._setCheckoutWidget(o.defaultCheckoutWidget());
                     }
-					return o._setCheckoutWidget(selectedWidget, false);
+					return o._setCheckoutWidget(selectedWidget);
 				}
 			}
 			return null;
@@ -140,19 +140,19 @@ PayLaterWidgetsModel.prototype = {
     _initTextareas : function () {
         var o = this;
         if (!o.systemProductWidgetJSON) {
-            o._setProductWidget(o.defaultProductWidget(), false);
+            o._setProductWidget(o.defaultProductWidget());
         } else {
-            o._setProductWidget(o._getSystemWidget('Product'), false);
+            o._setProductWidget(o._getSystemWidget('Product'));
         }
         if (!o.systemCartWidgetJSON) {
-            o._setCartWidget(o.defaultCartWidget(), false);
+            o._setCartWidget(o.defaultCartWidget());
         } else {
-            o._setCartWidget(o._getSystemWidget('Cart'), false);
+            o._setCartWidget(o._getSystemWidget('Cart'));
         }
         if (!o.systemCheckoutWidgetJSON) {
-            o._setCheckoutWidget(o.defaultCheckoutWidget(), false);
+            o._setCheckoutWidget(o.defaultCheckoutWidget());
         } else {
-            o._setCheckoutWidget(o._getSystemWidget('Checkout'), false);
+            o._setCheckoutWidget(o._getSystemWidget('Checkout'));
         }
     },
 
@@ -207,17 +207,17 @@ PayLaterWidgetsModel.prototype = {
 
         if (o.isProductType()) {
             if (selectedWidget.name != o.defaultProductWidget().name) {
-                return o._setProductWidget(o._getDefaultWidgetByName(selectedWidget.name), false);
+                return o._setProductWidget(o._getDefaultWidgetByName(selectedWidget.name));
             }
         }
         if (o.isCartType()) {
             if (selectedWidget.name != o.defaultCartWidget().name) {
-                return o._setCartWidget(o._getDefaultWidgetByName(selectedWidget.name), false);
+                return o._setCartWidget(o._getDefaultWidgetByName(selectedWidget.name));
             }
         }
         if (o.isCheckoutType()) {
             if (selectedWidget.name != o.defaultCheckoutWidget().name) {
-                return o._setCheckoutWidget(o._getDefaultWidgetByName(selectedWidget.name), false);
+                return o._setCheckoutWidget(o._getDefaultWidgetByName(selectedWidget.name));
             }
         }
         return false;
@@ -295,34 +295,19 @@ PayLaterWidgetsModel.prototype = {
 		return _w;
 	},
 	
-	_setProductWidget: function(defaultSelectedWidget, systemProductWidgetJSON) {
+	_setProductWidget: function(w) {
 		var o = this;
-		
-		if (systemProductWidgetJSON) {
-
-		} else {
-			o.currentProductWidget(defaultSelectedWidget);
-			return defaultSelectedWidget.fields();
-		}
+		o.currentProductWidget(w);
+		return w.fields();
 	},
-	_setCartWidget: function(defaultSelectedWidget, systemCartWidgetJSON) {
+	_setCartWidget: function(w) {
 		var o = this;
-		
-		if (systemCartWidgetJSON) {
-
-		} else {
-			o.currentCartWidget(defaultSelectedWidget);
-			return defaultSelectedWidget.fields();
-		}
+		o.currentCartWidget(w);
+		return w.fields();
 	},
-	_setCheckoutWidget: function(defaultSelectedWidget, systemCheckoutWidgetJSON) {
+	_setCheckoutWidget: function(w) {
 		var o = this;
-		
-		if (systemCheckoutWidgetJSON) {
-
-		} else {
-			o.currentCheckoutWidget(defaultSelectedWidget);
-			return defaultSelectedWidget.fields();
-		}
+		o.currentCheckoutWidget(w);
+		return w.fields();
 	}
 }

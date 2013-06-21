@@ -51,3 +51,10 @@ ul.tabs a.paylater-label span, ul.tabs a.paylater-label:hover span {
 	padding-right: 15px;
 	padding-top: 1px;
 }
+
+#row_paylater_widgets_types td.use-default,
+#row_paylater_widgets_types td.scope-label,
+#row_paylater_widgets_selection td.use-default,
+#row_paylater_widgets_selection td.scope-label{
+    display:none;
+}

@@ -208,6 +208,7 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 						</debug>
+                        <!--
 						<use_on_product translate="label comment">
 							<label>Use PayLater Widget On Product</label>
 							<comment>
@@ -232,6 +233,7 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 						</use_on_checkout>
+						-->
 						<show_on_cart translate="label comment">
 							<label>Show PayLater On Shopping Cart</label>
 							<comment>
@@ -250,7 +252,7 @@
 							<frontend_type>select</frontend_type>
 							<source_model>paylater/source_type</source_model>
 							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>	
+							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</types>
 						<selection translate="label comment">
@@ -259,7 +261,7 @@
 							<frontend_type>select</frontend_type>
 							<source_model>paylater/source_selection</source_model>
 							<show_in_default>1</show_in_default>
-							<show_in_website>1</show_in_website>	
+							<show_in_website>1</show_in_website>
 							<show_in_store>1</show_in_store>
 						</selection>
 						<product_config translate="label comment">

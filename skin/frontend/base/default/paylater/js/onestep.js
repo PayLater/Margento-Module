@@ -79,7 +79,7 @@ var do_save_billing = function(url)    {
 		method: 'post',
 		onSuccess: function(transport)    {
 			if(transport.status == 200)    {
-
+				alert('sadfsd')
 				$('PayLaterSubmit').submit();
 			}
 		},
@@ -130,9 +130,6 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 
 		var use_for_shipping = $('billing:use_for_shipping_yes');
 
-
-
-
 		if(use_for_shipping && use_for_shipping.getValue() != '1')    {
 			var items = $$('input[name^=shipping]').concat($$('select[name^=shipping]'));
 			var shipping_names = items.pluck('name');
@@ -179,11 +176,11 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 				$$('div.onestepcheckout-place-order-wrapper')[0].hide();
 			}
 		}
+		PayLaterAnywhereWidget.refreshWidgets();
 		new Ajax.Request(url, {
 			method: 'post',
 			onSuccess: function(transport)    {
 				if(transport.status == 200)    {
-
 					var data = transport.responseText.evalJSON();
 
 					// Update shipment methods
@@ -196,8 +193,6 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 					} else {
 						totals.update(data.summary);
 					}
-					// Add new event handlers
-
 					if(shipment_methods_found)  {
 						$$('dl.shipment-methods input').invoke('observe', 'click', get_separate_save_methods_function(set_methods_url, update_payments));
 					}
@@ -240,8 +235,12 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 									totals.update(transport.responseText);
 									if ($$('div.onestepcheckout-place-order-wrapper')[0]) {
 										$$('div.onestepcheckout-place-order-wrapper')[0].hide();
+									}
 								}
-								}
+							},
+							onComplete: function () {
+								bindWidgetDataToPayLaterOption()
+								PayLaterAnywhereWidget.refreshWidgets();
 							},
 							parameters: parameters
 						});
@@ -249,7 +248,12 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 					}
 
 				}
+				
 			},
+			onComplete: function () {
+					bindWidgetDataToPayLaterOption()
+					PayLaterAnywhereWidget.refreshWidgets();
+				},
 			parameters: parameters
 		});
 		
@@ -326,7 +330,6 @@ function get_separate_save_methods_function(url, update_payments)
 						if(update_payments)    {
 
 							payment_methods.replace(data.payment_method);
-
 							$$('div.payment-methods input[name^=payment\[method\]]').invoke('observe', 'click', get_separate_save_methods_function(url));
 							$$('div.payment-methods input[name^=payment\[method\]]').invoke('observe', 'click', function() {
 								$$('div.onestepcheckout-payment-method-error').each(function(item) {
@@ -360,11 +363,19 @@ function get_separate_save_methods_function(url, update_payments)
 										}
 									}
 								},
+								onComplete: function () {
+									bindWidgetDataToPayLaterOption()
+									PayLaterAnywhereWidget.refreshWidgets();
+								},
 								parameters: parameters
 							});
 			
 						}
 					}
+				},
+				onComplete: function () {
+					bindWidgetDataToPayLaterOption()
+					PayLaterAnywhereWidget.refreshWidgets();
 				},
 				parameters: parameters
 			});

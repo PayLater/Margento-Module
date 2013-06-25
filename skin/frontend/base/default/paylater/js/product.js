@@ -32,45 +32,38 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
 		var specialPrice = $(this.containers[0]).innerHTML.trim();
 		price = parseFloat(specialPrice.replace(/[^0-9-.]/g, ''));
 	}
-	if (typeof PayLater != 'undefined') {
-		if (PayLater.isTestMode) {
-			offer = PayLater.getOffer(price, offer.merchant, 'test');
-		} else {
-			offer = PayLater.getOffer(price, offer.merchant);
-		}
-		if (price > offerUpperBound) {
-			$('representative-holder').hide();
-			$('representative-pop').update('');
-			$('representative-outrange-notice').show();
-			return;
-		} else {
-			$('representative-holder').show();
-			$('representative-outrange-notice').hide();
-		}
-		var representativePop = PayLater.GetFullInfo(offer, representativeLegal);
-		if ($('representative-pop')) {
-			$('representative-pop').update(representativePop);
-			if ($('PayLater-greyBackground')) {
-				document.getElementById('PayLater-greyBackground').onclick = function () {
-				     document.getElementById('PayLater-fullInfo').style.display = "none";
-				     document.getElementById('PayLater-greyBackground').style.display = "none";
-			 	};
-			}
-			
-			if (document.getElementById('PayLater-fullInfo')) {
-				document.getElementById('Popup-inner-1-link').onclick = function (e) {
-					document.getElementById('Popup-inner-1').style.display = "none";
-					document.getElementById('Popup-inner-2').style.display = "block";
-					e.preventDefault();
-				};
 
-				document.getElementById('Popup-inner-2-link').onclick = function (e) {
-					document.getElementById('Popup-inner-1').style.display = "block";
-					document.getElementById('Popup-inner-2').style.display = "none";
-					e.preventDefault();
-				};
-			}
-		}
-	}
+	if (typeof PayLater != 'undefined' && price >= offerLowerBound) {
+        if (price > offerUpperBound) {
+            //remove widget
+            $('paylater-widget-wrapper').update('') ;
+        }
+
+        if (price >= offerLowerBound) {
+            // add widget
+            $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
+            $('paylater-widget-holder').setAttribute('class', 'pl-widget');
+            $('paylater-widget-holder').setAttribute('data-pl-price', price);
+            $('paylater-widget-holder').setAttribute('data-pl-widget', plDataName);
+            $('paylater-widget-holder').setAttribute('data-pl-legal', plDataLegal);
+
+            if (plDataShowBreakDown) {
+                $('paylater-widget-holder').setAttribute('data-pl-showbreakdown', plDataShowBreakDown);
+            }
+
+            if (plDataParams != 'false') {
+                $('paylater-widget-holder').setAttribute('data-pl-params', plDataParams);
+            }
+            PayLaterAnywhereWidget.refreshWidgets();
+        }
+
+        if (price < offerLowerBound) {
+            // remove widget
+           $('paylater-widget-wrapper').update('') ;
+        }
+	} else {
+        // remove widget
+        $('paylater-widget-wrapper').update('') ;
+    }
 }
 

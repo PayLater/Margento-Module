@@ -327,9 +327,10 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 						$helper->log("\tResponse: " . $apiResponse->getStatus(), __METHOD__, Zend_Log::DEBUG);
 
 						// Break as soon as we have a useful status
-						if ($apiResponse->isSuccessful() && $apiResponse->hasStatus()) {
+						if ($apiResponse->isSuccessful() && $apiResponse->hasStatus() && $apiResponse->getStatus() != self::PAYLATER_API_PENDING_RESPONSE) {
+							$helper->log('Break Response: ' . $apiResponse->getStatus(), __METHOD__, Zend_Log::ERR);
 							break;
-						}
+						} 
 						sleep(self::PAYLATER_POLLING_INTERVAL);
 						$count++;
 					}

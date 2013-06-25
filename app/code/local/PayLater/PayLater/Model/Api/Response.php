@@ -114,10 +114,10 @@ class PayLater_PayLater_Model_Api_Response implements PayLater_PayLater_Core_Int
 	public function hasStatus()
 	{
 		if ($this->getStatus() && in_array($this->getStatus(), $this->_statuses)) {
-			return True;
+			return true;
 		}
 
-		return False;
+		return false;
 	}
 
 	/**

@@ -90,7 +90,12 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 						$layout = Mage::helper('paylater/layout');
 						$layout->setWidgetJs();
 						return true;
-					}
+					} else {
+                        // loads anyway for configurable/bundle products
+                        $layout = Mage::helper('paylater/layout');
+                        $layout->setWidgetJs();
+                        return true;
+                    }
 				}
 			}
 		} elseif ($type == self::PAYLATER_TYPE_CHECKOUT) {
@@ -128,7 +133,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	public function checkoutCartIndexBefore (Varien_Event_Observer $observer)
 	{
 		$payLater = Mage::helper('paylater');
-		if ($payLater->getPayLaterConfigEnabled('cart')) {
+		if ($payLater->getPayLaterConfigEnabled('cart') && Mage::helper('checkout/cart')->getCart()->getItemsCount() > 0) {
 			$this->_setWidgetJs(self::PAYLATER_TYPE_CHECKOUT);
 			$layout = Mage::helper('paylater/layout');
 			$coreLayout = $layout->getCoreLayout();

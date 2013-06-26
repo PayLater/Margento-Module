@@ -239,8 +239,9 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 								}
 							},
 							onComplete: function () {
-								bindWidgetDataToPayLaterOption()
+
 								PayLaterAnywhereWidget.refreshWidgets();
+                                bindWidgetDataToPayLaterOption();
 							},
 							parameters: parameters
 						});
@@ -365,7 +366,6 @@ function get_separate_save_methods_function(url, update_payments)
 								},
 								onComplete: function () {
 									bindWidgetDataToPayLaterOption()
-									PayLaterAnywhereWidget.refreshWidgets();
 								},
 								parameters: parameters
 							});
@@ -375,7 +375,6 @@ function get_separate_save_methods_function(url, update_payments)
 				},
 				onComplete: function () {
 					bindWidgetDataToPayLaterOption()
-					PayLaterAnywhereWidget.refreshWidgets();
 				},
 				parameters: parameters
 			});

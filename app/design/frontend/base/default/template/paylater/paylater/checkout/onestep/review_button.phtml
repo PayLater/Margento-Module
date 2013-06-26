@@ -30,6 +30,7 @@
 	?>
 	<script type="text/javascript">
 		// paylater-text-info update is located in tax/checkout/grandtotal.phtml
+        PayLater.GetStyles();
 		var form = new VarienForm('onestepcheckout-form');
 		<?php if ($this->helper('paylater')->getPayLaterConfigEnv('globals') == PayLater_PayLater_Core_Interface::ENVIRONMENT_LIVE): ?>
 			var offer = PayLater.getOffer(<?php echo $this->getQuoteGrandTotal() ?>, '<?php echo $this->helper('paylater')->getPayLaterConfigStore('globals'); ?>');

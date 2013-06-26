@@ -189,6 +189,7 @@ interface PayLater_PayLater_Core_Interface
 	const PAYLATER_FAILED_ORDER_STATUS = 'paylater_failed';
 	const PAYLATER_FAILED_ORDER_STATE = 'paylater_failed';
 	const PAYLATER_DECLINED_ORDER_STATUS = 'paylater_declined';
+	const PAYLATER_PRE_PENDING_ORDER_STATUS = "<no status>";
 	/**
 	 * PayLater endpoint post keys and values 
 	 */

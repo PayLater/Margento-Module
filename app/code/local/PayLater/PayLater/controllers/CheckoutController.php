@@ -101,6 +101,23 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 		return $orderId;
 	}
 
+    /**
+     * Sets PayLater order state and status and return order id, or false otherwise
+     *
+     * @param string $state
+     * @param string $status
+     *
+     * @return int|bool
+     */
+    protected function _setInitialPayLaterStatus()
+    {
+        $quote = Mage::getModel('paylater/checkout_quote');
+        $orderId = $quote->getReservedOrderId();
+        $order = Mage::getModel('paylater/checkout_onepage')->getOrder($orderId);
+        $order->savePayLaterOrderStatus(self::PAYLATER_PRE_PENDING_ORDER_STATUS);
+        $order->save();
+    }
+
 	/**
 	 * Saves PayLater offer to order
 	 * 
@@ -247,8 +264,11 @@ class PayLater_PayLater_CheckoutController extends Mage_Core_Controller_Front_Ac
 					// Order was saved without sending any customer email.
 					// @see Observer->saveOrderAfter
 					$orderId = $this->_setPayLaterOrderStateAndStatus(self::PAYLATER_ORPHANED_ORDER_STATUS, self::PAYLATER_ORPHANED_ORDER_STATUS);
-
-					try {
+                    /**
+                     * @pending for future release??
+                     */
+                    //this->_setInitialPayLaterStatus();
+                    try {
 						// Preserve checkout session ID incase user never comes back to merchant site with successful application
 						// Used in cronjob
 						Mage::getModel('sales/order')->loadByIncrementId($orderId)->setPaylaterAdditional(serialize(

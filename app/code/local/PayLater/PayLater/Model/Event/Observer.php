@@ -199,7 +199,7 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 		$helper = Mage::helper('paylater');
 		$now =  Mage::getModel('core/date')->timestamp(time());
 		$from = date("Y-m-d H:i:s", strtotime("-4 hours", $now));
-		$to = date("Y-m-d H:i:s", strtotime("-1 hours", $now));
+		$to = date("Y-m-d H:i:s", strtotime("-15 minutes", $now));
 
 		$helper->log("Started polling cron... Searching From: $from To: $to", __METHOD__, Zend_Log::DEBUG);
 
@@ -239,7 +239,14 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 				}
 
 				Mage::dispatchEvent('checkout_onepage_controller_success_action', array('order_ids' => array($orderId)));
-			} else {
+			}else if (!trim($apiResponse->getStatus())) {
+                $order->setStateAndStatus(trim($apiResponse->getStatus()));
+                $order->savePayLaterOrderStatus(self::PAYLATER_API_PENDING_RESPONSE);
+                $order->save();
+                Mage::dispatchEvent('empty_paylater_status_response', array('response' => $apiResponse->getStatus(), 'orderId' => $orderId));
+                $helper->log("\tEmpty Response: " . $apiResponse->getStatus(), __METHOD__, Zend_Log::DEBUG);
+                return;
+            } else {
 				$paylater_order->savePayLaterOrderStatus($apiResponse->getStatus());
 				$paylater_order->setStateAndStatus($apiResponse->getStatus());
 				$paylater_order->save();

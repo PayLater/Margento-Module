@@ -8,6 +8,8 @@
                 <?php echo $this->doesWidgetHaveParameters() ? sprintf('%sdata-pl-params="%s"', ' ', $this->getWidgetParamsAsString()) : ' '; ?> data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
         </div>
     <?php else: ?>
-        <?php echo $this->helper('paylater')->__('PayLater Cart Widget has not been configured yet.') ?>
+        <div class="paylater-widget-wrapper">
+            <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="price-offer" data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
+        </div>
     <?php endif; ?>
 <?php endif; ?>

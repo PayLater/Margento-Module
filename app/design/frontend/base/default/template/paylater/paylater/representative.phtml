@@ -25,7 +25,8 @@
 ?>
 <?php $this->getConfiguredWidget() ?>
 <?php if($this->hasWidgetBeenConfigured()): ?>
-<?php $this->getConfiguredWidget() ?>
+<?php $this->getConfiguredWidget();?>
+
 <script type="text/javascript">
     var offerLowerBound = <?php echo Mage::getStoreConfig('paylater/paylater/min_order_total') ?>;
     var offerUpperBound = <?php echo Mage::getStoreConfig('paylater/paylater/paylater/max_order_total') ?>;
@@ -36,7 +37,7 @@
 </script>
 <?php endif; ?>
 <?php if ($this->canShow()): ?>
-    <?php if($this->hasWidgetBeenConfigured()): ?>
+    <?php if($this->hasWidgetBeenConfigured() && !$this->isConfiguredWidgetSameAsDefault()): ?>
         <div class="paylater-widget-wrapper">
             <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="<?php echo $this->getWidgetName() ?>"
                 <?php echo $this->doesWidgetHaveBreakdown() ? sprintf('%sdata-pl-showbreakdown="%s"', ' ',$this->getWidgetShowBreakdown()) : ' '; ?>

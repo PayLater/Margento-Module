@@ -39,6 +39,7 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
     protected $_widgetName;
     protected $_widgetShowBreakdown;
     protected $_widgeParams;
+    protected $_widgeParamArray;
 
     protected function _construct()
 	{
@@ -112,8 +113,10 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
 
                 if ($field->key == 'show-breakdown') {
                     $this->_widgetShowBreakdown = $field->value;
+                    $this->_widgeParamArray[$field->key] = $field->value == 'true' ? true : false;
                 } else {
                     $this->_widgeParams[] = "{$field->key}:{$field->value}";
+                    $this->_widgeParamArray[$field->key] = $field->value;
                 }
             }
         }catch (Exception $e) {
@@ -156,5 +159,16 @@ class PayLater_PayLater_Block_Payment_Form extends Mage_Core_Block_Template impl
     public function getAmount ()
     {
         return $this->getGrandTotal();
+    }
+
+    public function isConfiguredWidgetSameAsDefault ()
+    {
+        $widgetsDefault = file_get_contents(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . self::PAYLATER_WIDGET_JSON_AMDINHTML_LOCATOR);
+        $decodedWidgetsDefault = Zend_Json_Decoder::decode($widgetsDefault);
+        $defaultWidgetParams = (array) $decodedWidgetsDefault[$this->_widgetName];
+        unset ($defaultWidgetParams['widget-image']);
+        $defaultWidgetParamsObj = new ArrayObject($defaultWidgetParams);
+        $configWidgetParamsObj = new ArrayObject($this->_widgeParamArray);
+        return ($defaultWidgetParamsObj == $configWidgetParamsObj);
     }
 }

@@ -345,6 +345,8 @@ interface PayLater_PayLater_Core_Interface
 	 * Widgets Types
 	 */
 	const PAYLATER_WIDGET_JS_BLOCK = 'Mage_Core_Block_Template';
+	const PAYLATER_WIDGET_JSON_AMDINHTML_LOCATOR = 'skin/adminhtml/default/default/paylater/paylater/js/widgets.json';
+	const PAYLATER_WIDGET_JSON_FRONTEND_LOCATOR = 'skin/frontend/base/default/paylater/paylater/js/widgets.json';
 	const PAYLATER_WIDGET_JS_BLOCK_NAME = 'paylater.widgetjs';
 	const PAYLATER_WIDGET_JS_URL = '%s://paylater.s3.amazonaws.com/3.0/js/paylater-widget.min.js';
 	const PAYLATER_WIDGET_JS_TEMPLATE = 'paylater/paylater/widgetjs.phtml';

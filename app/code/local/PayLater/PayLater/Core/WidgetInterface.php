@@ -44,4 +44,5 @@ interface PayLater_PayLater_Core_WidgetInterface
 	public function getWidgetShowBreakdown();
 	public function getWidgetParamsAsString();
 	public function getAmount();
+    public function isConfiguredWidgetSameAsDefault();
 }

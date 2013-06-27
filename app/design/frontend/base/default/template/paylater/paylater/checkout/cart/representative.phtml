@@ -1,7 +1,7 @@
 
 <?php if($this->canShow()):?>
     <?php $this->getConfiguredWidget() ?>
-    <?php if($this->hasWidgetBeenConfigured()): ?>
+    <?php if($this->hasWidgetBeenConfigured() && !$this->isConfiguredWidgetSameAsDefault()): ?>
         <div class="paylater-widget-wrapper">
             <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="<?php echo $this->getWidgetName() ?>"
                 <?php echo $this->doesWidgetHaveBreakdown() ? sprintf('%sdata-pl-showbreakdown="%s"', ' ',$this->getWidgetShowBreakdown()) : ' '; ?>

@@ -30,7 +30,7 @@
  * @subpackage Model
  * @author     GPMD <dev@gpmd.co.uk>
  */
-class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout_Block_Cart_Abstract implements PayLater_PayLater_Core_WidgetInterface, PayLater_PayLater_Core_ShowableInterface
+class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout_Block_Cart_Abstract implements PayLater_PayLater_Core_Interface, PayLater_PayLater_Core_WidgetInterface, PayLater_PayLater_Core_ShowableInterface
 {
 	
 	protected $_widgetJson;
@@ -38,6 +38,7 @@ class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout
 	protected $_widgetName;
 	protected $_widgetShowBreakdown;
 	protected $_widgeParams;
+    protected $_widgeParamArray;
 	protected $_quote;
 	
 	protected function _getAmount()
@@ -69,8 +70,10 @@ class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout
 				
 				if ($field->key == 'show-breakdown') {
 					$this->_widgetShowBreakdown = $field->value;
+                    $this->_widgeParamArray[$field->key] = $field->value == 'true' ? true : false;
 				} else {
 					$this->_widgeParams[] = "{$field->key}:{$field->value}";
+                    $this->_widgeParamArray[$field->key] = $field->value;
 				}
 			}
 		}catch (Exception $e) {
@@ -120,4 +123,16 @@ class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout
 	{
 		return $this->_getAmount();
 	}
+
+    public function isConfiguredWidgetSameAsDefault ()
+    {
+        $widgetsDefault = file_get_contents(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . self::PAYLATER_WIDGET_JSON_AMDINHTML_LOCATOR);
+        $decodedWidgetsDefault = Zend_Json_Decoder::decode($widgetsDefault);
+        $defaultWidgetParams = (array) $decodedWidgetsDefault[$this->_widgetName];
+        console.log($defaultWidgetParams);
+        unset ($defaultWidgetParams['widget-image']);
+        $defaultWidgetParamsObj = new ArrayObject($defaultWidgetParams);
+        $configWidgetParamsObj = new ArrayObject($this->_widgeParamArray);
+        return ($defaultWidgetParamsObj == $configWidgetParamsObj);
+    }
 }

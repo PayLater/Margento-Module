@@ -67,6 +67,7 @@ PayLaterWidgetsModel.prototype = {
         this.selectedWidget = ko.observable();
         this.widgetSelection = ko.observable();
         this.widgetImage = ko.observable();
+        this.configPanelReload = ko.observable();
 
 		if(!PAYLATER_WIDGETS_DEBUG){
 			this._hideConfigTextareaRows();
@@ -94,6 +95,7 @@ PayLaterWidgetsModel.prototype = {
 
 
 		this.configPanelFields = ko.computed(function(){
+            o.configPanelReload();
             o.checkInherits(false);
             if(!o.widgetSelection() && typeof o.selectedWidget() == 'undefined'){
                 o._initTextareas();
@@ -136,6 +138,23 @@ PayLaterWidgetsModel.prototype = {
 			}
 			return null;
 		});
+
+        this.resetToDefault = function () {
+            var _dw = o._getDefaultWidgetByName(o.selectedWidget());
+            var _rw = false;
+            switch (o.widgetSelection()) {
+                case "Product" :
+                    _rw = o._setProductWidget(_dw);
+                    break;
+                case "Cart" :
+                    _rw = o._setCartWidget(_dw);
+                    break;
+                case "Checkout" :
+                    _rw = o._setCheckoutWidget(_dw);
+                    break;
+            }
+            o.configPanelReload.notifySubscribers();
+        }
 	},
 
     _initTextareas : function () {

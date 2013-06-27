@@ -58,3 +58,8 @@ ul.tabs a.paylater-label span, ul.tabs a.paylater-label:hover span {
 #row_paylater_widgets_selection td.scope-label{
     display:none;
 }
+
+.paylater-reset-to-default-button-container {
+    margin-top: 0;
+    margin-bottom: 10px;
+}

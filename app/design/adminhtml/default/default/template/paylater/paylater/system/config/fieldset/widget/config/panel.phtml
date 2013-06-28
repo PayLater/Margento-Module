@@ -4,7 +4,7 @@
 			<h3>Widget Configuration (<span data-bind="text: widgetSelection"></span>)</h3>
 			<div><img data-bind="attr: {src: widgetImage}" /></div>
             <div class="paylater-reset-to-default-button-container">
-                <button  title="Reset to Default" type="button" class="scalable scalable" data-bind="click: resetToDefault"><span><span><span>Reset to Default</span></span></span></button>
+                <button id="paylater-reset-to-default-button"  title="Reset to Default" type="button" class="scalable scalable" data-bind="click: resetToDefault"><span><span><span>Reset to Default</span></span></span></button>
             </div>
 			<div data-bind="foreach: configPanelFields" id="paylater_widgets_config_panel" class="paylater-config-panel">
 				<div><label data-bind="text: key" class="paylater-widgets-label"></label><input type="text" data-bind="value: value" class="paylater-widgets-input input-text" /></div>

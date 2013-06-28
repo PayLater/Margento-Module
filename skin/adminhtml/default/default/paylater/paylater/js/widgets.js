@@ -21,40 +21,40 @@
  * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-function PayLaterWidgetField (key, value) {
-	var self = this;
-	self.key = key;
-	if (typeof value === 'boolean') {
-		value = value.toString();
-	}
-	self.value = ko.observable(value);
+function PayLaterWidgetField(key, value) {
+    var self = this;
+    self.key = key;
+    if (typeof value === 'boolean') {
+        value = value.toString();
+    }
+    self.value = ko.observable(value);
 }
 
-function PayLaterWidget (name, fields) {
-	var self = this;
-	this.name = name;
-	var _fields = [];
-	for (k in fields) {
-		_fields.push(new PayLaterWidgetField(k, fields[k]));
-	}
-	this.fields = ko.observableArray(_fields);
+function PayLaterWidget(name, fields) {
+    var self = this;
+    this.name = name;
+    var _fields = [];
+    for (k in fields) {
+        _fields.push(new PayLaterWidgetField(k, fields[k]));
+    }
+    this.fields = ko.observableArray(_fields);
 }
 
 var PayLaterWidgetsModel = Class.create();
 PayLaterWidgetsModel.prototype = {
-	initialize: function(jsonSource, systemProductWidgetJSON, systemCartWidgetJSON, systemCheckoutWidgetJSON){
-		var o = this;
+    initialize: function (jsonSource, systemProductWidgetJSON, systemCartWidgetJSON, systemCheckoutWidgetJSON) {
+        var o = this;
         this._initKoExtenders(o);
-
+        this._listenForResetEvent();
         // loaded JSON
-		this.jsonSource = ko.utils.parseJson(jsonSource);
+        this.jsonSource = ko.utils.parseJson(jsonSource);
 
         this.checkInherits = ko.observable(false);
         this.shouldShowDebugRow = ko.observable(false);
 
-        this.systemProductWidgetJSON =  systemProductWidgetJSON;
-        this.systemCartWidgetJSON =  systemCartWidgetJSON;
-        this.systemCheckoutWidgetJSON =  systemCheckoutWidgetJSON;
+        this.systemProductWidgetJSON = systemProductWidgetJSON;
+        this.systemCartWidgetJSON = systemCartWidgetJSON;
+        this.systemCheckoutWidgetJSON = systemCheckoutWidgetJSON;
 
         this.defaultProductWidget = ko.observable(this._getDefaultWidgetByName('price-offer'));
         this.defaultCartWidget = ko.observable(this._getDefaultWidgetByName('price-offer'));
@@ -68,96 +68,130 @@ PayLaterWidgetsModel.prototype = {
         this.widgetSelection = ko.observable();
         this.widgetImage = ko.observable();
         this.configPanelReload = ko.observable();
+        this.reloadWidget = ko.observable();
 
-		if(!PAYLATER_WIDGETS_DEBUG){
-			this._hideConfigTextareaRows();
-		}
-		this._getFieldsetTableElement();
-		this._setTypeOptions();
-		this._setWidgetOptions();
+        if (!PAYLATER_WIDGETS_DEBUG) {
+            this._hideConfigTextareaRows();
+        }
+        this._getFieldsetTableElement();
+        this._setTypeOptions();
+        this._setWidgetOptions();
 
-		this.showConfigPanel = ko.computed(function(){
-			return o.selectedWidget() && o.widgetSelection();
-		});
-		
-		this.isProductType = ko.computed(function(){
-			return (o.widgetSelection() == 'Product');
-		});
-		
-		this.isCartType = ko.computed(function(){
-			return (o.widgetSelection() == 'Cart');
-		});
-		
-		this.isCheckoutType = ko.computed(function(){
-			return (o.widgetSelection() == 'Checkout');
-		});
+        this.showConfigPanel = ko.computed(function () {
+            return o.selectedWidget() && o.widgetSelection();
+        });
+
+        this.isProductType = ko.computed(function () {
+            return (o.widgetSelection() == 'Product');
+        });
+
+        this.isCartType = ko.computed(function () {
+            return (o.widgetSelection() == 'Cart');
+        });
+
+        this.isCheckoutType = ko.computed(function () {
+            return (o.widgetSelection() == 'Checkout');
+        });
 
 
+        this.configPanelFields = ko.computed(function () {
 
-		this.configPanelFields = ko.computed(function(){
             o.configPanelReload();
             o.checkInherits(false);
-            if(!o.widgetSelection() && typeof o.selectedWidget() == 'undefined'){
-                o._initTextareas();
-            }
-            if(o.widgetSelection() && typeof o.selectedWidget() == 'undefined'){
-                o._autosetSelectedWidget();
-            }
-            if(o.widgetSelection() && typeof o.selectedWidget() != 'undefined'){
 
-				var selectedWidget = o._getSelectedWidget();
-			
-				if (o.isProductType()) {
-                    if (!o.systemProductWidgetJSON) {
-                        var _nw = o._switchDefaultWidget(selectedWidget);
-                        if (typeof _nw == 'object') {
-                            return _nw;
+            if (!o.configPanelReload()) {
+
+                if (!o.widgetSelection() && typeof o.selectedWidget() == 'undefined') {
+                    o._initTextareas();
+                }
+                if (o.widgetSelection() && typeof o.selectedWidget() == 'undefined') {
+                    o._autosetSelectedWidget();
+                }
+                if (o.widgetSelection() && typeof o.selectedWidget() != 'undefined') {
+
+                    var selectedWidget = o._getSelectedWidget();
+
+                    if (o.isProductType()) {
+                        if (!o.systemProductWidgetJSON) {
+                            var _nw = o._switchDefaultWidget(selectedWidget);
+                            if (typeof _nw == 'object') {
+                                return _nw;
+                            }
+                            return o._setProductWidget(o.defaultProductWidget());
                         }
-                        return o._setProductWidget(o.defaultProductWidget());
-                    }
-					return o._setProductWidget(selectedWidget);
-				} else if (o.isCartType()) {
-                    if (!o.systemCartWidgetJSON) {
-                        var _nw = o._switchDefaultWidget(selectedWidget);
-                        if (typeof _nw== 'object') {
-                            return _nw;
+                        return o._setProductWidget(selectedWidget);
+                    } else if (o.isCartType()) {
+                        if (!o.systemCartWidgetJSON) {
+                            var _nw = o._switchDefaultWidget(selectedWidget);
+                            if (typeof _nw == 'object') {
+                                return _nw;
+                            }
+                            return o._setCartWidget(o.defaultCartWidget());
                         }
-                        return o._setCartWidget(o.defaultCartWidget());
-                    }
-					return o._setCartWidget(selectedWidget);
-				} else if (o.isCheckoutType()) {
-                    if (!o.systemCheckoutWidgetJSON) {
-                        var _nw = o._switchDefaultWidget(selectedWidget);
-                        if (typeof _nw == 'object') {
-                            return _nw;
+                        return o._setCartWidget(selectedWidget);
+                    } else if (o.isCheckoutType()) {
+                        if (!o.systemCheckoutWidgetJSON) {
+                            var _nw = o._switchDefaultWidget(selectedWidget);
+                            if (typeof _nw == 'object') {
+                                return _nw;
+                            }
+                            return o._setCheckoutWidget(o.defaultCheckoutWidget());
                         }
-                        return o._setCheckoutWidget(o.defaultCheckoutWidget());
+                        return o._setCheckoutWidget(selectedWidget);
                     }
-					return o._setCheckoutWidget(selectedWidget);
-				}
-			}
-			return null;
-		});
+                }
+            }
+            if (o.configPanelReload() == 'true') {
+                var _ret = false;
+                if (o.isProductType()) {
+                    _ret = o._setProductWidget(o._getDefaultWidgetByName(o.selectedWidget()));
+                }else if (o.isCartType()) {
+                    _ret = o._setCartWidget(o._getDefaultWidgetByName(o.selectedWidget()));
+                }else if (o.isCheckoutType()) {
+                    _ret = o._setCheckoutWidget(o._getDefaultWidgetByName(o.selectedWidget()));
+                }
+                o.configPanelReload(false);
+                return _ret;
+            }
+            return null;
+        });
 
         this.resetToDefault = function () {
-            var _dw = o._getDefaultWidgetByName(o.selectedWidget());
-            var _rw = false;
+            var selected = o.selectedWidget();
+            var _dw = o._getDefaultWidgetByName(selected);
+
             switch (o.widgetSelection()) {
                 case "Product" :
-                    _rw = o._setProductWidget(_dw);
+                    o._setProductWidget(_dw);
                     break;
                 case "Cart" :
-                    _rw = o._setCartWidget(_dw);
+                    o._setCartWidget(_dw);
                     break;
                 case "Checkout" :
-                    _rw = o._setCheckoutWidget(_dw);
+                    o._setCheckoutWidget(_dw);
                     break;
             }
-            o.configPanelReload.notifySubscribers();
+            o._dispatchWidgetEvent("widget:reset", $(document), _dw);
+            o.configPanelReload("true");
+            return _dw;
         }
-	},
+    },
 
-    _initTextareas : function () {
+    _dispatchWidgetEvent: function (eventName, someNode, w) {
+        someNode.fire(eventName, { widget: w}, false);
+    },
+
+    _listenForResetEvent: function() {
+        var o = this;
+        document.observe("widget:reset", function (event) {
+            event.stopPropagation();
+            o.configPanelReload('true');
+            o.reloadWidget(event.memo.widget);
+            o.configPanelReload.notifySubscribers();
+        });
+    },
+
+    _initTextareas: function () {
         var o = this;
         if (!o.systemProductWidgetJSON) {
             o._setProductWidget(o.defaultProductWidget());
@@ -180,6 +214,7 @@ PayLaterWidgetsModel.prototype = {
         var _wf = {};
         for (ii in fields) {
             if (ii != 'widget-image') {
+                //console.log(fields[ii]);
                 _wf[ii] = fields[ii];
             }
         }
@@ -217,17 +252,17 @@ PayLaterWidgetsModel.prototype = {
         var o = this;
         if (o.widgetSelection() == 'Product' && o.systemProductWidgetJSON) {
             o.selectedWidget(o.systemProductWidgetJSON.name);
-        } else if(o.widgetSelection() == 'Product' && o.systemProductWidgetJSON == false) {
+        } else if (o.widgetSelection() == 'Product' && o.systemProductWidgetJSON == false) {
             o.selectedWidget('price-offer');
         }
         if (o.widgetSelection() == 'Cart' && o.systemCartWidgetJSON) {
             o.selectedWidget(o.systemCartWidgetJSON.name);
-        } else if(o.widgetSelection() == 'Cart' && o.systemCartWidgetJSON == false) {
+        } else if (o.widgetSelection() == 'Cart' && o.systemCartWidgetJSON == false) {
             o.selectedWidget('price-offer');
         }
         if (o.widgetSelection() == 'Checkout' && o.systemCheckoutWidgetJSON) {
             o.selectedWidget(o.systemCheckoutWidgetJSON.name);
-        } else if(o.widgetSelection() == 'Checkout' && o.systemCheckoutWidgetJSON == false) {
+        } else if (o.widgetSelection() == 'Checkout' && o.systemCheckoutWidgetJSON == false) {
             o.selectedWidget('radio-button');
         }
     },
@@ -255,58 +290,59 @@ PayLaterWidgetsModel.prototype = {
 
     _getDefaultWidgetByName: function (name) {
         for (var i in this.jsonSource) {
-           if (i == name) {
-               var _wf = this._prepareDefaultWidgetFields(this.jsonSource[i]);
-               return new PayLaterWidget(i, _wf);
-           }
+            if (i == name) {
+                var _wf = this._prepareDefaultWidgetFields(this.jsonSource[i]);
+                return new PayLaterWidget(i, _wf);
+            }
         }
     },
-	
-	_initKoExtenders: function (o) {
-		ko.extenders.logChange = function(target, option) {
-			if (PAYLATER_WIDGETS_DEBUG) {
-				target.subscribe(function(newValue) {
-					console.log(option + ": " + newValue);
-				});
-			}
-			return target;
-		};
-	},
-	_setTypeOptions: function () {
-		var o = this;
-		this.typeOptions = ko.computed(function(){
-			var opt = ['Product', 'Cart', 'Checkout'];
-			return opt;
-		});
-	},
-	_setWidgetOptions: function () {
-		var o = this;
-		this.widgetOptions = ko.computed(function(){
-			var opt = [];
-			for(var k in o.jsonSource){
-				opt.push(k);
-			};
-			return opt;
-		});
-	},
-	
-	_hideConfigTextareaRows: function () {
-		this._getConfigTextarea('product').hide();
-		this._getConfigTextarea('cart').hide();
-		this._getConfigTextarea('checkout').hide();
-	},
-	
-	_getConfigTextarea: function (type) {
-		var id = 'row_paylater_widgets_' + type +  '_config';
-		return $(id)
-	},
-	
-	_getFieldsetTableElement: function () {
-		$('paylater_widgets').down('table.form-list');
-	},
 
-	_getSelectedWidget: function () {
-		var o = this;
+    _initKoExtenders: function (o) {
+        ko.extenders.logChange = function (target, option) {
+            if (PAYLATER_WIDGETS_DEBUG) {
+                target.subscribe(function (newValue) {
+                    console.log(option + ": " + newValue);
+                });
+            }
+            return target;
+        };
+    },
+    _setTypeOptions: function () {
+        var o = this;
+        this.typeOptions = ko.computed(function () {
+            var opt = ['Product', 'Cart', 'Checkout'];
+            return opt;
+        });
+    },
+    _setWidgetOptions: function () {
+        var o = this;
+        this.widgetOptions = ko.computed(function () {
+            var opt = [];
+            for (var k in o.jsonSource) {
+                opt.push(k);
+            }
+            ;
+            return opt;
+        });
+    },
+
+    _hideConfigTextareaRows: function () {
+        this._getConfigTextarea('product').hide();
+        this._getConfigTextarea('cart').hide();
+        this._getConfigTextarea('checkout').hide();
+    },
+
+    _getConfigTextarea: function (type) {
+        var id = 'row_paylater_widgets_' + type + '_config';
+        return $(id)
+    },
+
+    _getFieldsetTableElement: function () {
+        $('paylater_widgets').down('table.form-list');
+    },
+
+    _getSelectedWidget: function () {
+        var o = this;
         if (o.widgetSelection() == 'Product' && o.systemProductWidgetJSON && o.systemProductWidgetJSON.name == o.selectedWidget()) {
             o.widgetImage(o.jsonSource[o.selectedWidget()]['widget-image']);
             return o._getSystemWidget('Product');
@@ -319,32 +355,32 @@ PayLaterWidgetsModel.prototype = {
             o.widgetImage(o.jsonSource[o.selectedWidget()]['widget-image']);
             return o._getSystemWidget('Checkout');
         }
-		var _w;
-		for (var i in o.jsonSource) {
-			if ( i == o.selectedWidget()) {
+        var _w;
+        for (var i in o.jsonSource) {
+            if (i == o.selectedWidget()) {
                 o.widgetImage(o.jsonSource[i]['widget-image']);
                 var _wf = o._prepareDefaultWidgetFields(o.jsonSource[i]);
-				_w = new PayLaterWidget(i, _wf);
-				break;
-			}
-		}
+                _w = new PayLaterWidget(i, _wf);
+                break;
+            }
+        }
 
-		return _w;
-	},
-	
-	_setProductWidget: function(w) {
-		var o = this;
-		o.currentProductWidget(w);
-		return w.fields();
-	},
-	_setCartWidget: function(w) {
-		var o = this;
-		o.currentCartWidget(w);
-		return w.fields();
-	},
-	_setCheckoutWidget: function(w) {
-		var o = this;
-		o.currentCheckoutWidget(w);
-		return w.fields();
-	}
+        return _w;
+    },
+
+    _setProductWidget: function (w) {
+        var o = this;
+        o.currentProductWidget(w);
+        return w.fields();
+    },
+    _setCartWidget: function (w) {
+        var o = this;
+        o.currentCartWidget(w);
+        return w.fields();
+    },
+    _setCheckoutWidget: function (w) {
+        var o = this;
+        o.currentCheckoutWidget(w);
+        return w.fields();
+    }
 }

@@ -162,8 +162,6 @@ class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_B
         $decodedWidgetsDefault = json_decode($widgetsDefault, true);
         $defaultWidgetParams = $decodedWidgetsDefault[$this->_widgetName];
         unset ($defaultWidgetParams['widget-image']);
-        $defaultWidgetParamsObj = new ArrayObject($defaultWidgetParams);
-        $configWidgetParamsObj = new ArrayObject($this->_widgeParamArray);
-        return ($defaultWidgetParamsObj == $configWidgetParamsObj);
+        return count(array_diff($defaultWidgetParams, $this->_widgeParamArray)) > 0 ? false : true;
     }
 }

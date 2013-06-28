@@ -159,8 +159,8 @@ class PayLater_PayLater_Block_Catalog_Product_Representative extends Mage_Core_B
     public function isConfiguredWidgetSameAsDefault ()
     {
         $widgetsDefault = file_get_contents(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . self::PAYLATER_WIDGET_JSON_AMDINHTML_LOCATOR);
-        $decodedWidgetsDefault = Zend_Json_Decoder::decode($widgetsDefault);
-        $defaultWidgetParams = (array) $decodedWidgetsDefault[$this->_widgetName];
+        $decodedWidgetsDefault = json_decode($widgetsDefault, true);
+        $defaultWidgetParams = $decodedWidgetsDefault[$this->_widgetName];
         unset ($defaultWidgetParams['widget-image']);
         $defaultWidgetParamsObj = new ArrayObject($defaultWidgetParams);
         $configWidgetParamsObj = new ArrayObject($this->_widgeParamArray);

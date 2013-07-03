@@ -87,7 +87,7 @@ class PayLater_PayLater_Block_Adminhtml_System_Config_Fieldset_Widget_Js extends
 	
 	public function getWidgetsJSON ()
 	{
-		 return $this->getSkinUrl('paylater/paylater/js/widgets.json');
+		 return self::PAYLATER_WIDGET_JSON_AMDINHTML_LOCATOR;
 	}
 	
 	public function getStoreConfiguredWidget ($type)

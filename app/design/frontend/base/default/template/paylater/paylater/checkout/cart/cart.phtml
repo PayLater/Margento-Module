@@ -138,11 +138,6 @@
     <div class="cart-collaterals">
         <div class="col2-set">
             <div class="col-1">
-				<!-- PAYLATER REPRESENTATIVE BLOCK -->
-				<?php if (Mage::helper('paylater')->canShowOnCart()): ?>
-                <?php echo $this->getChildHtml('paylater.cart.representative') ?>
-				<?php endif; ?>
-				<!-- /PAYLATER REPRESENTATIVE BLOCK -->
                 <?php echo $this->getChildHtml('crosssell') ?>
             </div>
             <div class="col-2">
@@ -152,6 +147,13 @@
                 <?php if (!$this->getIsVirtual()): echo $this->getChildHtml('shipping'); endif; ?>
             </div>
         </div>
+        <div class="totals" style="background: #ffffff;border:0">
+        <!-- PAYLATER REPRESENTATIVE BLOCK -->
+        <?php if (Mage::helper('paylater')->canShowOnCart()): ?>
+            <?php echo $this->getChildHtml('paylater.cart.representative') ?>
+        <?php endif; ?>
+        </div>
+        <!-- /PAYLATER REPRESENTATIVE BLOCK -->
         <div class="totals">
             <?php echo $this->getChildHtml('totals'); ?>
             <?php if(!$this->hasError()): ?>
@@ -161,6 +163,9 @@
                 <li><?php echo $methodHtml; ?></li>
                 <?php endif; ?>
             <?php endforeach; ?>
+            <li>
+
+            </li>
             </ul>
             <?php endif; ?>
         </div>

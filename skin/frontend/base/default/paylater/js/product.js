@@ -54,7 +54,7 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
             if (plDataParams != 'false') {
                 $('paylater-widget-holder').setAttribute('data-pl-params', plDataParams);
             }
-            PayLaterAnywhereWidget.refreshWidgets();
+            PayLaterWidget.refreshWidgets();
         }
 
         if (price < offerLowerBound) {

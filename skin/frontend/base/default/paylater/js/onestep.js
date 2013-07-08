@@ -176,7 +176,7 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 				$$('div.onestepcheckout-place-order-wrapper')[0].hide();
 			}
 		}
-		PayLaterAnywhereWidget.refreshWidgets();
+		PayLaterWidget.refreshWidgets();
 		new Ajax.Request(url, {
 			method: 'post',
 			onSuccess: function(transport)    {
@@ -240,7 +240,7 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 							},
 							onComplete: function () {
 
-								PayLaterAnywhereWidget.refreshWidgets();
+								PayLaterWidget.refreshWidgets();
                                 bindWidgetDataToPayLaterOption();
 							},
 							parameters: parameters
@@ -253,7 +253,7 @@ function get_save_billing_function(url, set_methods_url, update_payments, trigge
 			},
 			onComplete: function () {
 					bindWidgetDataToPayLaterOption()
-					PayLaterAnywhereWidget.refreshWidgets();
+					PayLaterWidget.refreshWidgets();
 				},
 			parameters: parameters
 		});

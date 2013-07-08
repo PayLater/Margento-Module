@@ -18,9 +18,11 @@
         "icon": "blue",
         "width": "210px",
         "show-breakdown": false,
+        "logo": "true",
+        "text-align":"left",
         "widget-image": "http://paylater.s3.amazonaws.com/3.0/img/price-offer.png"
     },
-    "radio-button": {
+    "payment-selection": {
         "h-font-color": "#000",
         "h-font-family": "Droid Sans,arial,sans-serif",
         "h-font-weight": "normal",
@@ -36,6 +38,8 @@
         "icon": "blue",
         "show-breakdown": false,
         "logo-align": "left",
-        "widget-image": "http://paylater.s3.amazonaws.com/3.0/img/radio-button.png"
+        "logo": "true",
+        "text-align":"left",
+        "widget-image": "http://paylater.s3.amazonaws.com/3.0/img/payment-selection.png"
     }
 }

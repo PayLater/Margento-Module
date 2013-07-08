@@ -58,7 +58,7 @@ PayLaterWidgetsModel.prototype = {
 
         this.defaultProductWidget = ko.observable(this._getDefaultWidgetByName('price-offer'));
         this.defaultCartWidget = ko.observable(this._getDefaultWidgetByName('price-offer'));
-        this.defaultCheckoutWidget = ko.observable(this._getDefaultWidgetByName('radio-button'));
+        this.defaultCheckoutWidget = ko.observable(this._getDefaultWidgetByName('payment-selection'));
 
         this.currentProductWidget = ko.observable();
         this.currentCheckoutWidget = ko.observable();
@@ -263,7 +263,7 @@ PayLaterWidgetsModel.prototype = {
         if (o.widgetSelection() == 'Checkout' && o.systemCheckoutWidgetJSON) {
             o.selectedWidget(o.systemCheckoutWidgetJSON.name);
         } else if (o.widgetSelection() == 'Checkout' && o.systemCheckoutWidgetJSON == false) {
-            o.selectedWidget('radio-button');
+            o.selectedWidget('payment-selection');
         }
     },
 

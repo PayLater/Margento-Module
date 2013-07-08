@@ -43,7 +43,7 @@
             uncheckPayLaterOption();
 
             function hasLoaded(){
-                PayLaterAnywhereWidget.refreshWidgets();
+                PayLaterWidget.refreshWidgets();
             }
             function bindWidgetDataToPayLaterOption () {
                 $('p_method_paylater').setAttribute('class', 'pl-widget');
@@ -57,7 +57,7 @@
                 <?php endif; ?>
                 $('p_method_paylater').setAttribute('data-pl-legal', '<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>');
                 <?php if (Mage::helper('paylater')->getCheckoutType() == PayLater_PayLater_Core_Interface::PAYLATER_CHECKOUT_TYPE_ONEPAGE): ?>
-                PayLaterAnywhereWidget.refreshWidgets();
+                PayLaterWidget.refreshWidgets();
                 <?php endif ?>
             }
             function bindWDefaultidgetDataToPayLaterOption () {
@@ -69,7 +69,7 @@
                 <?php endif; ?>
                 $('p_method_paylater').setAttribute('data-pl-legal', '<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>');
                 <?php if (Mage::helper('paylater')->getCheckoutType() == PayLater_PayLater_Core_Interface::PAYLATER_CHECKOUT_TYPE_ONEPAGE): ?>
-                PayLaterAnywhereWidget.refreshWidgets();
+                PayLaterWidget.refreshWidgets();
                 <?php endif ?>
             }
             <?php if (!$this->isConfiguredWidgetSameAsDefault()): ?>

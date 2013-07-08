@@ -126,7 +126,7 @@ class PayLater_PayLater_Block_Checkout_Cart_Representative extends Mage_Checkout
 
     public function isConfiguredWidgetSameAsDefault ()
     {
-        $widgetsDefault = file_get_contents(Mage::getBaseUrl(Mage_Core_Model_Store::URL_TYPE_WEB) . self::PAYLATER_WIDGET_JSON_AMDINHTML_LOCATOR);
+        $widgetsDefault = file_get_contents(self::PAYLATER_WIDGET_JSON_AMDINHTML_LOCATOR);
         $decodedWidgetsDefault = json_decode($widgetsDefault, true);
         $defaultWidgetParams = $decodedWidgetsDefault[$this->_widgetName];
         unset ($defaultWidgetParams['widget-image']);

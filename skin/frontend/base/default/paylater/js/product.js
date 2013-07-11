@@ -39,7 +39,7 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
             $('paylater-widget-wrapper').update('') ;
         }
 
-        if (price >= offerLowerBound) {
+        if (price >= offerLowerBound && price <= offerUpperBound) {
             // add widget
             $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
             $('paylater-widget-holder').setAttribute('class', 'pl-widget');

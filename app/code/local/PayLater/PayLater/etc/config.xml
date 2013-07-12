@@ -257,7 +257,6 @@
                 <legal><![CDATA[Credit provided subject to status to UK residents aged 18 and over. [store name] is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. [store name], [store address].]]></legal>
             </product>
 			<cart>
-				<enabled>1</enabled>
 				<template>paylater/paylater/checkout/cart/cart.phtml</template>
 			</cart>
             <checkout>

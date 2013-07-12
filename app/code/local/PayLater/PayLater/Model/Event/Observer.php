@@ -133,11 +133,12 @@ class PayLater_PayLater_Model_Event_Observer implements PayLater_PayLater_Core_I
 	public function checkoutCartIndexBefore (Varien_Event_Observer $observer)
 	{
 		$payLater = Mage::helper('paylater');
-		if ($payLater->getPayLaterConfigEnabled('cart') && Mage::helper('checkout/cart')->getCart()->getItemsCount() > 0) {
+		if ($payLater->getPayLaterConfigShowOnCart('widgets') && Mage::helper('checkout/cart')->getCart()->getItemsCount() > 0) {
 			$this->_setWidgetJs(self::PAYLATER_TYPE_CHECKOUT);
 			$layout = Mage::helper('paylater/layout');
 			$coreLayout = $layout->getCoreLayout();
-			$coreLayout->getBlock('checkout.cart')->setTemplate('paylater/paylater/checkout/cart/cart.phtml');
+			//$coreLayout->getBlock('checkout.cart')->setTemplate('paylater/paylater/checkout/cart/cart.phtml');
+			$coreLayout->getBlock('checkout.cart')->setTemplate($payLater->getPayLaterConfigTemplate('cart'));
 		}
 	}
 

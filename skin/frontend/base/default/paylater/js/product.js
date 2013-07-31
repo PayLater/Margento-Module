@@ -41,11 +41,13 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
 
         if (price >= offerLowerBound && price <= offerUpperBound) {
             // add widget
-            $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
-            $('paylater-widget-holder').setAttribute('class', 'pl-widget');
-            $('paylater-widget-holder').setAttribute('data-pl-price', price);
-            $('paylater-widget-holder').setAttribute('data-pl-widget', plDataName);
-            $('paylater-widget-holder').setAttribute('data-pl-legal', plDataLegal);
+            if ($('paylater-widget-wrapper')) {
+                $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
+                $('paylater-widget-holder').setAttribute('class', 'pl-widget');
+                $('paylater-widget-holder').setAttribute('data-pl-price', price);
+                $('paylater-widget-holder').setAttribute('data-pl-widget', plDataName);
+                $('paylater-widget-holder').setAttribute('data-pl-legal', plDataLegal);
+            }
 
             if (plDataShowBreakDown) {
                 $('paylater-widget-holder').setAttribute('data-pl-showbreakdown', plDataShowBreakDown);
@@ -59,11 +61,11 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
 
         if (price < offerLowerBound) {
             // remove widget
-           $('paylater-widget-wrapper').update('') ;
+            $('paylater-widget-wrapper') ? $('paylater-widget-wrapper').update('') : '';
         }
 	} else {
         // remove widget
-        $('paylater-widget-wrapper').update('') ;
+        $('paylater-widget-wrapper') ? $('paylater-widget-wrapper').update('') : '';
     }
 }
 

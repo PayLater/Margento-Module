@@ -21,51 +21,56 @@
  * @copyright  Copyright (C) 2013 PayLater
  * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
+
 Product.OptionsPrice.prototype.formatPrice = function (price) {
-	var formattedCurrency = formatCurrency(price, this.priceFormat);
-	this.setPayLaterOffer(price);
-	return formattedCurrency;
+    var formattedCurrency = formatCurrency(price, this.priceFormat);
+    this.setPayLaterOffer(price);
+    return formattedCurrency;
 }
 
 Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
-	if ($(this.containers[0]) && typeof $$('div.product-essential p.special-price')[0] != 'undefined') {
-		var specialPrice = $(this.containers[0]).innerHTML.trim();
-		price = parseFloat(specialPrice.replace(/[^0-9-.]/g, ''));
-	}
+    if ($(this.containers[0]) && typeof $$('div.product-essential p.special-price')[0] != 'undefined') {
+        var specialPrice = $(this.containers[0]).innerHTML.trim();
+        price = parseFloat(specialPrice.replace(/[^0-9-.]/g, ''));
+    }
 
-	if (typeof PayLater != 'undefined' && price >= offerLowerBound) {
-        if (price > offerUpperBound) {
-            //remove widget
-            $('paylater-widget-wrapper').update('') ;
-        }
+    if (price >= offerLowerBound) {
+        if (typeof PayLater != 'undefined') {
+            if (price > offerUpperBound) {
+                //remove widget
+                $('paylater-widget-wrapper').update('');
+            }
+            if (price >= offerLowerBound && price <= offerUpperBound) {
+                // add widget
+                if ($('paylater-widget-wrapper')) {
+                    $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
+                    $('paylater-widget-holder').setAttribute('class', 'pl-widget');
+                    $('paylater-widget-holder').setAttribute('data-pl-price', price);
+                    $('paylater-widget-holder').setAttribute('data-pl-widget', plDataName);
+                    $('paylater-widget-holder').setAttribute('data-pl-legal', plDataLegal);
+                }
 
-        if (price >= offerLowerBound && price <= offerUpperBound) {
-            // add widget
-            if ($('paylater-widget-wrapper')) {
-                $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
-                $('paylater-widget-holder').setAttribute('class', 'pl-widget');
-                $('paylater-widget-holder').setAttribute('data-pl-price', price);
-                $('paylater-widget-holder').setAttribute('data-pl-widget', plDataName);
-                $('paylater-widget-holder').setAttribute('data-pl-legal', plDataLegal);
+                if (plDataShowBreakDown) {
+                    $('paylater-widget-holder').setAttribute('data-pl-showbreakdown', plDataShowBreakDown);
+                }
+
+                if (plDataParams != 'false') {
+                    $('paylater-widget-holder').setAttribute('data-pl-params', plDataParams);
+                }
+
             }
 
-            if (plDataShowBreakDown) {
-                $('paylater-widget-holder').setAttribute('data-pl-showbreakdown', plDataShowBreakDown);
-            }
-
-            if (plDataParams != 'false') {
-                $('paylater-widget-holder').setAttribute('data-pl-params', plDataParams);
+            if (price < offerLowerBound) {
+                // remove widget
+                $('paylater-widget-wrapper') ? $('paylater-widget-wrapper').update('') : '';
             }
             PayLaterWidget.refreshWidgets();
         }
-
-        if (price < offerLowerBound) {
-            // remove widget
-            $('paylater-widget-wrapper') ? $('paylater-widget-wrapper').update('') : '';
-        }
-	} else {
+    } else {
         // remove widget
         $('paylater-widget-wrapper') ? $('paylater-widget-wrapper').update('') : '';
     }
+
+
 }
 

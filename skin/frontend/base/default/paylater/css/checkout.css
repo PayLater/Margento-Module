@@ -80,11 +80,17 @@
 
 .onestepcheckout-index-index #paylater-customer-note {
 	margin-left: 0;
-    margin-top: 80px;
+    margin-top: 50px;
+    margin-bottom: 20px;
 	width: 280px;
 }
 
-.paylater-widget-wrapper {
+#paylater-widget-wrapper {
 	margin-top: 0;
 	margin-bottom: 20px;
+}
+
+.paylater.totals {
+    background: none;
+    border:0
 }

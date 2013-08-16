@@ -33,44 +33,31 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
         var specialPrice = $(this.containers[0]).innerHTML.trim();
         price = parseFloat(specialPrice.replace(/[^0-9-.]/g, ''));
     }
-
-    if (price >= offerLowerBound) {
-        if (typeof PayLater != 'undefined') {
-            if (price > offerUpperBound) {
-                //remove widget
-                $('paylater-widget-wrapper').update('<div class="paylater-out-of-range"><img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <span class="relevant">PayLater</span> is only available for products with a price between &pound;' + offerLowerBound + ' and &pound;' + offerUpperBound + '</div>');
-            }
-            if (price >= offerLowerBound && price <= offerUpperBound) {
-                // add widget
-                if ($('paylater-widget-wrapper')) {
-                    $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
-                    $('paylater-widget-holder').setAttribute('class', 'pl-widget');
-                    $('paylater-widget-holder').setAttribute('data-pl-price', price);
-                    $('paylater-widget-holder').setAttribute('data-pl-widget', plDataName);
-                    $('paylater-widget-holder').setAttribute('data-pl-legal', plDataLegal);
-                }
-
-                if (plDataShowBreakDown) {
-                    $('paylater-widget-holder').setAttribute('data-pl-showbreakdown', plDataShowBreakDown);
-                }
-
-                if (plDataParams != 'false') {
-                    $('paylater-widget-holder').setAttribute('data-pl-params', plDataParams);
-                }
-
-            }
-
-            if (price < offerLowerBound) {
-                // remove widget
-                $('paylater-widget-wrapper').update('<div class="paylater-out-of-range"><img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <span class="relevant">PayLater</span> is only available for products with a price between &pound;' + offerLowerBound + ' and &pound;' + offerUpperBound + '</div>');
-            }
-            PayLaterWidget.refreshWidgets();
-        }
-    } else {
-        // remove widget
-        $('paylater-widget-wrapper') ? $('paylater-widget-wrapper').update('') : '';
+    if (price > offerUpperBound || price < offerLowerBound) {
+        //remove widget
+        $('paylater-widget-wrapper').update('<div class="paylater-out-of-range"><img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <span class="relevant">PayLater</span> is only available for products with a price between &pound;' + offerLowerBound + ' and &pound;' + offerUpperBound + '</div>');
     }
+    if (typeof PayLater != 'undefined') {
+        if (price >= offerLowerBound && price <= offerUpperBound) {
+            // add widget
+            if ($('paylater-widget-wrapper')) {
+                $('paylater-widget-wrapper').innerHTML = '<div id="paylater-widget-holder"></div>';
+                $('paylater-widget-holder').setAttribute('class', 'pl-widget');
+                $('paylater-widget-holder').setAttribute('data-pl-price', price);
+                $('paylater-widget-holder').setAttribute('data-pl-widget', plDataName);
+                $('paylater-widget-holder').setAttribute('data-pl-legal', plDataLegal);
+            }
 
+            if (plDataShowBreakDown) {
+                $('paylater-widget-holder').setAttribute('data-pl-showbreakdown', plDataShowBreakDown);
+            }
 
+            if (plDataParams != 'false') {
+                $('paylater-widget-holder').setAttribute('data-pl-params', plDataParams);
+            }
+
+        }
+        PayLaterWidget.refreshWidgets();
+    }
 }
 

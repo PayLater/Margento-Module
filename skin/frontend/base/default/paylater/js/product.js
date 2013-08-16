@@ -38,7 +38,7 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
         if (typeof PayLater != 'undefined') {
             if (price > offerUpperBound) {
                 //remove widget
-                $('paylater-widget-wrapper').update('');
+                $('paylater-widget-wrapper').update('<div class="paylater-out-of-range"><img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <span class="relevant">PayLater</span> is only available for products with a price between &pound;' + offerLowerBound + ' and &pound;' + offerUpperBound + '</div>');
             }
             if (price >= offerLowerBound && price <= offerUpperBound) {
                 // add widget
@@ -62,7 +62,7 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
 
             if (price < offerLowerBound) {
                 // remove widget
-                $('paylater-widget-wrapper') ? $('paylater-widget-wrapper').update('') : '';
+                $('paylater-widget-wrapper').update('<div class="paylater-out-of-range"><img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <span class="relevant">PayLater</span> is only available for products with a price between &pound;' + offerLowerBound + ' and &pound;' + offerUpperBound + '</div>');
             }
             PayLaterWidget.refreshWidgets();
         }

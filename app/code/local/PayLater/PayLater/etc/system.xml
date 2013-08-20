@@ -326,6 +326,18 @@
 							<show_in_store>1</show_in_store>
 							<backend_model>paylater/system_config_backend_data</backend_model>
 						</legal>
+						<out_range_message translate="label comment">
+							<label>Out of Range Body</label>
+							<comment>
+								<![CDATA[Shows on product page when product total is not within PayLater range]]>
+							</comment>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>21</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
+						</out_range_message>
 					</fields>
 				</product>
 				<cart translate="label">
@@ -347,6 +359,18 @@
 							<show_in_website>1</show_in_website>	
 							<show_in_store>1</show_in_store>
 						</template>
+						<out_range_message translate="label comment">
+							<label>Out of Range Body</label>
+							<comment>
+								<![CDATA[Shows on cart when basket total is not within PayLater range]]>
+							</comment>
+							<frontend_type>textarea</frontend_type>
+							<sort_order>21</sort_order>
+							<show_in_default>1</show_in_default>
+							<show_in_website>1</show_in_website>
+							<show_in_store>1</show_in_store>
+							<backend_model>paylater/system_config_backend_data</backend_model>
+						</out_range_message>
 					</fields>
 				</cart>
 				<checkout translate="label">

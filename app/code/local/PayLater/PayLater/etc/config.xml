@@ -255,9 +255,11 @@
             <product>
                 <event>click</event>
                 <legal><![CDATA[Credit provided subject to status to UK residents aged 18 and over. [store name] is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. [store name], [store address].]]></legal>
+				<out_range_message><![CDATA[PayLater is only available on orders between £%s and £%s]]></out_range_message>
             </product>
 			<cart>
 				<template>paylater/paylater/checkout/cart/cart.phtml</template>
+				<out_range_message><![CDATA[PayLater is only available on orders between £%s and £%s]]></out_range_message>
 			</cart>
             <checkout>
                 <type>onepage</type>
@@ -272,7 +274,7 @@
 			</widgets>
             <payment>
                 <order_status>pending</order_status>
-                <service_unavailable_heading><![CDATA[PayLater is temporarely unavailable]]></service_unavailable_heading>
+                <service_unavailable_heading><![CDATA[PayLater is temporarily unavailable]]></service_unavailable_heading>
                 <service_unavailable_body><![CDATA[We are currently unable to connect to PayLater. Please choose an alternative payment method, or try again later.]]></service_unavailable_body>
                 <out_range_heading><![CDATA[PayLater payment option is currently unavailable]]></out_range_heading>
                 <out_range_message><![CDATA[PayLater is only available for orders between %s and %s. Currently your basket total is %s]]></out_range_message>

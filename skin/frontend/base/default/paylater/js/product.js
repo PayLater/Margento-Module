@@ -34,8 +34,8 @@ Product.OptionsPrice.prototype.setPayLaterOffer = function (price) {
         price = parseFloat(specialPrice.replace(/[^0-9-.]/g, ''));
     }
     if (price > offerUpperBound || price < offerLowerBound) {
-        //remove widget
-        $('paylater-widget-wrapper').update('<div class="paylater-out-of-range"><img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <span class="relevant">PayLater</span> is only available for products with a price between &pound;' + offerLowerBound + ' and &pound;' + offerUpperBound + '</div>');
+        //remove widget, display out of range message
+        $('paylater-widget-wrapper').update('<div class="paylater-out-of-range"><img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> ' + plOutOfRange + '</div>');
     }
     if (typeof PayLater != 'undefined') {
         if (price >= offerLowerBound && price <= offerUpperBound) {

@@ -37,7 +37,7 @@
 	<script type="text/javascript">
 	    var offerLowerBound = <?php echo $offerLower ?>;
 	    var offerUpperBound = <?php echo $offerUpper ?>;
-	    var plOutOfRange = <?php echo $outOfRange ?>;
+	    var plOutOfRange = "<?php echo $outOfRange ?>";
 	    var plDataShowBreakDown = <?php echo $this->doesWidgetHaveBreakdown() ? $this->getWidgetShowBreakdown() : 'false'; ?>;
 	    var plDataName = "<?php echo $this->getWidgetName() ?>";
 	    var plDataParams = '<?php echo $this->doesWidgetHaveParameters() ? $this->getWidgetParamsAsString() : 'false'; ?>';

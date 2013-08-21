@@ -1,28 +1,30 @@
-<?php if($this->canShow()):?>
-    <?php $this->getConfiguredWidget() ?>
-    <?php if($this->hasWidgetBeenConfigured() && !$this->isConfiguredWidgetSameAsDefault()): ?>
-        <div id="paylater-widget-wrapper">
-            <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="<?php echo $this->getWidgetName() ?>"
-                <?php echo $this->doesWidgetHaveBreakdown() ? sprintf('%sdata-pl-showbreakdown="%s"', ' ',$this->getWidgetShowBreakdown()) : ' '; ?>
-                <?php echo $this->doesWidgetHaveParameters() ? sprintf('%sdata-pl-params="%s"', ' ', $this->getWidgetParamsAsString()) : ' '; ?> data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
-        </div>
-    <?php else: ?>
-        <div id="paylater-widget-wrapper">
-            <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="price-offer" data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
-        </div>
-    <?php endif; ?>
-<?php else: ?>
-	<?php
-		$offerLower = Mage::getStoreConfig('paylater/paylater/min_order_total');
-		$offerUpper = Mage::getStoreConfig('paylater/paylater/paylater/max_order_total');
-		$price = $this->getAmount();
-		$outOfRange = sprintf(Mage::getStoreConfig('paylater/cart/out_range_message'), $offerLower, $offerUpper);
-	?>
-	<div id="paylater-widget-wrapper">
-		<?php if ($price > $offerUpper || $price < $offerLower): ?>
-			<div class="paylater-out-of-range">
-				<img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <?php echo $outOfRange ?>
-			</div>
-		<?php endif; ?>
-	</div>
+<?php if (Mage::helper('paylater')->isAllowedCurrency()): ?>
+	<?php if($this->canShow()):?>
+	    <?php $this->getConfiguredWidget() ?>
+	    <?php if($this->hasWidgetBeenConfigured() && !$this->isConfiguredWidgetSameAsDefault()): ?>
+	        <div id="paylater-widget-wrapper">
+	            <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="<?php echo $this->getWidgetName() ?>"
+	                <?php echo $this->doesWidgetHaveBreakdown() ? sprintf('%sdata-pl-showbreakdown="%s"', ' ',$this->getWidgetShowBreakdown()) : ' '; ?>
+	                <?php echo $this->doesWidgetHaveParameters() ? sprintf('%sdata-pl-params="%s"', ' ', $this->getWidgetParamsAsString()) : ' '; ?> data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
+	        </div>
+	    <?php else: ?>
+	        <div id="paylater-widget-wrapper">
+	            <div class="pl-widget" data-pl-price="<?php echo $this->getAmount() ?>" data-pl-widget="price-offer" data-pl-legal="<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>"></div>
+	        </div>
+	    <?php endif; ?>
+	<?php else: ?>
+		<?php
+			$offerLower = Mage::getStoreConfig('paylater/paylater/min_order_total');
+			$offerUpper = Mage::getStoreConfig('paylater/paylater/paylater/max_order_total');
+			$price = $this->getAmount();
+			$outOfRange = sprintf(Mage::getStoreConfig('paylater/cart/out_range_message'), $offerLower, $offerUpper);
+		?>
+		<div id="paylater-widget-wrapper">
+			<?php if ($price > $offerUpper || $price < $offerLower): ?>
+				<div class="paylater-out-of-range">
+					<img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <?php echo $outOfRange ?>
+				</div>
+			<?php endif; ?>
+		</div>
+	<?php endif; ?>
 <?php endif; ?>

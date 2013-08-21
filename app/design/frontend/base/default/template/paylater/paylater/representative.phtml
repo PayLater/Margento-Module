@@ -29,20 +29,19 @@
 		$offerUpper = Mage::getStoreConfig('paylater/paylater/paylater/max_order_total');
 		$outOfRange = sprintf(Mage::getStoreConfig('paylater/product/out_range_message'), $offerLower, $offerUpper);
 		$price = $this->getAmount();
+		$this->getConfiguredWidget();
 	?>
-	<?php $this->getConfiguredWidget() ?>
 	<?php if($this->hasWidgetBeenConfigured()): ?>
-	<?php $this->getConfiguredWidget();?>
 
-	<script type="text/javascript">
-	    var offerLowerBound = <?php echo $offerLower ?>;
-	    var offerUpperBound = <?php echo $offerUpper ?>;
-	    var plOutOfRange = "<?php echo $outOfRange ?>";
-	    var plDataShowBreakDown = <?php echo $this->doesWidgetHaveBreakdown() ? $this->getWidgetShowBreakdown() : 'false'; ?>;
-	    var plDataName = "<?php echo $this->getWidgetName() ?>";
-	    var plDataParams = '<?php echo $this->doesWidgetHaveParameters() ? $this->getWidgetParamsAsString() : 'false'; ?>';
-	    var plDataLegal = "<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>";
-	</script>
+		<script type="text/javascript">
+		    var offerLowerBound = <?php echo $offerLower ?>;
+		    var offerUpperBound = <?php echo $offerUpper ?>;
+		    var plOutOfRange = "<?php echo $outOfRange ?>";
+		    var plDataShowBreakDown = <?php echo $this->doesWidgetHaveBreakdown() ? $this->getWidgetShowBreakdown() : 'false'; ?>;
+		    var plDataName = "<?php echo $this->getWidgetName() ?>";
+		    var plDataParams = '<?php echo $this->doesWidgetHaveParameters() ? $this->getWidgetParamsAsString() : 'false'; ?>';
+		    var plDataLegal = "<?php echo Mage::helper('paylater')->getRepresentativeLegal() ?>";
+		</script>
 	<?php endif; ?>
 	<?php if ($this->canShow()): ?>
 	    <?php if($this->hasWidgetBeenConfigured() && !$this->isConfiguredWidgetSameAsDefault()): ?>

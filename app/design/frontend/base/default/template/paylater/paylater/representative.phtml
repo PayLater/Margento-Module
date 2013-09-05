@@ -58,7 +58,7 @@
 	    <?php endif; ?>
 	<?php else: ?>
 		<div id="paylater-widget-wrapper">
-			<?php if ($price > $offerUpper || $price < $offerLower): ?>
+			<?php if (Mage::helper('paylater')->getPayLaterConfigShowOutRangeMessage('product') && ($price > $offerUpper || $price < $offerLower)): ?>
 				<div class="paylater-out-of-range">
 					<img src="http://paylater.s3.amazonaws.com/images/paylater-payment-type.png" height="21" width="50"/> <?php echo $outOfRange ?>
 				</div>

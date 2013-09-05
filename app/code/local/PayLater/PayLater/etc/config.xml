@@ -27,7 +27,7 @@
 <config>
     <modules>
         <PayLater_PayLater>
-            <version>2.0.7</version>
+            <version>2.0.8</version>
         </PayLater_PayLater>
     </modules>
     <paylater>
@@ -255,7 +255,8 @@
             <product>
                 <event>click</event>
                 <legal><![CDATA[Credit provided subject to status to UK residents aged 18 and over. [store name] is a credit broker and only offers credit products for PayLater. PayLater is licensed by the OFT, license number 611974. [store name], [store address].]]></legal>
-				<out_range_message><![CDATA[PayLater is only available on orders between £%s and £%s]]></out_range_message>
+                <show_out_range_message>0</show_out_range_message>
+                <out_range_message><![CDATA[PayLater is only available on orders between £%s and £%s]]></out_range_message>
             </product>
 			<cart>
 				<template>paylater/paylater/checkout/cart/cart.phtml</template>
